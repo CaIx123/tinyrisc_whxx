@@ -15,7 +15,7 @@
  */
 
 `include "../core/defines.v"
-`include "../perips/tiny_macro.v"
+`include "../macros.v"
 
 // tinyriscv soc + fpga external memory top level module for FPGA board testing
 module tinyriscv_soc_fpga_top(

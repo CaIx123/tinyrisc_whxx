@@ -1,24 +1,4 @@
-// clk = 50MHz时对应的波特率分频系数
-`define UART_BAUD_115200        32'h1B2
-
-// 串口寄存器地址
-`define UART_CTRL_REG           32'h30000000
-`define UART_STATUS_REG         32'h30000004
-`define UART_BAUD_REG           32'h30000008
-`define UART_TX_REG             32'h3000000c
-`define UART_RX_REG             32'h30000010
-
-`define UART_TX_BUSY_FLAG       32'h1
-`define UART_RX_OVER_FLAG       32'h2
-
-// 包的大小
-`define UART_PACKET_LEN         8'd35
-
-`define UART_RESP_ACK           32'h6
-`define UART_RESP_NAK           32'h15
-
-// 烧写起始地址
-`define ROM_START_ADDR          32'h0
+`include "../macros.v"
 
 module uart_debug(
 
@@ -58,6 +38,7 @@ module uart_debug(
     // byte[34]     : CRC high
     localparam [7:0] PAYLOAD_START_INDEX = 8'd1;
     localparam [7:0] PAYLOAD_END_INDEX   = `UART_PACKET_LEN - 8'd3;
+    localparam [7:0] FIRST_PACKET_SIZE_INDEX = 8'd25;
 
 
     // ============================================================
@@ -166,7 +147,6 @@ module uart_debug(
                 BUS_RSP: begin
                     if (rsp_valid_i) begin
                         bus_rdata   <= mem_rdata_i;
-                        req_valid_o <= 1'b0;
                         rsp_ready_o <= 1'b0;
                         bus_done    <= 1'b1;
                         bus_state   <= BUS_IDLE;
@@ -396,10 +376,15 @@ module uart_debug(
                     crc_bit_index <= 4'd0;
                     crc_byte_index <= PAYLOAD_START_INDEX;
 
-                    // 首包中 byte[25:28] 存放固件大小
-                    // 注意：这里采用大端拼接
-                    // byte[25] 是最高字节，byte[28] 是最低字节
-                    fw_file_size <= {rx_data[25], rx_data[26], rx_data[27], rx_data[28]};
+                    // 首包格式和 sim/test_uart_debug.py 保持一致：
+                    // byte[1:24]  为文件名区域
+                    // byte[25:28] 为固件大小，大端拼接
+                    if (current_is_first_packet) begin
+                        fw_file_size <= {rx_data[FIRST_PACKET_SIZE_INDEX],
+                                         rx_data[FIRST_PACKET_SIZE_INDEX + 8'd1],
+                                         rx_data[FIRST_PACKET_SIZE_INDEX + 8'd2],
+                                         rx_data[FIRST_PACKET_SIZE_INDEX + 8'd3]};
+                    end
 
                     state <= S_CRC_CALC;
                 end

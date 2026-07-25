@@ -26,22 +26,20 @@ module exu_ext_rt(
     localparam IIC_CTRL_ADDR       = 32'h7000_0000;
     localparam IIC_SLAVE_ADDR      = 32'h7001_0000;
     localparam IIC_INPUT_ADDR      = 32'h7003_0000;
+    localparam IIC_STATUS_ADDR     = 32'h7004_0000;
 
     localparam LM75_SLAVE_ADDR     = 32'h0000_0048;
-    localparam IIC_CLEAR_DONE      = 32'h0000_0040;
-    localparam IIC_START_READ2     = 32'h0000_0080;
+    localparam IIC_START_READ2     = 32'h0000_0003;
 
     localparam S_IDLE       = 4'd0;
     localparam S_ADDR_REQ   = 4'd1;
     localparam S_ADDR_RSP   = 4'd2;
-    localparam S_CLEAR_REQ  = 4'd3;
-    localparam S_CLEAR_RSP  = 4'd4;
-    localparam S_START_REQ  = 4'd5;
-    localparam S_START_RSP  = 4'd6;
-    localparam S_STATUS_REQ = 4'd7;
-    localparam S_STATUS_RSP = 4'd8;
-    localparam S_INPUT_REQ  = 4'd9;
-    localparam S_INPUT_RSP  = 4'd10;
+    localparam S_START_REQ  = 4'd3;
+    localparam S_START_RSP  = 4'd4;
+    localparam S_STATUS_REQ = 4'd5;
+    localparam S_STATUS_RSP = 4'd6;
+    localparam S_INPUT_REQ  = 4'd7;
+    localparam S_INPUT_RSP  = 4'd8;
 
     reg[3:0] state;
     reg done_seen;
@@ -56,7 +54,6 @@ module exu_ext_rt(
     assign rt_mem_sel_o = 4'hf;
     assign rt_mem_rsp_ready_o = 1'b1;
     assign rt_mem_req_valid_o = (state == S_ADDR_REQ) |
-                                (state == S_CLEAR_REQ) |
                                 (state == S_START_REQ) |
                                 (state == S_STATUS_REQ) |
                                 (state == S_INPUT_REQ);
@@ -75,18 +72,13 @@ module exu_ext_rt(
                 rt_mem_wdata_o = LM75_SLAVE_ADDR;
                 rt_mem_we_o = 1'b1;
             end
-            S_CLEAR_REQ: begin
-                rt_mem_addr_o = IIC_CTRL_ADDR;
-                rt_mem_wdata_o = IIC_CLEAR_DONE;
-                rt_mem_we_o = 1'b1;
-            end
             S_START_REQ: begin
                 rt_mem_addr_o = IIC_CTRL_ADDR;
                 rt_mem_wdata_o = IIC_START_READ2;
                 rt_mem_we_o = 1'b1;
             end
             S_STATUS_REQ: begin
-                rt_mem_addr_o = IIC_CTRL_ADDR;
+                rt_mem_addr_o = IIC_STATUS_ADDR;
             end
             S_INPUT_REQ: begin
                 rt_mem_addr_o = IIC_INPUT_ADDR;
@@ -121,16 +113,6 @@ module exu_ext_rt(
                     end
                 end
                 S_ADDR_RSP: begin
-                    if (rsp_hsked) begin
-                        state <= S_CLEAR_REQ;
-                    end
-                end
-                S_CLEAR_REQ: begin
-                    if (req_hsked) begin
-                        state <= S_CLEAR_RSP;
-                    end
-                end
-                S_CLEAR_RSP: begin
                     if (rsp_hsked) begin
                         state <= S_START_REQ;
                     end

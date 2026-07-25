@@ -104,12 +104,40 @@ module tinyriscv_core(
     wire ctrl_flush_o;
     wire[`STALL_WIDTH-1:0] ctrl_stall_o;
 
+    // The shared RIB has one response route. Serialize the two core masters
+    // here so a data request cannot replace an outstanding fetch response.
+    wire ifu_req_valid_raw;
+    wire ifu_rsp_ready_raw;
+    reg core_bus_pending_r;
+    reg core_bus_owner_r; // 1: EXU/data, 0: IFU/instruction
+    wire core_grant_exu = (~core_bus_pending_r) & ex_mem_req_valid_o;
+    wire core_grant_ifu = (~core_bus_pending_r) & (~ex_mem_req_valid_o) & ifu_req_valid_raw;
+    wire core_req_hsked = (core_grant_exu & dbus_req_ready_i) |
+                          (core_grant_ifu & ibus_req_ready_i);
+    wire core_rsp_hsked = (dbus_rsp_valid_i & dbus_rsp_ready_o) |
+                          (ibus_rsp_valid_i & ibus_rsp_ready_o);
+
+    always @ (posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            core_bus_pending_r <= 1'b0;
+            core_bus_owner_r <= 1'b0;
+        end else if (core_bus_pending_r) begin
+            if (core_rsp_hsked)
+                core_bus_pending_r <= 1'b0;
+        end else if (core_req_hsked) begin
+            core_bus_pending_r <= 1'b1;
+            core_bus_owner_r <= core_grant_exu;
+        end
+    end
+
     assign dbus_addr_o = ex_mem_addr_o;
     assign dbus_data_o = ex_mem_wdata_o;
     assign dbus_we_o = ex_mem_we_o;
     assign dbus_sel_o = ex_mem_sel_o;
-    assign dbus_req_valid_o = ex_mem_req_valid_o;
-    assign dbus_rsp_ready_o = ex_mem_rsp_ready_o;
+    assign dbus_req_valid_o = core_grant_exu;
+    assign dbus_rsp_ready_o = core_bus_pending_r & core_bus_owner_r & ex_mem_rsp_ready_o;
+    assign ibus_req_valid_o = core_grant_ifu;
+    assign ibus_rsp_ready_o = core_bus_pending_r & (~core_bus_owner_r) & ifu_rsp_ready_raw;
 
     ifu u_ifu(
         .clk(clk),
@@ -126,10 +154,10 @@ module tinyriscv_core(
         .ibus_data_o(ibus_data_o),
         .ibus_sel_o(ibus_sel_o),
         .ibus_we_o(ibus_we_o),
-        .req_valid_o(ibus_req_valid_o),
-        .req_ready_i(ibus_req_ready_i),
-        .rsp_valid_i(ibus_rsp_valid_i),
-        .rsp_ready_o(ibus_rsp_ready_o)
+        .req_valid_o(ifu_req_valid_raw),
+        .req_ready_i(core_grant_ifu & ibus_req_ready_i),
+        .rsp_valid_i(core_bus_pending_r & (~core_bus_owner_r) & ibus_rsp_valid_i),
+        .rsp_ready_o(ifu_rsp_ready_raw)
     );
 
     pipe_ctrl u_pipe_ctrl(
@@ -217,8 +245,8 @@ module tinyriscv_core(
         .reg1_rdata_i(ie_rs1_rdata_o),
         .reg2_rdata_i(ie_rs2_rdata_o),
         .mem_rdata_i(dbus_data_i),
-        .mem_req_ready_i(dbus_req_ready_i),
-        .mem_rsp_valid_i(dbus_rsp_valid_i),
+        .mem_req_ready_i(core_grant_exu & dbus_req_ready_i),
+        .mem_rsp_valid_i(core_bus_pending_r & core_bus_owner_r & dbus_rsp_valid_i),
         .mem_wdata_o(ex_mem_wdata_o),
         .mem_addr_o(ex_mem_addr_o),
         .mem_we_o(ex_mem_we_o),

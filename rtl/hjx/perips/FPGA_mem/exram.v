@@ -1,4 +1,4 @@
-`include "../tiny_macro.v"
+`include "../../macros.v"
 
 module exram(
     input wire clk,

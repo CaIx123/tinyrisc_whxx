@@ -1,4 +1,4 @@
-`include "../tiny_macro.v"
+`include "../../macros.v"
 
 module bridge_FPGA(
     input wire clk,

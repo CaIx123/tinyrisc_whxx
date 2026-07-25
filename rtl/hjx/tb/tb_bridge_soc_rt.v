@@ -1,7 +1,7 @@
 `timescale 1 ns / 1 ps
 
 `include "../core/defines.v"
-`include "../perips/tiny_macro.v"
+`include "../macros.v"
 
 module tb_bridge_soc_rt;
 
@@ -19,7 +19,7 @@ module tb_bridge_soc_rt;
     wire[`PWIDTH_O-1:0] bridge_tx;
     wire[`PWIDTH_I-1:0] bridge_rx;
     tri1 iic_sda_pin;
-    wire iic_scl_pin;
+    tri1 iic_scl_pin;
 
     reg lm75_sda_drive_low;
     reg[7:0] got_uart;

@@ -1,4 +1,4 @@
-`include "tiny_macro.v"
+`include "../macros.v"
 module bridge_rib(
     input wire clk,
     input wire rst_n,

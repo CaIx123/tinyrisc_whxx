@@ -15,7 +15,7 @@
  */
 
 `include "../core/defines.v"
-`include "../perips/tiny_macro.v"
+`include "../macros.v"
 
 // tinyriscv soc顶层模块
 module tinyriscv_soc_top(
@@ -268,35 +268,33 @@ module tinyriscv_soc_top(
         .tx_pin(uart_tx_pin),
         .rx_pin(uart_rx_pin)
     );
-    PWM u_pwm(
+    pwm u_pwm(
         .clk(clk),
         .rst_n(rst_n),
         .we_i(s6_we_o),
         .addr_i(s6_addr_o),
         .data_i(s6_data_o),
-        .sel_i(s6_sel_o),
         .data_o(s6_data_i),
-        .PWM_out_pin(PWM_out_pin),
         .req_valid_i(s6_req_vld_o),
         .req_ready_o(s6_req_rdy_i),
         .rsp_valid_o(s6_rsp_vld_i),
-        .rsp_ready_i(s6_rsp_rdy_o)
+        .rsp_ready_i(s6_rsp_rdy_o),
+        .pwm_o(PWM_out_pin)
     );
 
-    IIC u_iic(
+    i2c u_iic(
         .clk(clk),
         .rst_n(rst_n),
         .we_i(s7_we_o),
         .addr_i(s7_addr_o),
         .data_i(s7_data_o),
-        .sel_i(s7_sel_o),
         .data_o(s7_data_i),
         .req_valid_i(s7_req_vld_o),
         .req_ready_o(s7_req_rdy_i),
         .rsp_valid_o(s7_rsp_vld_i),
         .rsp_ready_i(s7_rsp_rdy_o),
-        .SDA(IIC_SDA_pin),
-        .SCL(IIC_SCL_pin)
+        .scl(IIC_SCL_pin),
+        .sda(IIC_SDA_pin)
     );
 
     uart_debug u_uart_debug(
@@ -315,11 +313,7 @@ module tinyriscv_soc_top(
     );
 
     // rib总线模块例化
-    rib #(
-        .MASTER_NUM(3),
-        .SLAVE_NUM(8),
-        .SLAVE_MASK(8'b1100_1011)
-    ) u_rib(
+    rib u_rib(
         .clk(clk),
         .rst_n(rst_n),
 
@@ -378,17 +372,6 @@ module tinyriscv_soc_top(
         .s1_rsp_rdy_o(s1_rsp_rdy_o),
         .s1_we_o(s1_we_o),
 
-        // slave 2 interface
-        .s2_data_i(s2_data_i),
-        .s2_req_rdy_i(s2_req_rdy_i),
-        .s2_rsp_vld_i(s2_rsp_vld_i),
-        .s2_addr_o(s2_addr_o),
-        .s2_data_o(s2_data_o),
-        .s2_sel_o(s2_sel_o),
-        .s2_req_vld_o(s2_req_vld_o),
-        .s2_rsp_rdy_o(s2_rsp_rdy_o),
-        .s2_we_o(s2_we_o),
-
         // slave 3 interface
         .s3_data_i(s3_data_i),
         .s3_req_rdy_i(s3_req_rdy_i),
@@ -399,28 +382,6 @@ module tinyriscv_soc_top(
         .s3_req_vld_o(s3_req_vld_o),
         .s3_rsp_rdy_o(s3_rsp_rdy_o),
         .s3_we_o(s3_we_o),
-
-        // slave 4 interface
-        .s4_data_i(s4_data_i),
-        .s4_req_rdy_i(s4_req_rdy_i),
-        .s4_rsp_vld_i(s4_rsp_vld_i),
-        .s4_addr_o(s4_addr_o),
-        .s4_data_o(s4_data_o),
-        .s4_sel_o(s4_sel_o),
-        .s4_req_vld_o(s4_req_vld_o),
-        .s4_rsp_rdy_o(s4_rsp_rdy_o),
-        .s4_we_o(s4_we_o),
-
-        // slave 5 interface
-        .s5_data_i(s5_data_i),
-        .s5_req_rdy_i(s5_req_rdy_i),
-        .s5_rsp_vld_i(s5_rsp_vld_i),
-        .s5_addr_o(s5_addr_o),
-        .s5_data_o(s5_data_o),
-        .s5_sel_o(s5_sel_o),
-        .s5_req_vld_o(s5_req_vld_o),
-        .s5_rsp_rdy_o(s5_rsp_rdy_o),
-        .s5_we_o(s5_we_o),
 
         // slave 6 interface
         .s6_data_i(s6_data_i),

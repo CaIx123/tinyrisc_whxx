@@ -15,7 +15,9 @@
  */
 
 `define CPU_RESET_ADDR       32'h0           // CPU复位地址
+`ifndef CPU_CLOCK_HZ
 `define CPU_CLOCK_HZ         50000000        // CPU时钟(50MHZ)
+`endif
 `define INST_MEM_START_ADDR  32'h0           // 指令存储器起始地�?
 `define INST_MEM_END_ADDR    32'h0fffffff    // 指令存储器结束地�?
 

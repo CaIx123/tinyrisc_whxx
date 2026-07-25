@@ -1,4 +1,4 @@
-`include "../tiny_macro.v"
+`include "../../macros.v"
 
 module FPGA_top(
     input wire clk,

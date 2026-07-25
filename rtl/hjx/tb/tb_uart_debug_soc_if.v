@@ -1,7 +1,7 @@
 `timescale 1 ns / 1 ps
 
 `include "../core/defines.v"
-`include "../perips/tiny_macro.v"
+`include "../macros.v"
 
 module tb_uart_debug_soc_if;
 

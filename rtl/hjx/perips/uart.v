@@ -1,22 +1,6 @@
- /*                                                                      
- Copyright 2020 Blue Liang, liangkangnan@163.com
-                                                                         
- Licensed under the Apache License, Version 2.0 (the "License");         
- you may not use this file except in compliance with the License.        
- You may obtain a copy of the License at                                 
-                                                                         
-     http://www.apache.org/licenses/LICENSE-2.0                          
-                                                                         
- Unless required by applicable law or agreed to in writing, software    
- distributed under the License is distributed on an "AS IS" BASIS,       
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and     
- limitations under the License.                                          
- */
+`include "../macros.v"
 
-`include "../core/defines.v"
-
-// 串口收发模块(默认: 115200, 8，N，1)
+// 串口收发模块(默认: 115200, 8，N�?)
 module uart(
 
     input wire clk,
@@ -37,7 +21,7 @@ module uart(
 
     );
 
-    // 波特率115200bps
+    // 波特�?15200bps
     localparam BAUD_115200 = `CPU_CLOCK_HZ / 115200;
 
     localparam S_IDLE       = 4'b0001;
@@ -49,6 +33,7 @@ module uart(
     reg[3:0] state;
     reg[3:0] next_state;
     reg[15:0] cycle_cnt;
+    reg tx_bit;
     reg[3:0] bit_cnt;
 
     reg rx_q0;
@@ -56,14 +41,14 @@ module uart(
     wire rx_negedge;
     reg rx_start;                      // RX使能
     reg[3:0] rx_clk_edge_cnt;          // clk沿的个数
-    reg rx_clk_edge_level;             // clk沿电平
+    reg rx_clk_edge_level;             // clk沿电�?    
     reg rx_done;
     reg[15:0] rx_clk_cnt;
     reg[15:0] rx_div_cnt;
     reg[7:0] rx_data;
     reg rx_over;
 
-    // 寄存器(偏移)地址
+    // 寄存�?偏移)地址
     localparam UART_CTRL    = 8'h0;
     localparam UART_STATUS  = 8'h4;
     localparam UART_BAUD    = 8'h8;
@@ -76,32 +61,31 @@ module uart(
     reg[31:0] uart_ctrl;
 
     // UART状态寄存器
-    // 只读，bit[0]: TX空闲状态标志, 1: busy, 0: idle
+    // 只读，bit[0]: TX空闲状态标�? 1: busy, 0: idle
     // 可读可写，bit[1]: RX接收完成标志, 1: over, 0: receiving
     reg[31:0] uart_status;
 
-    // UART波特率寄存器(分频系数)，可读可写
-    reg[31:0] uart_baud;
-
-    // UART发送数据寄存器，可读可写
-    reg[31:0] uart_tx;
-
+    // UART波特率寄存器(分频系数)，可读可�? 
+    // UART发送数据寄存器，可读可�?  
     // UART接收数据寄存器，只读
+    reg[31:0] uart_baud;
+    reg[31:0] uart_tx;
     reg[31:0] uart_rx;
 
-    wire wen = we_i & req_valid_i;
-    wire ren = (~we_i) & req_valid_i;
+    wire req_ready_raw;
+    wire tx_write_req = req_valid_i & we_i & (addr_i[7:0] == UART_TXDATA) & sel_i[0] & uart_ctrl[0];
+    wire tx_write_wait = tx_write_req & uart_status[0];
+    wire req_hasked = req_valid_i & req_ready_o;
+    wire wen = we_i & req_hasked;
+    wire ren = (~we_i) & req_hasked;
     wire write_reg_ctrl_en = wen & (addr_i[7:0] == UART_CTRL);
     wire write_reg_status_en = wen & (addr_i[7:0] == UART_STATUS);
     wire write_reg_baud_en = wen & (addr_i[7:0] == UART_BAUD);
     wire write_reg_txdata_en = wen & (addr_i[7:0] == UART_TXDATA);
     wire tx_start = write_reg_txdata_en & sel_i[0] & uart_ctrl[0] & (~uart_status[0]);
     wire rx_recv_over = uart_ctrl[1] & rx_over;
-    wire[15:0] uart_baud_cnt = (uart_baud[15:0] == 16'h0) ? 16'h0 : (uart_baud[15:0] - 16'h1);
 
-    assign tx_pin = (state == S_START) ? 1'b0:
-                    (state == S_SEND_BYTE) ? uart_tx[bit_cnt]:
-                    1'b1;
+    assign tx_pin = tx_bit;
 
 
     // 写uart_rxdata
@@ -137,13 +121,13 @@ module uart(
                 // 写RX完成标志
                 uart_status[1] <= data_i[1];
             end else begin
-                // 开始发送数据时，置位TX忙标志
+                // 开始发送数据时，置位TX忙标�?                
                 if (tx_start) begin
                     uart_status[0] <= 1'b1;
-                // 发送完成时，清TX忙标志
-                end else if ((state == S_STOP) & (cycle_cnt == uart_baud_cnt)) begin
+                // 发送完成时，清TX忙标�?                
+                end else if ((state == S_STOP) & (cycle_cnt == uart_baud[15:0])) begin
                     uart_status[0] <= 1'b0;
-                // 接收完成，置位接收完成标志
+                // 接收完成，置位接收完成标�?                
                 end
                 if (rx_recv_over) begin
                     uart_status[1] <= 1'b1;
@@ -194,15 +178,13 @@ module uart(
                     UART_RXDATA: data_r <= uart_rx;
                     default:     data_r <= 32'h0;
                 endcase
-            end else begin
-                data_r <= 32'h0;
             end
         end
     end
 
     assign data_o = data_r;
 
-    // *************************** TX发送 ****************************
+    // *************************** TX发�?****************************
 
     always @ (posedge clk or negedge rst_n) begin
         if (!rst_n) begin
@@ -222,21 +204,21 @@ module uart(
                 end
             end
             S_START: begin
-                if (cycle_cnt == uart_baud_cnt) begin
+                if (cycle_cnt == uart_baud[15:0]) begin
                     next_state = S_SEND_BYTE;
                 end else begin
                     next_state = S_START;
                 end
             end
             S_SEND_BYTE: begin
-                if ((cycle_cnt == uart_baud_cnt) & (bit_cnt == 4'd7)) begin
+                if ((cycle_cnt == uart_baud[15:0]) & (bit_cnt == 4'd7)) begin
                     next_state = S_STOP;
                 end else begin
                     next_state = S_SEND_BYTE;
                 end
             end
             S_STOP: begin
-                if (cycle_cnt == uart_baud_cnt) begin
+                if (cycle_cnt == uart_baud[15:0]) begin
                     next_state = S_IDLE;
                 end else begin
                     next_state = S_STOP;
@@ -256,7 +238,7 @@ module uart(
             if (state == S_IDLE) begin
                 cycle_cnt <= 16'h0;
             end else begin
-                if (cycle_cnt == uart_baud_cnt) begin
+                if (cycle_cnt == uart_baud[15:0]) begin
                     cycle_cnt <= 16'h0;
                 end else begin
                     cycle_cnt <= cycle_cnt + 16'h1;
@@ -275,9 +257,28 @@ module uart(
                     bit_cnt <= 4'h0;
                 end
                 S_SEND_BYTE: begin
-                    if (cycle_cnt == uart_baud_cnt) begin
+                    if (cycle_cnt == uart_baud[15:0]) begin
                         bit_cnt <= bit_cnt + 4'h1;
                     end
+                end
+            endcase
+        end
+    end
+
+    // tx_bit
+    always @ (posedge clk or negedge rst_n) begin
+        if (!rst_n) begin
+            tx_bit <= 1'b1;
+        end else begin
+            case (state)
+                S_IDLE, S_STOP: begin
+                    tx_bit <= 1'b1;
+                end
+                S_START: begin
+                    tx_bit <= 1'b0;
+                end
+                S_SEND_BYTE: begin
+                    tx_bit <= uart_tx[bit_cnt];
                 end
             endcase
         end
@@ -295,10 +296,10 @@ module uart(
         end
     end
 
-    // 下降沿检测(检测起始信号)
+    // 下降沿检�?检测起始信�?
     assign rx_negedge = rx_q1 & (~rx_q0);
 
-    // 产生开始接收数据信号，接收期间一直有效
+    // 产生开始接收数据信号，接收期间一直有�?    
     always @ (posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             rx_start <= 1'b0;
@@ -319,21 +320,21 @@ module uart(
         if (!rst_n) begin
             rx_div_cnt <= 16'h0;
         end else begin
-            // 第一个时钟沿只需波特率分频系数的一半
+            // 第一个时钟沿只需波特率分频系数的一�?            
             if (rx_start == 1'b1 && rx_clk_edge_cnt == 4'h0) begin
                 rx_div_cnt <= {1'b0, uart_baud[15:1]};
             end else begin
-                rx_div_cnt <= uart_baud_cnt;
+                rx_div_cnt <= uart_baud[15:0];
             end
         end
     end
 
-    // 对时钟进行计数
+    // 对时钟进行计�?    
     always @ (posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             rx_clk_cnt <= 16'h0;
         end else if (rx_start == 1'b1) begin
-            // 计数达到分频值
+            // 计数达到分频�?           
             if (rx_clk_cnt == rx_div_cnt) begin
                 rx_clk_cnt <= 16'h0;
             end else begin
@@ -350,16 +351,16 @@ module uart(
             rx_clk_edge_cnt <= 4'h0;
             rx_clk_edge_level <= 1'b0;
         end else if (rx_start == 1'b1) begin
-            // 计数达到分频值
+            // 计数达到分频�?            
             if (rx_clk_cnt == rx_div_cnt) begin
-                // 时钟沿个数达到最大值
+                // 时钟沿个数达到最大�?                
                 if (rx_clk_edge_cnt == 4'd9) begin
                     rx_clk_edge_cnt <= 4'h0;
                     rx_clk_edge_level <= 1'b0;
                 end else begin
                     // 时钟沿个数加1
                     rx_clk_edge_cnt <= rx_clk_edge_cnt + 4'h1;
-                    // 产生上升沿脉冲
+                    // 产生上升沿脉�?                    
                     rx_clk_edge_level <= 1'b1;
                 end
             end else begin
@@ -378,14 +379,14 @@ module uart(
             rx_over <= 1'b0;
         end else begin
             if (rx_start == 1'b1) begin
-                // 上升沿
+                // 上升�?                
                 if (rx_clk_edge_level == 1'b1) begin
                     case (rx_clk_edge_cnt)
-                        // 起始位
+                        // 起始�?                        
                         1: begin
 
                         end
-                        // 第1位数据位
+                        // �?位数据位
                         2: begin
                             if (rx_pin) begin
                                 rx_data <= 8'h80;
@@ -393,7 +394,7 @@ module uart(
                                 rx_data <= 8'h0;
                             end
                         end
-                        // 剩余数据位
+                        // 剩余数据�?                        
                         3, 4, 5, 6, 7, 8, 9: begin
                             rx_data <= {rx_pin, rx_data[7:1]};
                             // 最后一位接收完成，置位接收完成标志
@@ -415,10 +416,12 @@ module uart(
     ) u_vld_rdy(
         .clk(clk),
         .rst_n(rst_n),
-        .vld_i(req_valid_i),
-        .rdy_o(req_ready_o),
+        .vld_i(req_valid_i & ~tx_write_wait),
+        .rdy_o(req_ready_raw),
         .rdy_i(rsp_ready_i),
         .vld_o(rsp_valid_o)
     );
+
+    assign req_ready_o = req_ready_raw & ~tx_write_wait;
 
 endmodule
