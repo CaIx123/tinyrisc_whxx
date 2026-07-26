@@ -94,14 +94,14 @@ module g03_soc (
         .gpr_we_o(core_gpr_we[2]), .gpr_waddr_o(core_gpr_waddr[2]), .gpr_wdata_o(core_gpr_wdata[2]),
         .gpr_raddr1_o(core_gpr_raddr1[2]), .gpr_rdata1_i(core_gpr_rdata1[2]),
         .gpr_raddr2_o(core_gpr_raddr2[2]), .gpr_rdata2_i(core_gpr_rdata2[2]),
-        .if_addr_o(core_if_addr[2]), .if_data_o(core_if_wdata[2]), .if_sel_o(core_if_sel[2]),
-        .if_req_vld_o(core_if_req_vld[2]), .if_req_rdy_i(core_if_req_rdy[2]),
-        .if_rsp_rdy_o(core_if_rsp_rdy[2]), .if_rsp_vld_i(core_if_rsp_vld[2]),
-        .if_data_i(core_if_rdata[2]), .if_we_o(core_if_we[2]),
-        .mem_addr_o(core_mem_addr[2]), .mem_data_o(core_mem_wdata[2]), .mem_sel_o(core_mem_sel[2]),
-        .mem_req_vld_o(core_mem_req_vld[2]), .mem_req_rdy_i(core_mem_req_rdy[2]),
-        .mem_rsp_rdy_o(core_mem_rsp_rdy[2]), .mem_rsp_vld_i(core_mem_rsp_vld[2]),
-        .mem_data_i(core_mem_rdata[2]), .mem_we_o(core_mem_we[2])
+        .ibus_addr_o(core_if_addr[2]), .ibus_data_o(core_if_wdata[2]), .ibus_sel_o(core_if_sel[2]),
+        .ibus_req_valid_o(core_if_req_vld[2]), .ibus_req_ready_i(core_if_req_rdy[2]),
+        .ibus_rsp_ready_o(core_if_rsp_rdy[2]), .ibus_rsp_valid_i(core_if_rsp_vld[2]),
+        .ibus_data_i(core_if_rdata[2]), .ibus_we_o(core_if_we[2]),
+        .dbus_addr_o(core_mem_addr[2]), .dbus_data_o(core_mem_wdata[2]), .dbus_sel_o(core_mem_sel[2]),
+        .dbus_req_valid_o(core_mem_req_vld[2]), .dbus_req_ready_i(core_mem_req_rdy[2]),
+        .dbus_rsp_ready_o(core_mem_rsp_rdy[2]), .dbus_rsp_valid_i(core_mem_rsp_vld[2]),
+        .dbus_data_i(core_mem_rdata[2]), .dbus_we_o(core_mem_we[2])
     );
 
     core_xzr u_core_xzr (
