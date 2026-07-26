@@ -1,4 +1,4 @@
-`include "../marcos.v"
+`include "../marcos_wzc.v"
 
 module exu_alu_mux(
   input [1:0] forward_a_i,

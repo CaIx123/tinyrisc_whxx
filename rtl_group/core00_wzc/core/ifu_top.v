@@ -1,4 +1,4 @@
-`include "../marcos.v"
+`include "../marcos_wzc.v"
 
 module ifu(
     input wire clk,

@@ -1,4 +1,4 @@
-`include "../core00_wzc/marcos.v"
+`include "../core00_wzc/marcos_wzc.v"
 
 module g03_soc (
     input wire clk,
@@ -75,18 +75,18 @@ module g03_soc (
     );
 
     core_xyh u_core_xyh (
-        .clk(clk_xyh), .rst_n(rst_n), .debug_halt_i(debug_en_i),
+        .clk(clk_xyh), .rst_n(rst_n), .pc_rst_i(debug_en_i), .jtag_halt_i(debug_en_i),
         .gpr_we_o(core_gpr_we[1]), .gpr_waddr_o(core_gpr_waddr[1]), .gpr_wdata_o(core_gpr_wdata[1]),
         .gpr_raddr1_o(core_gpr_raddr1[1]), .gpr_rdata1_i(core_gpr_rdata1[1]),
         .gpr_raddr2_o(core_gpr_raddr2[1]), .gpr_rdata2_i(core_gpr_rdata2[1]),
-        .if_addr_o(core_if_addr[1]), .if_data_o(core_if_wdata[1]), .if_sel_o(core_if_sel[1]),
-        .if_req_vld_o(core_if_req_vld[1]), .if_req_rdy_i(core_if_req_rdy[1]),
-        .if_rsp_rdy_o(core_if_rsp_rdy[1]), .if_rsp_vld_i(core_if_rsp_vld[1]),
-        .if_data_i(core_if_rdata[1]), .if_we_o(core_if_we[1]),
-        .mem_addr_o(core_mem_addr[1]), .mem_data_o(core_mem_wdata[1]), .mem_sel_o(core_mem_sel[1]),
-        .mem_req_vld_o(core_mem_req_vld[1]), .mem_req_rdy_i(core_mem_req_rdy[1]),
-        .mem_rsp_rdy_o(core_mem_rsp_rdy[1]), .mem_rsp_vld_i(core_mem_rsp_vld[1]),
-        .mem_data_i(core_mem_rdata[1]), .mem_we_o(core_mem_we[1])
+        .ibus_addr_o(core_if_addr[1]), .ibus_data_o(core_if_wdata[1]), .ibus_sel_o(core_if_sel[1]),
+        .ibus_req_valid_o(core_if_req_vld[1]), .ibus_req_ready_i(core_if_req_rdy[1]),
+        .ibus_rsp_ready_o(core_if_rsp_rdy[1]), .ibus_rsp_valid_i(core_if_rsp_vld[1]),
+        .ibus_data_i(core_if_rdata[1]), .ibus_we_o(core_if_we[1]),
+        .dbus_addr_o(core_mem_addr[1]), .dbus_data_o(core_mem_wdata[1]), .dbus_sel_o(core_mem_sel[1]),
+        .dbus_req_valid_o(core_mem_req_vld[1]), .dbus_req_ready_i(core_mem_req_rdy[1]),
+        .dbus_rsp_ready_o(core_mem_rsp_rdy[1]), .dbus_rsp_valid_i(core_mem_rsp_vld[1]),
+        .dbus_data_i(core_mem_rdata[1]), .dbus_we_o(core_mem_we[1])
     );
 
     core_hjx u_core_hjx (

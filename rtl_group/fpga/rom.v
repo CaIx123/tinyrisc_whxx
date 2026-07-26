@@ -1,4 +1,4 @@
-`include "../core00_wzc/marcos.v"
+`include "../core00_wzc/marcos_wzc.v"
 
 module rom #(
     parameter ROM_DEPTH = 256,

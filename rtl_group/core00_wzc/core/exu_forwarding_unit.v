@@ -1,4 +1,4 @@
-`include "../marcos.v"
+`include "../marcos_wzc.v"
 
 module exu_forwarding_unit(
   input wire[`GPR_ADDR_WIDTH-1:0] rs1_addr_i,

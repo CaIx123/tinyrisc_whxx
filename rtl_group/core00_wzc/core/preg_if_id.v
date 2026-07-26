@@ -1,4 +1,4 @@
-`include "../marcos.v"
+`include "../marcos_wzc.v"
 
 module if_id(
 
@@ -10,8 +10,8 @@ module if_id(
 
     // from pipeline control
     input wire stall_if_id_i,                         
-    input wire flush_if_id_i,                     // 流水线冲�?
-    output wire[`INST_WIDTH-1:0] inst_o,               // 指令内�??
+    input wire flush_if_id_i,                     // 流水线冲�?
+    output wire[`INST_WIDTH-1:0] inst_o,               // 指令内�??
     output wire[`PC_WIDTH-1:0] pc_o           // 指令地址
 
     );

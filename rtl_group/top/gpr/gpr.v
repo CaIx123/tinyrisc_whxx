@@ -1,4 +1,4 @@
-`include "../../core00_wzc/marcos.v"
+`include "../../core00_wzc/marcos_wzc.v"
 
 // 通用寄存器模�?
 module gpr(

@@ -1,4 +1,4 @@
-`include "../marcos.v"
+`include "../marcos_wzc.v"
 
 // Immediate generator for RV32I/RV32M.
 // CSR/system instructions are intentionally not decoded here.
@@ -26,7 +26,7 @@ module idu_imm_gen(
             `OPCODE_TYPE_I_JALR,
             `OPCODE_TYPE_I_LOAD,
             `OPCODE_TYPE_I_CUSTOM: begin
-                imm_o = (imm_i + 1'b1);
+                imm_o = imm_i;
             end
 
             `OPCODE_TYPE_I_COMP: begin

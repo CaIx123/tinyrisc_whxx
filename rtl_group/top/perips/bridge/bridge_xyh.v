@@ -1,4 +1,4 @@
-`include "../tiny_macro.v"
+`include "../../../core01_xyh/marcos_xyh.v"
 
 // 片外协议解释器(与rib_bridge成对工作)
 // 从8bit串行数据中恢复目标存储体、读写方向、字节掩码、地址和数据
@@ -142,4 +142,46 @@ module ex_bridge(
         end
     end
 
+endmodule
+
+// On-chip RIB-to-serial half of the XYH memory bridge.  The ex_bridge
+// above is the matching off-chip serial-to-ROM/RAM half.
+module bridge_xyh(
+    input wire clk,
+    input wire rst_n,
+    input wire s0_req_vld_i,
+    input wire s0_rsp_rdy_i,
+    input wire s0_we_i,
+    input wire [31:0] s0_addr_i,
+    input wire [31:0] s0_data_i,
+    input wire [3:0] s0_sel_i,
+    output wire [31:0] s0_data_o,
+    output wire s0_req_rdy_o,
+    output wire s0_rsp_vld_o,
+    input wire s1_req_vld_i,
+    input wire s1_rsp_rdy_i,
+    input wire s1_we_i,
+    input wire [31:0] s1_addr_i,
+    input wire [31:0] s1_data_i,
+    input wire [3:0] s1_sel_i,
+    output wire [31:0] s1_data_o,
+    output wire s1_req_rdy_o,
+    output wire s1_rsp_vld_o,
+    output wire [7:0] tx_data_o,
+    input wire [7:0] rx_data_i
+);
+    bridge_hjx u_protocol (
+        .clk(clk), .rst_n(rst_n),
+        .s0_req_vld_i(s0_req_vld_i), .s0_rsp_rdy_i(s0_rsp_rdy_i),
+        .s0_we_i(s0_we_i), .s0_addr_i(s0_addr_i),
+        .s0_data_i(s0_data_i), .s0_sel_i(s0_sel_i),
+        .s0_data_o(s0_data_o), .s0_req_rdy_o(s0_req_rdy_o),
+        .s0_rsp_vld_o(s0_rsp_vld_o),
+        .s1_req_vld_i(s1_req_vld_i), .s1_rsp_rdy_i(s1_rsp_rdy_i),
+        .s1_we_i(s1_we_i), .s1_addr_i(s1_addr_i),
+        .s1_data_i(s1_data_i), .s1_sel_i(s1_sel_i),
+        .s1_data_o(s1_data_o), .s1_req_rdy_o(s1_req_rdy_o),
+        .s1_rsp_vld_o(s1_rsp_vld_o),
+        .tx_data_o(tx_data_o), .rx_data_i(rx_data_i)
+    );
 endmodule

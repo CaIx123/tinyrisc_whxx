@@ -1,4 +1,4 @@
-`include "core00_wzc/marcos.v"
+`include "core00_wzc/marcos_wzc.v"
 
 // FPGA verification top: ASIC PAD wrapper + FPGA ROM/RAM bridge.
 module G03_fpga (

@@ -1,4 +1,4 @@
-`include "../../core00_wzc/marcos.v"
+`include "../../core00_wzc/marcos_wzc.v"
 
 module perips_top (
     input  wire                         clk,
@@ -215,7 +215,7 @@ module perips_top (
         .rx_data_i(((bridge_rsp_sel_r == 2'b00) | chip_wzc) ? bridge_wzc_rx_data_i : {`BRIDGE_WIDTH{1'b0}})
     );
 
-    bridge_wzc u_bridge_xyh (
+    bridge_xyh u_bridge_xyh (
         .clk(clk), .rst_n(rst_n),
         .s0_req_vld_i(s0_req_vld & chip_xyh), .s0_rsp_rdy_i(s0_rsp_rdy & (bridge_rsp_sel_r == 2'b01)),
         .s0_we_i(s0_we & chip_xyh), .s0_addr_i(chip_xyh ? s0_addr : 32'b0),
@@ -229,7 +229,7 @@ module perips_top (
         .rx_data_i(((bridge_rsp_sel_r == 2'b01) | chip_xyh) ? bridge_xyh_rx_data_i : {`BRIDGE_WIDTH{1'b0}})
     );
 
-    bridge_wzc u_bridge_hjx (
+    bridge_hjx u_bridge_hjx (
         .clk(clk), .rst_n(rst_n),
         .s0_req_vld_i(s0_req_vld & chip_hjx), .s0_rsp_rdy_i(s0_rsp_rdy & (bridge_rsp_sel_r == 2'b10)),
         .s0_we_i(s0_we & chip_hjx), .s0_addr_i(chip_hjx ? s0_addr : 32'b0),

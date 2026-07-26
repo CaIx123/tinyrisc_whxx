@@ -1,4 +1,4 @@
-`include "../marcos.v" 
+`include "../marcos_wzc.v" 
 
 module mem_sidu(
 

@@ -1,4 +1,4 @@
-`include "marcos.v"
+`include "marcos_wzc.v"
 
 // WZC core wrapper with external shared-GPR and RIB master interfaces.
 module core_wzc (

@@ -1,4 +1,4 @@
-`include "../../core00_wzc/marcos.v"
+`include "../../core00_wzc/marcos_wzc.v"
 
 // 串口收发模块(默认: 115200, 8，N�?)
 module uart(

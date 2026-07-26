@@ -1,4 +1,4 @@
-`include "../core00_wzc/marcos.v"
+`include "../core00_wzc/marcos_wzc.v"
 
 // XZR currently reuses the verified WZC pipeline implementation.
 module core_xzr (
