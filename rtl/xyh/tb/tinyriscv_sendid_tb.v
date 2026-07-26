@@ -1,7 +1,7 @@
 `timescale 1 ns / 1 ps
 
 `include "defines.v"
-`include "../rtl/tiny_macro.v"
+`include "../tiny_macro.v"
 
 module tinyriscv_sendid_tb;
 
@@ -16,31 +16,32 @@ module tinyriscv_sendid_tb;
     tri1 iic_scl;
     tri1 iic_sda;
 
-    localparam integer UART_BIT_CYCLES = `UART_BAUD_115200 + 1;
-    localparam integer UART_HALF_CYCLES = (UART_BIT_CYCLES + 1) / 2;
-    localparam integer SIM_TIMEOUT_NS = 500000;
+    localparam integer SIM_TIMEOUT_NS = 100000000;
     localparam integer EXPECTED_BYTES = 10;
 
     reg [7:0] uart_buf [0:255];
     integer uart_count;
     integer i;
 
+    `include "uart_debug_programmer.vh"
+
     always #10 clk = ~clk;
 
-    task automatic wait_uart_cycles(input integer cycles);
-        integer k;
-        begin
-            for (k = 0; k < cycles; k = k + 1) begin
-                @(posedge clk);
+    always @(posedge clk) begin
+        if (uart_program_done &&
+            tinyriscv_sendid_tb_0.u_tinyriscv_soc_top.uart_0.tx_start) begin
+            if (uart_count < 256) begin
+                uart_buf[uart_count] = tinyriscv_sendid_tb_0.u_tinyriscv_soc_top.uart_0.data_i[7:0];
+                uart_count = uart_count + 1;
             end
         end
-    endtask
+    end
 
     initial begin
         clk = 1'b0;
         rst_n = 1'b1;
         uart_rx_pin = 1'b1;
-        uart_debug_pin = 1'b0;
+        uart_debug_pin = 1'b1;
         uart_count = 0;
         #100;
         rst_n = 1'b0;
@@ -53,34 +54,9 @@ module tinyriscv_sendid_tb;
         $dumpvars(0, tinyriscv_sendid_tb);
     end
 
-    initial begin : uart_monitor
-        reg [7:0] rx_byte;
-        @(negedge rst_n);
-        @(posedge rst_n);
-        wait_uart_cycles(UART_BIT_CYCLES * 2);
-        forever begin
-            @(negedge uart_tx_pin);
-            wait_uart_cycles(UART_HALF_CYCLES);
-            if (uart_tx_pin === 1'b0) begin
-                rx_byte = 8'h00;
-                for (i = 0; i < 8; i = i + 1) begin
-                    wait_uart_cycles(UART_BIT_CYCLES);
-                    rx_byte[i] = uart_tx_pin;
-                end
-                wait_uart_cycles(UART_BIT_CYCLES);
-                if (uart_tx_pin === 1'b1) begin
-                    if (uart_count < 256) begin
-                        uart_buf[uart_count] = rx_byte;
-                        uart_count = uart_count + 1;
-                    end
-                end
-            end
-        end
-    end
-
     initial begin
         wait (uart_count >= EXPECTED_BYTES);
-        wait_uart_cycles(UART_BIT_CYCLES * 4);
+        repeat (2) @(posedge clk);
         $display("UART_CAPTURE_BEGIN");
         for (i = 0; i < uart_count; i = i + 1) begin
             $write("%c", uart_buf[i]);
@@ -99,10 +75,6 @@ module tinyriscv_sendid_tb;
         $write("\n");
         $display("UART_CAPTURE_END");
         $finish;
-    end
-
-    initial begin
-        $readmemh("inst.data", tinyriscv_sendid_tb_0.u_exmem_top.u_exrom._ram);
     end
 
     tinyriscv_sys_top tinyriscv_sendid_tb_0(

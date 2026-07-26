@@ -1,6 +1,7 @@
 `timescale 1 ns / 1 ps
 
 `include "defines.v"
+`include "../tiny_macro.v"
 
 module tinyriscv_readtemp_tb;
 
@@ -20,6 +21,8 @@ module tinyriscv_readtemp_tb;
 
     integer r;
 
+    `include "uart_debug_programmer.vh"
+
     always #10 clk = ~clk;
 
     initial begin
@@ -31,13 +34,13 @@ module tinyriscv_readtemp_tb;
         clk = 1'b0;
         rst_n = 1'b1;
         uart_rx_pin = 1'b1;
-        uart_debug_pin = 1'b0;
+        uart_debug_pin = 1'b1;
         $display("test running...");
         #100;
         rst_n = 1'b0;
         #100;
         rst_n = 1'b1;
-        #200;
+        wait (uart_program_done == 1'b1);
 
         wait (x26 == 32'h1)
         #400;
@@ -55,13 +58,9 @@ module tinyriscv_readtemp_tb;
     end
 
     initial begin
-        #5000000;
+        #100000000;
         $display("Time Out.");
         $finish;
-    end
-
-    initial begin
-        $readmemh("inst.data", tinyriscv_readtemp_tb_0.u_exmem_top.u_exrom._ram);
     end
 
     tinyriscv_sys_top tinyriscv_readtemp_tb_0(

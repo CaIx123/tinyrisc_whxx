@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-`include "../rtl/tiny_macro.v"
+`include "../tiny_macro.v"
 
 module rib_bridge_bl_tb;
 
@@ -193,4 +193,3 @@ module rib_bridge_bl_tb;
     end
 
 endmodule
-

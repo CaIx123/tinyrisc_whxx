@@ -1,7 +1,7 @@
 `timescale 1 ns / 1 ps
 
 `include "defines.v"
-`include "../rtl/tiny_macro.v"
+`include "../tiny_macro.v"
 
 module tinyriscv_uart_rx_tb;
 

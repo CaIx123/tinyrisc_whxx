@@ -1,1 +1,4 @@
 *.xdc
+.codex
+doc/*.pdf
+test_personal

@@ -1,6 +1,7 @@
 `timescale 1 ns / 1 ps
 
 `include "defines.v"
+`include "../tiny_macro.v"
 
 // select one option only
 `define TEST_PROG  1
@@ -22,18 +23,20 @@ module tinyriscv_soc_tb;
 
     integer r;
 
+    `include "uart_debug_programmer.vh"
+
 
     initial begin
         clk = 0;
         rst_n = 1'b1;
         uart_rx_pin = 1'b1;
-        uart_debug_pin = 1'b0;
+        uart_debug_pin = 1'b1;
         $display("test running...");
         #100
         rst_n = 1'b0;
         #100
         rst_n = 1'b1;
-        #200
+        wait (uart_program_done == 1'b1);
 
 `ifdef TEST_PROG
         wait(x26 == 32'b1)   // wait sim end, when x26 == 1
@@ -70,14 +73,9 @@ module tinyriscv_soc_tb;
 
     // sim timeout
     initial begin
-        #1000000
+        #100000000
         $display("Time Out.");
         $finish;
-    end
-
-    // read mem data
-    initial begin
-        $readmemh ("inst.data", tinyriscv_soc_top_0.u_exmem_top.u_exrom._ram);
     end
 
     // generate wave file, used by gtkwave

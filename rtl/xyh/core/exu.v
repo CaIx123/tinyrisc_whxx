@@ -76,19 +76,6 @@ module exu(
     wire bjp_op_bge_o;
     wire bjp_op_bgeu_o;
 
-    // dispatch to MULDIV
-    wire req_muldiv_o;
-    wire[31:0] muldiv_op1_o;
-    wire[31:0] muldiv_op2_o;
-    wire muldiv_op_mul_o;
-    wire muldiv_op_mulh_o;
-    wire muldiv_op_mulhsu_o;
-    wire muldiv_op_mulhu_o;
-    wire muldiv_op_div_o;
-    wire muldiv_op_divu_o;
-    wire muldiv_op_rem_o;
-    wire muldiv_op_remu_o;
-
     // extension
     wire req_ext_o;
     wire ext_bus_req_o;
@@ -177,17 +164,6 @@ module exu(
         .bjp_op_bltu_o(bjp_op_bltu_o),
         .bjp_op_bge_o(bjp_op_bge_o),
         .bjp_op_bgeu_o(bjp_op_bgeu_o),
-        .req_muldiv_o(req_muldiv_o),
-        .muldiv_op1_o(muldiv_op1_o),
-        .muldiv_op2_o(muldiv_op2_o),
-        .muldiv_op_mul_o(muldiv_op_mul_o),
-        .muldiv_op_mulh_o(muldiv_op_mulh_o),
-        .muldiv_op_mulhsu_o(muldiv_op_mulhsu_o),
-        .muldiv_op_mulhu_o(muldiv_op_mulhu_o),
-        .muldiv_op_div_o(muldiv_op_div_o),
-        .muldiv_op_divu_o(muldiv_op_divu_o),
-        .muldiv_op_rem_o(muldiv_op_rem_o),
-        .muldiv_op_remu_o(muldiv_op_remu_o),
         .req_mem_o(req_mem_o),
         .mem_op1_o(mem_op1_o),
         .mem_op2_o(mem_op2_o),
@@ -290,38 +266,11 @@ module exu(
         .mem_rsp_ready_o(mem_rsp_ready_o)
     );
 
-    wire[31:0] muldiv_reg_wdata_o;
-    wire muldiv_reg_we_o;
-    wire muldiv_stall_o;
-
-    exu_muldiv u_exu_muldiv(
-        .clk(clk),
-        .rst_n(rst_n),
-        .mem_stall_i(stall_i[`STALL_EX]),
-        .muldiv_op1_i(muldiv_op1_o),
-        .muldiv_op2_i(muldiv_op2_o),
-        .muldiv_op_mul_i(muldiv_op_mul_o),
-        .muldiv_op_mulh_i(muldiv_op_mulh_o),
-        .muldiv_op_mulhsu_i(muldiv_op_mulhsu_o),
-        .muldiv_op_mulhu_i(muldiv_op_mulhu_o),
-        .muldiv_op_div_i(muldiv_op_div_o),
-        .muldiv_op_divu_i(muldiv_op_divu_o),
-        .muldiv_op_rem_i(muldiv_op_rem_o),
-        .muldiv_op_remu_i(muldiv_op_remu_o),
-        .muldiv_reg_wdata_o(muldiv_reg_wdata_o),
-        .muldiv_reg_we_o(muldiv_reg_we_o),
-        .muldiv_stall_o(muldiv_stall_o)
-    );
-
     wire commit_reg_we_o;
 
     exu_commit u_exu_commit(
         .clk(clk),
         .rst_n(rst_n),
-        .req_muldiv_i(req_muldiv_o),
-        .muldiv_reg_we_i(muldiv_reg_we_o),
-        .muldiv_reg_waddr_i(rd_waddr_i),
-        .muldiv_reg_wdata_i(muldiv_reg_wdata_o),
         .req_mem_i(req_mem_o),
         .mem_reg_we_i(mem_reg_we_o),
         .mem_reg_waddr_i(rd_waddr_i),
@@ -350,8 +299,8 @@ module exu(
 
     assign jump_flag_o = bjp_cmp_res_o | bjp_op_jump_o | sys_op_fence_o;
     assign jump_addr_o = sys_op_fence_o ? next_pc_i : bjp_res_o;
-    assign hold_flag_o[0] = muldiv_stall_o | mem_stall_o[0] | ext_stall_o;
-    assign hold_flag_o[1] = muldiv_stall_o | mem_stall_o[1] | ext_stall_o;
+    assign hold_flag_o[0] = mem_stall_o[0] | ext_stall_o;
+    assign hold_flag_o[1] = mem_stall_o[1] | ext_stall_o;
 
     assign mem_we_o = mem_mem_we_o;
     assign mem_wdata_o = mem_wdata;

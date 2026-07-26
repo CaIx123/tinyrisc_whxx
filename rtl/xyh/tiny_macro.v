@@ -14,7 +14,9 @@
 `define PWIDTH_O 16
 `define PWIDTH_I 8
 
-`define UART_BAUD_115200 32'd5
+// UART counter runs from 0 through UART_BAUD_115200, so 5 means 6 clocks/bit.
+`define UART_SIM_BIT_CYCLES 6
+`define UART_BAUD_115200 (`UART_SIM_BIT_CYCLES - 1)
 `define IIC_CLK_DIV 16'd10
 `else
 `define ROM_DEPTH 256                  

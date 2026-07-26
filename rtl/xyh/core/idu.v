@@ -80,7 +80,6 @@ module idu(
     // 指令funct7域的取�??
     wire funct7_0000000 = (funct7 == 7'b0000000);
     wire funct7_0100000 = (funct7 == 7'b0100000);
-    wire funct7_0000001 = (funct7 == 7'b0000001);
 
     // I类型指令imm域的取�??
     wire type_i_imm_000000000000 = (type_i_imm_11_0 == 12'b000000000000);
@@ -134,14 +133,6 @@ module idu(
     wire inst_csrrwi = opcode_1110011 & funct3_101;
     wire inst_csrrsi = opcode_1110011 & funct3_110;
     wire inst_csrrci = opcode_1110011 & funct3_111;
-    wire inst_mul = opcode_0110011 & funct3_000 & funct7_0000001;
-    wire inst_mulh = opcode_0110011 & funct3_001 & funct7_0000001;
-    wire inst_mulhsu = opcode_0110011 & funct3_010 & funct7_0000001;
-    wire inst_mulhu = opcode_0110011 & funct3_011 & funct7_0000001;
-    wire inst_div = opcode_0110011 & funct3_100 & funct7_0000001;
-    wire inst_divu = opcode_0110011 & funct3_101 & funct7_0000001;
-    wire inst_rem = opcode_0110011 & funct3_110 & funct7_0000001;
-    wire inst_remu = opcode_0110011 & funct3_111 & funct7_0000001;
     wire inst_sendid = (opcode == 7'b0101111) & (funct3 == 3'b000);
     wire inst_readtemp = (opcode == 7'b0101111) & (funct3 == 3'b001);
     wire inst_intfire = (opcode == 7'b0101111) & (funct3 == 3'b010);
@@ -149,11 +140,13 @@ module idu(
     wire inst_mret = (inst_i == `INST_MRET);
 
     // 将指令分�?
-    wire inst_type_load = opcode_0000011;
-    wire inst_type_store = opcode_0100011;
-    wire inst_type_branch = opcode_1100011;
-    wire inst_type_muldiv = inst_mul | inst_mulh | inst_mulhsu | inst_mulhu | inst_div | inst_divu | inst_rem | inst_remu;
-    wire inst_type_div = inst_div | inst_divu | inst_rem | inst_remu;
+    wire inst_type_load = inst_lb | inst_lh | inst_lw | inst_lbu | inst_lhu;
+    wire inst_type_store = inst_sb | inst_sh | inst_sw;
+    wire inst_type_branch = inst_beq | inst_bne | inst_blt | inst_bge | inst_bltu | inst_bgeu;
+    wire inst_type_alu_imm = inst_addi | inst_slti | inst_sltiu | inst_xori |
+                             inst_ori | inst_andi | inst_slli | inst_srli | inst_srai;
+    wire inst_type_alu_reg = inst_add | inst_sub | inst_sll | inst_slt | inst_sltu |
+                             inst_xor | inst_srl | inst_sra | inst_or | inst_and;
 
     wire[`DECINFO_ALU_BUS_WIDTH-1:0] dec_alu_info_bus;
     assign dec_alu_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_ALU;
@@ -169,7 +162,7 @@ module idu(
     assign dec_alu_info_bus[`DECINFO_ALU_SRA] = inst_sra | inst_srai;
     assign dec_alu_info_bus[`DECINFO_ALU_OR] = inst_or | inst_ori;
     assign dec_alu_info_bus[`DECINFO_ALU_AND] = inst_and | inst_andi;
-    assign dec_alu_info_bus[`DECINFO_ALU_OP2IMM] = opcode_0010011 | inst_lui | inst_auipc;
+    assign dec_alu_info_bus[`DECINFO_ALU_OP2IMM] = inst_type_alu_imm | inst_lui | inst_auipc;
     assign dec_alu_info_bus[`DECINFO_ALU_OP1PC] = inst_auipc;
 
     wire[`DECINFO_BJP_BUS_WIDTH-1:0] dec_bjp_info_bus;
@@ -185,17 +178,6 @@ module idu(
     //////////////////////////////////
     assign stall_o = inst_jal | inst_jalr | inst_beq | inst_bne | inst_blt | inst_bge | inst_bltu | inst_bgeu;
     ///////////////////////////////////
-
-    wire[`DECINFO_MULDIV_BUS_WIDTH-1:0] dec_muldiv_info_bus;
-    assign dec_muldiv_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_MULDIV;
-    assign dec_muldiv_info_bus[`DECINFO_MULDIV_MUL] = inst_mul;
-    assign dec_muldiv_info_bus[`DECINFO_MULDIV_MULH] = inst_mulh;
-    assign dec_muldiv_info_bus[`DECINFO_MULDIV_MULHSU] = inst_mulhsu;
-    assign dec_muldiv_info_bus[`DECINFO_MULDIV_MULHU] = inst_mulhu;
-    assign dec_muldiv_info_bus[`DECINFO_MULDIV_DIV] = inst_div;
-    assign dec_muldiv_info_bus[`DECINFO_MULDIV_DIVU] = inst_divu;
-    assign dec_muldiv_info_bus[`DECINFO_MULDIV_REM] = inst_rem;
-    assign dec_muldiv_info_bus[`DECINFO_MULDIV_REMU] = inst_remu;
 
     wire[`DECINFO_CSR_BUS_WIDTH-1:0] dec_csr_info_bus;
     assign dec_csr_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_CSR;
@@ -255,9 +237,8 @@ module idu(
                        ({32{inst_sel_csr_imm}} & inst_csr_type_imm) |
                        ({32{inst_sel_shift_imm}} & inst_shift_type_imm);
 
-    wire op_alu = inst_lui | inst_auipc | opcode_0010011 | (opcode_0110011 & (~inst_type_muldiv));
+    wire op_alu = inst_lui | inst_auipc | inst_type_alu_imm | inst_type_alu_reg;
     wire op_bjp = inst_jal | inst_jalr | inst_type_branch;
-    wire op_muldiv = inst_type_muldiv;
     wire op_csr = 1'b0;
     wire op_sys = inst_fence | inst_fence_i;
     wire op_mem = inst_type_load | inst_type_store;
@@ -265,7 +246,6 @@ module idu(
 
     assign dec_info_bus_o = ({`DECINFO_WIDTH{op_alu}} & {{`DECINFO_WIDTH-`DECINFO_ALU_BUS_WIDTH{1'b0}}, dec_alu_info_bus}) |
                             ({`DECINFO_WIDTH{op_bjp}} & {{`DECINFO_WIDTH-`DECINFO_BJP_BUS_WIDTH{1'b0}}, dec_bjp_info_bus}) |
-                            ({`DECINFO_WIDTH{op_muldiv}} & {{`DECINFO_WIDTH-`DECINFO_MULDIV_BUS_WIDTH{1'b0}}, dec_muldiv_info_bus}) |
                             ({`DECINFO_WIDTH{op_csr}} & {{`DECINFO_WIDTH-`DECINFO_CSR_BUS_WIDTH{1'b0}}, dec_csr_info_bus}) |
                             ({`DECINFO_WIDTH{op_mem}} & {{`DECINFO_WIDTH-`DECINFO_MEM_BUS_WIDTH{1'b0}}, dec_mem_info_bus}) |
                             ({`DECINFO_WIDTH{op_sys}} & {{`DECINFO_WIDTH-`DECINFO_SYS_BUS_WIDTH{1'b0}}, dec_sys_info_bus}) |
@@ -274,30 +254,19 @@ module idu(
     assign dec_pc_o = inst_addr_i;
 
     // 是否�?要访问rs1寄存�?
-    wire access_rs1 = (~inst_lui) &
-                      (~inst_auipc) &
-                      (~inst_jal) &
-                      (~inst_ecall) &
-                      (~inst_ebreak) &
-                      (~inst_csrrwi) &
-                      (~inst_csrrsi) &
-                      (~inst_csrrci) &
-                      (~inst_nop) &
-                      (~inst_fence) &
-                      (~inst_fence_i) &
-                      (~inst_sendid) &
-                      (~inst_readtemp) &
-                      (~inst_mret);
+    wire access_rs1 = inst_type_alu_imm | inst_type_alu_reg | inst_jalr |
+                      inst_type_branch | inst_type_load | inst_type_store |
+                      inst_intfire;
 
     assign rs1_raddr_o = access_rs1? rs1: 5'h0;
 
     // 是否�?要访问rs2寄存�?
-    wire access_rs2 = opcode_0110011 | inst_type_store | inst_type_branch | inst_intfire;
+    wire access_rs2 = inst_type_alu_reg | inst_type_store | inst_type_branch | inst_intfire;
 
     assign rs2_raddr_o = inst_intfire ? 5'd31 : (access_rs2 ? rs2 : 5'h0);
 
     // 是否�?要访问rd寄存�?
-    wire access_rd = inst_lui | inst_auipc | inst_jal | inst_jalr | inst_type_load | opcode_0010011 | opcode_0110011 | inst_readtemp | inst_intfire;
+    wire access_rd = op_alu | inst_jal | inst_jalr | inst_type_load | inst_readtemp | inst_intfire;
 
     assign rd_waddr_o = access_rd? rd: 5'h0;
     assign rd_we_o = access_rd;
