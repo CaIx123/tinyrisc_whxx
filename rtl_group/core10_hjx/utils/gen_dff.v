@@ -15,7 +15,7 @@
  */
 
 // 带默认值和控制信号的流水线触发器
-module hjx_gen_pipe_dff #(
+module hjx_gen_pipe_dff_hjx #(
     parameter DW = 32)(
 
     input wire clk,
@@ -43,7 +43,7 @@ module hjx_gen_pipe_dff #(
 endmodule
 
 // 复位后输出为0的触发器
-module hjx_gen_rst_0_dff #(
+module hjx_gen_rst_0_dff_hjx #(
     parameter DW = 32)(
 
     input wire clk,
@@ -69,7 +69,7 @@ module hjx_gen_rst_0_dff #(
 endmodule
 
 // 复位后输出为1的触发器
-module hjx_gen_rst_1_dff #(
+module hjx_gen_rst_1_dff_hjx #(
     parameter DW = 32)(
 
     input wire clk,
@@ -95,7 +95,7 @@ module hjx_gen_rst_1_dff #(
 endmodule
 
 // 复位后输出为默认值的触发器
-module hjx_gen_rst_def_dff #(
+module hjx_gen_rst_def_dff_hjx #(
     parameter DW = 32)(
 
     input wire clk,
@@ -122,7 +122,7 @@ module hjx_gen_rst_def_dff #(
 endmodule
 
 // 带使能端、复位后输出为0的触发器
-module hjx_gen_en_dff #(
+module hjx_gen_en_dff_hjx #(
     parameter DW = 32)(
 
     input wire clk,
@@ -149,7 +149,7 @@ module hjx_gen_en_dff #(
 endmodule
 
 // 带使能端、没有复位的触发器
-module hjx_gen_en_dffnr #(
+module hjx_gen_en_dffnr_hjx #(
     parameter DW = 32)(
 
     input wire clk,

@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // 扩展指令统一调度入口模块
 // 根据dec_info_bus判断当前是哪条扩展指令(sendid/readtemp/intfire)

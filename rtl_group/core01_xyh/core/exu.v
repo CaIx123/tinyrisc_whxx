@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // 执行级总装模块
 // 内部组合了5类执行资源：ALU、BJP(分支/跳转)、MEM(访存)、MULDIV(乘除)、EXT(扩展指令)

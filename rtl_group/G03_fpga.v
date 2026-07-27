@@ -35,6 +35,7 @@ module G03_fpga (
     fpga_top u_fpga_top (
         .clk(clk),
         .rst_n(rst_n_i),
+        .chip_sel_i(chip_sel_i),
         .bridge_rx_data_i(soc_to_fpga),
         .bridge_tx_data_o(fpga_to_soc),
         .i2c_scl(i2c_scl),

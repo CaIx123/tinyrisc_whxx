@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // 扩展指令IF(Integrated&Fire)
 // opcode=0101111, funct3=010

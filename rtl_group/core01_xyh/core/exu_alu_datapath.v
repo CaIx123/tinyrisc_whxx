@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 
 `define DATAPATH_MUX_WIDTH  (32+32+16)

@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // 译码模块(Instruction Decode Unit)
 // 纯组合逻辑电路，负责识别指令种类

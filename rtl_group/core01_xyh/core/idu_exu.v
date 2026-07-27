@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // ID/EX级流水寄存器
 // 将译码阶段的译码信息、源寄存器值、立即数、PC等锁存后传递给执行阶段

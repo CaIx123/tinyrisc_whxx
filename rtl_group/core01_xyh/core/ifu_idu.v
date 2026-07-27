@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // IF/ID级流水寄存器
 // 将取指阶段的指令和PC锁存后传递给译码阶段

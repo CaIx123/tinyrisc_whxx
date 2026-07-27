@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // Decode the shared execution-information bus into RV32I datapath controls.
 module exu_dispatch_xyh(

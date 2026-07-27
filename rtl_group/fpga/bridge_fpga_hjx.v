@@ -1,23 +1,23 @@
-`include "../../macros.v"
+`include "../core00_wzc/marcos_wzc.v"
 
-module bridge_FPGA(
+module bridge_fpga_hjx(
     input wire clk,
     input wire rst_n,
 
     // tinyriscv soc interface
-    input wire[`PWIDTH_O-1:0] tx_data_i,
-    output reg [`PWIDTH_I-1:0] rx_data_o,
+    input wire[`BRIDGE_WIDTH-1:0] rx_data_i,
+    output reg [`BRIDGE_WIDTH-1:0] tx_data_o,
 
-    // exrom interface
+    // HJX ROM interface
     input wire[31:0] data_rom_i,
     output wire[3:0] we_rom_o,
-    output wire[`ROM_AWIDTH-1:0] addr_rom_o,
+    output wire[`ROM_ADDR_WIDTH-1:0] addr_rom_o,
     output reg [31:0] data_rom_o,
 
-    // exram interface
+    // HJX RAM interface
     input wire[31:0] data_ram_i,
     output wire[3:0] we_ram_o,
-    output wire[`RAM_AWIDTH-1:0] addr_ram_o,
+    output wire[`RAM_ADDR_WIDTH-1:0] addr_ram_o,
     output reg [31:0] data_ram_o
 );
 
@@ -28,11 +28,11 @@ module bridge_FPGA(
     reg[1:0] state;
     reg[1:0] state_next;
 
-    reg[`EXCTRL_WIDTH-1:0] ctrl_reg;
+    reg[`BRIDGE_WIDTH-1:0] ctrl_reg;
     reg[31:0] data_reg;
     reg[3:0] byte_sel_mask;
 
-    wire ctrl_vld = |tx_data_i[3:0];
+    wire ctrl_vld = |rx_data_i[3:0];
     wire mem_slt = ctrl_reg[7];            // 1: rom, 0: ram
     wire transfer_write = ctrl_reg[4];     // 1: write, 0: read
     wire[3:0] byte_sel = ctrl_reg[3:0];
@@ -72,15 +72,15 @@ module bridge_FPGA(
 
     always @ (posedge clk or negedge rst_n) begin
         if (!rst_n) begin
-            ctrl_reg <= {`EXCTRL_WIDTH{1'b0}};
+            ctrl_reg <= {`BRIDGE_WIDTH{1'b0}};
             data_reg <= 32'h0;
         end else begin
             if (state == STATE_CTRL && ctrl_vld) begin
-                ctrl_reg <= tx_data_i[`EXCTRL_WIDTH-1:0];
+                ctrl_reg <= rx_data_i[`BRIDGE_WIDTH-1:0];
             end
             if (state == STATE_ADDR) begin
                 if (transfer_write) begin
-                    data_reg <= {{(32-`EX_AWIDTH){1'b0}}, tx_data_i[`EX_AWIDTH-1:0]};
+                    data_reg <= {{(32-`BRIDGE_WIDTH){1'b0}}, rx_data_i[`BRIDGE_WIDTH-1:0]};
                 end else begin
                     data_reg <= data_slt;
                 end
@@ -106,45 +106,45 @@ module bridge_FPGA(
         end
     end
 
-    assign addr_rom_o = (state == STATE_ADDR) ? tx_data_i[`ROM_AWIDTH-1:0] :
-                        data_reg[`ROM_AWIDTH-1:0];
-    assign addr_ram_o = (state == STATE_ADDR) ? tx_data_i[`RAM_AWIDTH-1:0] :
-                        data_reg[`RAM_AWIDTH-1:0];
+    assign addr_rom_o = (state == STATE_ADDR) ? rx_data_i[`ROM_ADDR_WIDTH-1:0] :
+                        data_reg[`ROM_ADDR_WIDTH-1:0];
+    assign addr_ram_o = (state == STATE_ADDR) ? rx_data_i[`RAM_ADDR_WIDTH-1:0] :
+                        data_reg[`RAM_ADDR_WIDTH-1:0];
     assign we_rom_o = (state == STATE_DATA && transfer_write && mem_slt) ? (byte_sel & byte_sel_mask) : 4'b0000;
     assign we_ram_o = (state == STATE_DATA && transfer_write && (~mem_slt)) ? (byte_sel & byte_sel_mask) : 4'b0000;
 
     always @(*) begin
-        rx_data_o = 0;
+        tx_data_o = 0;
         casez (byte_sel & byte_sel_mask)
             4'b???1: begin
-                rx_data_o = data_reg[7:0];
-                data_rom_o = {24'h0, tx_data_i[7:0]};
-                data_ram_o = {24'h0, tx_data_i[7:0]};
+                tx_data_o = data_reg[7:0];
+                data_rom_o = {24'h0, rx_data_i[7:0]};
+                data_ram_o = {24'h0, rx_data_i[7:0]};
             end
             4'b??10: begin
-                rx_data_o = data_reg[15:8];
-                data_rom_o = {16'h0, tx_data_i[7:0], 8'h0};
-                data_ram_o = {16'h0, tx_data_i[7:0], 8'h0};
+                tx_data_o = data_reg[15:8];
+                data_rom_o = {16'h0, rx_data_i[7:0], 8'h0};
+                data_ram_o = {16'h0, rx_data_i[7:0], 8'h0};
             end
             4'b?100: begin
-                rx_data_o = data_reg[23:16];
-                data_rom_o = {8'h0, tx_data_i[7:0], 16'h0};
-                data_ram_o = {8'h0, tx_data_i[7:0], 16'h0};
+                tx_data_o = data_reg[23:16];
+                data_rom_o = {8'h0, rx_data_i[7:0], 16'h0};
+                data_ram_o = {8'h0, rx_data_i[7:0], 16'h0};
             end
             4'b1000: begin
-                rx_data_o = data_reg[31:24];
-                data_rom_o = {tx_data_i[7:0], 24'h0};
-                data_ram_o = {tx_data_i[7:0], 24'h0};
+                tx_data_o = data_reg[31:24];
+                data_rom_o = {rx_data_i[7:0], 24'h0};
+                data_ram_o = {rx_data_i[7:0], 24'h0};
             end
             default: begin
-                rx_data_o = {`PWIDTH_I{1'b0}};
+                tx_data_o = {`BRIDGE_WIDTH{1'b0}};
                 data_rom_o = 32'h0;
                 data_ram_o = 32'h0;
             end
         endcase
 
         if (transfer_write | (state != STATE_DATA)) begin
-            rx_data_o = {`PWIDTH_I{1'b0}};
+            tx_data_o = {`BRIDGE_WIDTH{1'b0}};
         end
     end
 

@@ -18,7 +18,7 @@
 
 // 译码模块
 // 纯组合逻辑电路
-module idu(
+module idu_hjx(
 
 	input wire clk,
 	input wire rst_n,

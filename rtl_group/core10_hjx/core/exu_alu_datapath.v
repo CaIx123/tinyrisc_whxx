@@ -20,7 +20,7 @@
 `define DATAPATH_MUX_WIDTH  (32+32+16)
 
 
-module exu_alu_datapath(
+module exu_alu_datapath_hjx(
 
     input wire clk,
     input wire rst_n,

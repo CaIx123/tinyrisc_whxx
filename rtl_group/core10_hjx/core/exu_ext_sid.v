@@ -1,6 +1,6 @@
 `include "defines.v"
 
-module exu_ext_sid(
+module exu_ext_sid_hjx(
 
     input wire clk,
     input wire rst_n,

@@ -17,7 +17,7 @@
 `include "defines.v"
 
 
-module exu_mem(
+module exu_mem_hjx(
 
     input wire clk,
     input wire rst_n,

@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // 访存模块
 // 处理普通load/store指令(lb/lh/lw/lbu/lhu/sb/sh/sw)

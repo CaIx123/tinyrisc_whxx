@@ -17,7 +17,7 @@
 `include "../core/defines.v"
 
 
-module gen_ram #(
+module gen_ram_hjx #(
     parameter DP = 512,
     parameter DW = 32,
     parameter MW = 4,

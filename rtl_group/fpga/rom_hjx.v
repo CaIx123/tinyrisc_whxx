@@ -1,11 +1,11 @@
-`include "../../macros.v"
+`include "../core00_wzc/marcos_wzc.v"
 
-module exrom(
+module rom_hjx(
     input wire clk,
     input wire rst_n,
 
     input wire[3:0] we_i,                   // write enable
-    input wire[`ROM_AWIDTH - 1:0] addr_i,    // addr
+    input wire[`ROM_ADDR_WIDTH - 1:0] addr_i,    // addr
     input wire[32 - 1:0] data_i,
 
     output reg[32 - 1:0] data_o         // read data

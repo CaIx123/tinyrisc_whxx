@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // 扩展指令sID：通过UART发出学号的ASCII串
 // opcode=0101111, funct3=000

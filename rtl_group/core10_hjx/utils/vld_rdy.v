@@ -15,7 +15,7 @@
  */
 
 
-module vld_rdy #(
+module vld_rdy_hjx #(
     parameter CUT_READY = 0)(
 
     input wire clk,
@@ -42,7 +42,7 @@ module vld_rdy #(
     assign vld_ena = vld_set | vld_clr;
     assign vld_nxt = vld_set | (~vld_clr);
 
-    hjx_gen_en_dff #(1) vld_dff(clk, rst_n, vld_ena, vld_nxt, vld_r);
+    hjx_gen_en_dff_hjx #(1) vld_dff(clk, rst_n, vld_ena, vld_nxt, vld_r);
 
     assign vld_o = vld_r;
 

@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // Select the architectural register-file writeback source.
 module exu_commit_xyh(

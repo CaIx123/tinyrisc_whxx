@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "core/defines.v"
 
 // 流水线控制模块
 // 统一产生stall(暂停)和flush(冲刷)信号

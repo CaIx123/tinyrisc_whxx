@@ -1,6 +1,8 @@
 `include "../../core00_wzc/marcos_wzc.v"
 
-module perips_top (
+module perips_top #(
+    parameter [31:0] UART_DEBUG_BAUD_DIV = `UART_BAUD_115200
+)(
     input  wire                         clk,
     input  wire                         rst_n,
     input  wire                         debug_en_i,
@@ -110,7 +112,9 @@ module perips_top (
     wire        s7_rsp_rdy;
     wire        s7_we;
 
-    uart_debug u_uart_debug (
+    uart_debug #(
+        .UART_BAUD_DIV(UART_DEBUG_BAUD_DIV)
+    ) u_uart_debug (
         .clk(clk), .rst_n(rst_n), .debug_en_i(debug_en_i),
         .req_valid_o(dbg_req_vld), .req_ready_i(dbg_req_rdy),
         .rsp_valid_i(dbg_rsp_vld), .rsp_ready_o(dbg_rsp_rdy),
