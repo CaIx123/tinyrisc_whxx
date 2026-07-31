@@ -2,3 +2,4 @@
 .codex
 doc/*.pdf
 test_personal
+*.ps1
