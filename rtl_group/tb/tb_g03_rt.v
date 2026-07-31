@@ -2,13 +2,14 @@
 
 `include "../top/macros.v"
 
-// rT conformance test.  All cores read the same LM75 behavioral model through
-// the shared I2C peripheral after the program is delivered over uart_debug.
+// rT conformance test. Its local LM75 behavioral model is attached to the
+// shared I2C peripheral after the program is delivered over uart_debug.
 module tb_g03_rt;
 
     localparam integer MAX_CORE_CYCLES = 40000;
     localparam integer UART_DEBUG_BAUD_DIV = 16;
     localparam [31:0] EXPECTED_TEMP = 32'd61;
+    localparam [15:0] LM75_TEMP_RAW = 16'h1eff;
     localparam [31:0] INST_JAL_ZERO = 32'h0000006f;
 
     wire clk;
@@ -17,6 +18,8 @@ module tb_g03_rt;
     wire uart_tx;
     wire [3:0] pwm;
     wire [1:0] i2c_ctrl;
+    tri1 i2c_scl;
+    tri1 i2c_sda;
     wire [31:0] x26;
     wire [31:0] x27;
     integer failures;
@@ -161,6 +164,15 @@ module tb_g03_rt;
         end
     end
 
+    lm75_model #(
+        .TEMP_RAW(LM75_TEMP_RAW)
+    ) u_lm75_model (
+        .clk(clk),
+        .rst_n(rst_n),
+        .scl(i2c_scl),
+        .sda(i2c_sda)
+    );
+
     g03_tb_uart_env #(
         .UART_DEBUG_BAUD_DIV(UART_DEBUG_BAUD_DIV)
     ) u_env (
@@ -175,6 +187,8 @@ module tb_g03_rt;
         .bridge_rx_o(),
         .pwm_o(pwm),
         .i2c_io_ctrl_o(i2c_ctrl),
+        .i2c_scl_io(i2c_scl),
+        .i2c_sda_io(i2c_sda),
         .x26_o(x26),
         .x27_o(x27)
     );

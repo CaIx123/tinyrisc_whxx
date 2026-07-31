@@ -1,5 +1,6 @@
 `timescale 1 ns / 1 ps
 
+// Behavioral I2C slave used only by the rT conformance testbench.
 module lm75_model #(
     parameter [6:0] I2C_ADDR = 7'h48,
     parameter [15:0] TEMP_RAW = 16'h1eff

@@ -32,8 +32,7 @@ endmodule
 `endif
 
 module g03_tb_uart_env #(
-    parameter integer UART_DEBUG_BAUD_DIV = 16,
-    parameter [15:0] LM75_TEMP_RAW = 16'h1eff
+    parameter integer UART_DEBUG_BAUD_DIV = 16
 )(
     output reg clk_o,
     output reg rst_n_o,
@@ -46,6 +45,8 @@ module g03_tb_uart_env #(
     output wire [`BRIDGE_WIDTH-1:0] bridge_rx_o,
     output wire [3:0] pwm_o,
     output wire [1:0] i2c_io_ctrl_o,
+    inout wire i2c_scl_io,
+    inout wire i2c_sda_io,
     output wire [31:0] x26_o,
     output wire [31:0] x27_o
 );
@@ -384,23 +385,10 @@ module g03_tb_uart_env #(
         end
     endtask
 
-    tri1 i2c_scl;
-    tri1 i2c_sda;
-
     // g03_soc exposes open-drain controls rather than physical I/O pads.
-    // Model those two pads here so the rT test uses the actual I2C peripheral
-    // and an LM75 responder without depending on the foundry pad model.
-    assign i2c_scl = i2c_io_ctrl_o[1] ? 1'bz : 1'b0;
-    assign i2c_sda = i2c_io_ctrl_o[0] ? 1'bz : 1'b0;
-
-    lm75_model #(
-        .TEMP_RAW(LM75_TEMP_RAW)
-    ) u_lm75_model (
-        .clk(clk_o),
-        .rst_n(rst_n_o),
-        .scl(i2c_scl),
-        .sda(i2c_sda)
-    );
+    // The testbench owns the external I2C net and optional slave model.
+    assign i2c_scl_io = i2c_io_ctrl_o[1] ? 1'bz : 1'b0;
+    assign i2c_sda_io = i2c_io_ctrl_o[0] ? 1'bz : 1'b0;
 
     g03_soc #(
         .UART_DEBUG_BAUD_DIV(UART_DEBUG_BAUD_DIV)
@@ -416,8 +404,8 @@ module g03_tb_uart_env #(
         .uart_rx_i(uart_rx_o),
         .pwm_o(pwm_o),
         .i2c_io_ctrl_o(i2c_io_ctrl_o),
-        .i2c_scl_i(i2c_scl),
-        .i2c_sda_i(i2c_sda)
+        .i2c_scl_i(i2c_scl_io),
+        .i2c_sda_i(i2c_sda_io)
     );
 
     fpga_top u_fpga (
@@ -426,8 +414,8 @@ module g03_tb_uart_env #(
         .chip_sel_i(chip_sel_o),
         .bridge_rx_data_i(bridge_tx_o),
         .bridge_tx_data_o(bridge_rx_o),
-        .i2c_scl(i2c_scl),
-        .i2c_sda(i2c_sda)
+        .i2c_scl(i2c_scl_io),
+        .i2c_sda(i2c_sda_io)
     );
 
     assign x26_o = u_soc.u_gpr_top.u_gpr.regs[26];

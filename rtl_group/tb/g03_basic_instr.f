@@ -120,5 +120,4 @@ fpga/bridge_fpga_xzr.v
 fpga/fpga_top.v
 fpga/rom.v
 fpga/ram.v
-fpga/lm75_model.v
 tb/tb_g03_basic_instr.v

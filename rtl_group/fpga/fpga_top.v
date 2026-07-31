@@ -14,12 +14,6 @@ module fpga_top(
     wire [`INST_WIDTH-1:0] rom_data_i;
     wire [`DATA_WIDTH-1:0] ram_data_i;
 
-    // FPGA/simulation-side temperature sensor connected to the shared I2C
-    // pads.  Without a slave, the RT instruction waits forever for RX_VALID.
-    lm75_model u_lm75_model(
-        .clk(clk), .rst_n(rst_n), .scl(i2c_scl), .sda(i2c_sda)
-    );
-
     wire [7:0] tx_wzc;
     wire wzc_rom_we, wzc_ram_we;
     wire [3:0] wzc_rom_sel, wzc_ram_sel;
