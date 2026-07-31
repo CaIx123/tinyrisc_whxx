@@ -243,7 +243,7 @@ module perips_top (
         .rx_data_i(((bridge_rsp_sel_r == 2'b10) | chip_hjx) ? bridge_hjx_rx_data_i : {`BRIDGE_WIDTH{1'b0}})
     );
 
-    bridge_wzc u_bridge_xzr (
+    bridge_xzr u_bridge_xzr (
         .clk(clk), .rst_n(rst_n),
         .s0_req_vld_i(s0_req_vld & chip_xzr), .s0_rsp_rdy_i(s0_rsp_rdy & (bridge_rsp_sel_r == 2'b11)),
         .s0_we_i(s0_we & chip_xzr), .s0_addr_i(chip_xzr ? s0_addr : 32'b0),
