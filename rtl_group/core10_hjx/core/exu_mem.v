@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
  /*                                                                      
  Copyright 2020 Blue Liang, liangkangnan@163.com
                                                                          
@@ -14,10 +16,10 @@
  limitations under the License.                                          
  */
 
-`include "defines.v"
+`include "defines_hjx.v"
 
 
-module exu_mem(
+module exu_mem_hjx(
 
     input wire clk,
     input wire rst_n,

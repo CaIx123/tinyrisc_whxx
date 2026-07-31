@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 // 带默认值和控制信号的流水线触发器
 module gen_pipe_dff #(
     parameter DW = 32)(

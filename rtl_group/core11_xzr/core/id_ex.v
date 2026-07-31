@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 `include "../marcos_xzr.v"
 
 // 将译码结果向执行模块传递

@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 `include "../marcos_xzr.v"
 
 // 执行模块
@@ -76,6 +78,25 @@ module ex_xzr(
     reg mem_we;
     reg mem_req;
 
+    localparam UART_CTRL_ADDR   = `UART_CTRL_REG;
+    localparam UART_STATUS_ADDR = `UART_STATUS_REG;
+    localparam UART_TXDATA_ADDR = `UART_TX_REG;
+
+    localparam SID_IDLE   = 3'd0;
+    localparam SID_CTRL   = 3'd1;
+    localparam SID_STATUS = 3'd2;
+    localparam SID_TX     = 3'd3;
+    localparam SID_DONE   = 3'd4;
+
+    localparam IF_IDLE = 2'd0;
+    localparam IF_CTRL = 2'd1;
+    localparam IF_TX   = 2'd2;
+    localparam IF_DONE = 2'd3;
+
+    reg [2:0] sid_state;
+    reg [3:0] sid_char_idx;
+    reg [1:0] if_state;
+
     wire is_load_store = (opcode == `INST_TYPE_L) || (opcode == `INST_TYPE_S);
     // RIB latency is variable; hold the instruction until its actual response.
     wire ram_hold = mem_req && !mem_ack_i;
@@ -134,6 +155,96 @@ module ex_xzr(
 
     wire[11:0] lmm;
     assign lmm = inst_i[31:20];
+    wire is_sid = (opcode == `INST_TYPE_D) && (funct3 == `INST_ID);
+    wire if_uart_fire = (opcode == `INST_TYPE_D) &&
+                        (funct3 == `INST_INTF) &&
+                        (lmm == 12'b0) && op1_ge_op2_signed;
+
+    function [7:0] sid_char;
+        input [3:0] index;
+        begin
+            case (index)
+                4'd0: sid_char = "2";
+                4'd1: sid_char = "0";
+                4'd2: sid_char = "2";
+                4'd3: sid_char = "5";
+                4'd4: sid_char = "3";
+                4'd5: sid_char = "1";
+                4'd6: sid_char = "0";
+                4'd7: sid_char = "8";
+                4'd8: sid_char = "3";
+                default: sid_char = "6";
+            endcase
+        end
+    endfunction
+
+    always @ (posedge clk) begin
+        if (rst == `RstEnable) begin
+            sid_state <= SID_IDLE;
+            sid_char_idx <= 4'd0;
+            if_state <= IF_IDLE;
+        end else begin
+            case (sid_state)
+                SID_IDLE: begin
+                    if (is_sid)
+                        sid_state <= SID_CTRL;
+                end
+                SID_CTRL: begin
+                    if (mem_ack_i)
+                        sid_state <= SID_STATUS;
+                end
+                SID_STATUS: begin
+                    if (mem_ack_i) begin
+                        if (mem_rdata_i[0])
+                            sid_state <= SID_STATUS;
+                        else
+                            sid_state <= SID_TX;
+                    end
+                end
+                SID_TX: begin
+                    if (mem_ack_i) begin
+                        if (sid_char_idx == 4'd9)
+                            sid_state <= SID_DONE;
+                        else begin
+                            sid_char_idx <= sid_char_idx + 1'b1;
+                            sid_state <= SID_STATUS;
+                        end
+                    end
+                end
+                SID_DONE: begin
+                    if (!is_sid) begin
+                        sid_state <= SID_IDLE;
+                        sid_char_idx <= 4'd0;
+                    end
+                end
+                default: begin
+                    sid_state <= SID_IDLE;
+                    sid_char_idx <= 4'd0;
+                end
+            endcase
+
+            case (if_state)
+                IF_IDLE: begin
+                    if (if_uart_fire)
+                        if_state <= IF_CTRL;
+                end
+                IF_CTRL: begin
+                    if (mem_ack_i)
+                        if_state <= IF_TX;
+                end
+                IF_TX: begin
+                    if (mem_ack_i)
+                        if_state <= IF_DONE;
+                end
+                IF_DONE: begin
+                    if (!if_uart_fire)
+                        if_state <= IF_IDLE;
+                end
+                default: if_state <= IF_IDLE;
+            endcase
+        end
+    end
+
     // 执行
     always @ (*) begin
         reg_we = reg_we_i;
@@ -147,13 +258,36 @@ module ex_xzr(
                     `INST_ID: begin                        
                         jump_flag = `JumpDisable;
                         jump_addr = `ZeroWord;
-                        hold_flag = `HoldDisable;
+                        hold_flag = `HoldEnable;
                         mem_raddr_o = `ZeroWord;
-                        mem_wdata_o = `ZeroWord;
-                        mem_waddr_o = 32'h3000_9999;
-                        mem_we = `WriteEnable;                        
-                        mem_req = `RIB_REQ;
                         reg_wdata = `ZeroWord;
+                        case (sid_state)
+                            SID_IDLE, SID_CTRL: begin
+                                mem_wdata_o = 32'h0000_0001;
+                                mem_waddr_o = UART_CTRL_ADDR;
+                                mem_we = `WriteEnable;
+                                mem_req = `RIB_REQ;
+                            end
+                            SID_STATUS: begin
+                                mem_wdata_o = `ZeroWord;
+                                mem_raddr_o = UART_STATUS_ADDR;
+                                mem_waddr_o = `ZeroWord;
+                                mem_we = `WriteDisable;
+                                mem_req = `RIB_REQ;
+                            end
+                            SID_TX: begin
+                                mem_wdata_o = {24'b0, sid_char(sid_char_idx)};
+                                mem_waddr_o = UART_TXDATA_ADDR;
+                                mem_we = `WriteEnable;
+                                mem_req = `RIB_REQ;
+                            end
+                            default: begin
+                                hold_flag = `HoldDisable;
+                                mem_wdata_o = `ZeroWord;
+                                mem_waddr_o = `ZeroWord;
+                                mem_we = `WriteDisable;
+                            end
+                        endcase
                     end
                     `INST_TEM: begin
                         if (mem_ack_flag) begin
@@ -180,11 +314,28 @@ module ex_xzr(
                         mem_raddr_o = `ZeroWord;
                         if(lmm == 12'b0) begin
                             if (op1_ge_op2_signed) begin
-                                mem_we = `WriteEnable;
-                                mem_waddr_o = 32'h3000_000c;
-                                mem_wdata_o = {24'h0, op1_i[7:0]};
                                 reg_wdata = `ZeroWord;
-                                mem_req = `RIB_REQ;
+                                case (if_state)
+                                    IF_IDLE, IF_CTRL: begin
+                                        hold_flag = `HoldEnable;
+                                        mem_we = `WriteEnable;
+                                        mem_waddr_o = UART_CTRL_ADDR;
+                                        mem_wdata_o = 32'h0000_0001;
+                                        mem_req = `RIB_REQ;
+                                    end
+                                    IF_TX: begin
+                                        hold_flag = `HoldEnable;
+                                        mem_we = `WriteEnable;
+                                        mem_waddr_o = UART_TXDATA_ADDR;
+                                        mem_wdata_o = {24'h0, op1_i[7:0]};
+                                        mem_req = `RIB_REQ;
+                                    end
+                                    default: begin
+                                        mem_we = `WriteDisable;
+                                        mem_waddr_o = `ZeroWord;
+                                        mem_wdata_o = `ZeroWord;
+                                    end
+                                endcase
                             end
                             else begin
                                 reg_wdata = op1_i;
@@ -758,7 +909,7 @@ module ex_xzr(
                 jump_flag = `JumpDisable;
                 reg_wdata = op1_add_op2_res;
             end
-            `INST_NOP_OP: begin
+            `XZR_INST_NOP_OP: begin
                 jump_flag = `JumpDisable;
                 hold_flag = `HoldDisable;
                 jump_addr = `ZeroWord;
@@ -768,7 +919,7 @@ module ex_xzr(
                 mem_we = `WriteDisable;
                 reg_wdata = `ZeroWord;
             end
-            `INST_FENCE: begin
+            `XZR_INST_FENCE: begin
                 hold_flag = `HoldDisable;
                 mem_wdata_o = `ZeroWord;
                 mem_raddr_o = `ZeroWord;

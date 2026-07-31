@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module vld_rdy #(
     parameter CUT_READY = 0)(
 

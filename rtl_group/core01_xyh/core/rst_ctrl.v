@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "defines_xyh.v"
 
 // 复位控制模块
 // 统一处理外部复位(rst_ext_i)与调试复位(rst_jtag_i)

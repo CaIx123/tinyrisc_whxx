@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module global_clk_sel (
 
     input wire clk,

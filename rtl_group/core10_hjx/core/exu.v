@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
  /*
  Copyright 2019 Blue Liang, liangkangnan@163.com
 
@@ -14,11 +16,11 @@
  limitations under the License.
  */
 
-`include "defines.v"
+`include "defines_hjx.v"
 
 // 执行模块
 // 纯组合逻辑电路
-module exu(
+module exu_hjx(
 
     input wire clk,
     input wire rst_n,
@@ -42,13 +44,13 @@ module exu(
     output wire[4:0] reg_waddr_o,           // 写通用寄存器地址
 
 
-    // to pipe_ctrl
+    // to pipe_ctrl_hjx
     output wire hold_flag_o,                // 是否暂停标志
     output wire jump_flag_o,                // 是否跳转标志
     output wire[31:0] jump_addr_o,          // 跳转目的地址
 
-    // from idu_exu
-    input wire[`DECINFO_WIDTH-1:0] dec_info_bus_i,
+    // from idu_exu_hjx
+    input wire[`HJX_DECINFO_WIDTH-1:0] dec_info_bus_i,
     input wire[31:0] dec_imm_i,
     input wire[31:0] dec_pc_i,
     input wire[31:0] next_pc_i,
@@ -110,7 +112,7 @@ module exu(
     wire ext_op_rt_o;
     wire ext_op_if_o;
 
-    exu_dispatch u_exu_dispatch(
+    exu_dispatch_hjx u_exu_dispatch(
         // input
         .clk(clk),
         .rst_n(rst_n),
@@ -174,7 +176,7 @@ module exu(
     wire[31:0] alu_res_o;
     wire[31:0] bjp_res_o;
     wire bjp_cmp_res_o;
-    exu_alu_datapath u_exu_alu_datapath(
+    exu_alu_datapath_hjx u_exu_alu_datapath(
         .clk(clk),
         .rst_n(rst_n),
         // ALU
@@ -222,7 +224,7 @@ module exu(
     wire mem_req_valid_from_mem;
     wire mem_rsp_ready_from_mem;
 
-    exu_mem u_exu_mem(
+    exu_mem_hjx u_exu_mem(
         .clk(clk),
         .rst_n(rst_n),
         .req_mem_i(req_mem_o),
@@ -258,7 +260,7 @@ module exu(
     wire sid_mem_req_valid_o;
     wire sid_mem_rsp_ready_o;
 
-    exu_ext_sid u_exu_ext_sid(
+    exu_ext_sid_hjx u_exu_ext_sid(
         .clk(clk),
         .rst_n(rst_n),
         .req_sid_i(req_ext_o & ext_op_sid_o),
@@ -284,7 +286,7 @@ module exu(
     wire[31:0] if_reg_wdata_o;
     wire if_reg_we_o;
 
-    exu_ext_if u_exu_ext_if(
+    exu_ext_if_hjx u_exu_ext_if(
         .clk(clk),
         .rst_n(rst_n),
         .req_if_i(req_ext_o & ext_op_if_o),
@@ -315,7 +317,7 @@ module exu(
     wire[31:0] rt_reg_wdata_o;
     wire rt_reg_we_o;
 
-    exu_ext_rt u_exu_ext_rt(
+    exu_ext_rt_hjx u_exu_ext_rt(
         .clk(clk),
         .rst_n(rst_n),
         .req_rt_i(req_ext_o & ext_op_rt_o),
@@ -336,7 +338,7 @@ module exu(
     wire commit_reg_we_o;
     wire[31:0] bjp_link_wdata = dec_pc_i + 32'h4;
 
-    exu_commit u_exu_commit(
+    exu_commit_hjx u_exu_commit(
         .clk(clk),
         .rst_n(rst_n),
         .req_mem_i(req_mem_o),

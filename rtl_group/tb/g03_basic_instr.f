@@ -1,3 +1,23 @@
+ +incdir+tb
+ +incdir+top
+ +incdir+top/clk_rst
+ +incdir+top/ip
+ +incdir+top/gpr
+ +incdir+top/perips
+ +incdir+top/perips/bridge
+ +incdir+core00_wzc
+ +incdir+core00_wzc/core
+ +incdir+core00_wzc/utils
+ +incdir+core01_xyh
+ +incdir+core01_xyh/core
+ +incdir+core01_xyh/utils
+ +incdir+core10_hjx
+ +incdir+core10_hjx/core
+ +incdir+core10_hjx/utils
+ +incdir+core11_xzr
+ +incdir+core11_xzr/core
+ +incdir+core11_xzr/utils
+ +incdir+fpga
 top/G03_top.v
 top/clk_rst/global_clk_sel.v
 top/clk_rst/global_rst_ctrl.v
@@ -13,6 +33,7 @@ top/perips/i2c.v
 top/perips/bridge/bridge_wzc.v
 top/perips/bridge/bridge_xyh.v
 top/perips/bridge/bridge_hjx.v
+top/perips/bridge/bridge_xzr.v
 core00_wzc/core_wzc.v
 core00_wzc/core/exu_alu.v
 core00_wzc/core/exu_alu_mux.v
@@ -60,6 +81,7 @@ core01_xyh/core/idu_exu.v
 core01_xyh/core/ifu.v
 core01_xyh/core/ifu_idu.v
 core01_xyh/core/pipe_ctrl.v
+core01_xyh/utils/gen_buf.v
 core01_xyh/utils/gen_dff.v
 core01_xyh/utils/vld_rdy.v
 core10_hjx/core/core_hjx.v
@@ -76,13 +98,27 @@ core10_hjx/core/idu_exu.v
 core10_hjx/core/ifu_hjx.v
 core10_hjx/core/ifu_idu.v
 core10_hjx/core/pipe_ctrl.v
+core10_hjx/utils/gen_buf.v
 core10_hjx/utils/gen_dff.v
-core11_xzr/core_xzr.v
+core10_hjx/utils/gen_ram.v
+core10_hjx/utils/vld_rdy.v
+core11_xzr/core/core_xzr.v
+core11_xzr/core/ctrl.v
+core11_xzr/core/ex.v
+core11_xzr/core/forwarding_unit.v
+core11_xzr/core/id.v
+core11_xzr/core/id_ex.v
+core11_xzr/core/if_id.v
+core11_xzr/core/pc_reg.v
+core11_xzr/core/regs.v
+core11_xzr/utils/gen_buf.v
+core11_xzr/utils/gen_dff.v
+fpga/bridge_fpga_wzc.v
+fpga/bridge_fpga_xyh.v
 fpga/bridge_fpga_hjx.v
-fpga/rom_hjx.v
-fpga/ram_hjx.v
+fpga/bridge_fpga_xzr.v
 fpga/fpga_top.v
-fpga/bridge_fpga.v
 fpga/rom.v
 fpga/ram.v
+fpga/lm75_model.v
 tb/tb_g03_basic_instr.v

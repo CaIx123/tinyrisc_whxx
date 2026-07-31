@@ -1,4 +1,6 @@
-`include "../core10_hjx/macros_hjx.v"
+`timescale 1ns / 1ps
+
+`include "../top/macros.v"
 
 module bridge_fpga_hjx(
     input wire clk,

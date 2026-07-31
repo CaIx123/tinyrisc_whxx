@@ -1,4 +1,4 @@
-`include "../core00_wzc/marcos_wzc.v"
+`include "macros.v"
 
 module g03_top_IO(
 

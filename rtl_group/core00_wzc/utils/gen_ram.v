@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module gen_ram #(
     parameter DP = 512,
     parameter DW = 32,

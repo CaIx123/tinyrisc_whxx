@@ -1,4 +1,6 @@
-`include "defines.v"
+`timescale 1ns / 1ps
+
+`include "defines_xyh.v"
 
 // 译码模块(Instruction Decode Unit)
 // 纯组合逻辑电路，负责识别指令种类
@@ -22,7 +24,7 @@ module idu_xyh(
 
     // to id_ex
     output wire[31:0] inst_o,                // 指令直通
-    output wire[`DECINFO_WIDTH-1:0] dec_info_bus_o,  // 译码信息总线
+    output wire[`XYH_DECINFO_WIDTH-1:0] dec_info_bus_o,  // 译码信息总线
     output wire[31:0] dec_imm_o,             // 立即数(各类型)
     output wire[31:0] dec_pc_o,              // 指令PC
     output wire[4:0] rs1_raddr_o,            // rs1寄存器地址
@@ -148,69 +150,69 @@ module idu_xyh(
     wire inst_type_alu_reg = inst_add | inst_sub | inst_sll | inst_slt | inst_sltu |
                              inst_xor | inst_srl | inst_sra | inst_or | inst_and;
 
-    wire[`DECINFO_ALU_BUS_WIDTH-1:0] dec_alu_info_bus;
-    assign dec_alu_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_ALU;
-    assign dec_alu_info_bus[`DECINFO_ALU_LUI] = inst_lui;
-    assign dec_alu_info_bus[`DECINFO_ALU_AUIPC] = inst_auipc;
-    assign dec_alu_info_bus[`DECINFO_ALU_ADD] = inst_add | inst_addi;
-    assign dec_alu_info_bus[`DECINFO_ALU_SUB] = inst_sub;
-    assign dec_alu_info_bus[`DECINFO_ALU_SLL] = inst_sll | inst_slli;
-    assign dec_alu_info_bus[`DECINFO_ALU_SLT] = inst_slt | inst_slti;
-    assign dec_alu_info_bus[`DECINFO_ALU_SLTU] = inst_sltu | inst_sltiu;
-    assign dec_alu_info_bus[`DECINFO_ALU_XOR] = inst_xor | inst_xori;
-    assign dec_alu_info_bus[`DECINFO_ALU_SRL] = inst_srl | inst_srli;
-    assign dec_alu_info_bus[`DECINFO_ALU_SRA] = inst_sra | inst_srai;
-    assign dec_alu_info_bus[`DECINFO_ALU_OR] = inst_or | inst_ori;
-    assign dec_alu_info_bus[`DECINFO_ALU_AND] = inst_and | inst_andi;
-    assign dec_alu_info_bus[`DECINFO_ALU_OP2IMM] = inst_type_alu_imm | inst_lui | inst_auipc;
-    assign dec_alu_info_bus[`DECINFO_ALU_OP1PC] = inst_auipc;
+    wire[`XYH_DECINFO_ALU_BUS_WIDTH-1:0] dec_alu_info_bus;
+    assign dec_alu_info_bus[`XYH_DECINFO_GRP_BUS] = `XYH_DECINFO_GRP_ALU;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_LUI] = inst_lui;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_AUIPC] = inst_auipc;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_ADD] = inst_add | inst_addi;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_SUB] = inst_sub;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_SLL] = inst_sll | inst_slli;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_SLT] = inst_slt | inst_slti;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_SLTU] = inst_sltu | inst_sltiu;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_XOR] = inst_xor | inst_xori;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_SRL] = inst_srl | inst_srli;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_SRA] = inst_sra | inst_srai;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_OR] = inst_or | inst_ori;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_AND] = inst_and | inst_andi;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_OP2IMM] = inst_type_alu_imm | inst_lui | inst_auipc;
+    assign dec_alu_info_bus[`XYH_DECINFO_ALU_OP1PC] = inst_auipc;
 
-    wire[`DECINFO_BJP_BUS_WIDTH-1:0] dec_bjp_info_bus;
-    assign dec_bjp_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_BJP;
-    assign dec_bjp_info_bus[`DECINFO_BJP_JUMP] = inst_jal | inst_jalr;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BEQ] = inst_beq;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BNE] = inst_bne;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BLT] = inst_blt;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BGE] = inst_bge;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BLTU] = inst_bltu;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BGEU] = inst_bgeu;
-    assign dec_bjp_info_bus[`DECINFO_BJP_OP1RS1] = inst_jalr;
+    wire[`XYH_DECINFO_BJP_BUS_WIDTH-1:0] dec_bjp_info_bus;
+    assign dec_bjp_info_bus[`XYH_DECINFO_GRP_BUS] = `XYH_DECINFO_GRP_BJP;
+    assign dec_bjp_info_bus[`XYH_DECINFO_BJP_JUMP] = inst_jal | inst_jalr;
+    assign dec_bjp_info_bus[`XYH_DECINFO_BJP_BEQ] = inst_beq;
+    assign dec_bjp_info_bus[`XYH_DECINFO_BJP_BNE] = inst_bne;
+    assign dec_bjp_info_bus[`XYH_DECINFO_BJP_BLT] = inst_blt;
+    assign dec_bjp_info_bus[`XYH_DECINFO_BJP_BGE] = inst_bge;
+    assign dec_bjp_info_bus[`XYH_DECINFO_BJP_BLTU] = inst_bltu;
+    assign dec_bjp_info_bus[`XYH_DECINFO_BJP_BGEU] = inst_bgeu;
+    assign dec_bjp_info_bus[`XYH_DECINFO_BJP_OP1RS1] = inst_jalr;
     //////////////////////////////////
     assign stall_o = inst_jal | inst_jalr | inst_beq | inst_bne | inst_blt | inst_bge | inst_bltu | inst_bgeu;
     ///////////////////////////////////
 
-    wire[`DECINFO_CSR_BUS_WIDTH-1:0] dec_csr_info_bus;
-    assign dec_csr_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_CSR;
-    assign dec_csr_info_bus[`DECINFO_CSR_CSRRW] = inst_csrrw | inst_csrrwi;
-    assign dec_csr_info_bus[`DECINFO_CSR_CSRRS] = inst_csrrs | inst_csrrsi;
-    assign dec_csr_info_bus[`DECINFO_CSR_CSRRC] = inst_csrrc | inst_csrrci;
-    assign dec_csr_info_bus[`DECINFO_CSR_RS1IMM] = inst_csrrwi | inst_csrrsi | inst_csrrci;
-    assign dec_csr_info_bus[`DECINFO_CSR_CSRADDR] = inst_i[31:20];
+    wire[`XYH_DECINFO_CSR_BUS_WIDTH-1:0] dec_csr_info_bus;
+    assign dec_csr_info_bus[`XYH_DECINFO_GRP_BUS] = `XYH_DECINFO_GRP_CSR;
+    assign dec_csr_info_bus[`XYH_DECINFO_CSR_CSRRW] = inst_csrrw | inst_csrrwi;
+    assign dec_csr_info_bus[`XYH_DECINFO_CSR_CSRRS] = inst_csrrs | inst_csrrsi;
+    assign dec_csr_info_bus[`XYH_DECINFO_CSR_CSRRC] = inst_csrrc | inst_csrrci;
+    assign dec_csr_info_bus[`XYH_DECINFO_CSR_RS1IMM] = inst_csrrwi | inst_csrrsi | inst_csrrci;
+    assign dec_csr_info_bus[`XYH_DECINFO_CSR_CSRADDR] = inst_i[31:20];
 
-    wire[`DECINFO_MEM_BUS_WIDTH-1:0] dec_mem_info_bus;
-    assign dec_mem_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_MEM;
-    assign dec_mem_info_bus[`DECINFO_MEM_LB] = inst_lb;
-    assign dec_mem_info_bus[`DECINFO_MEM_LH] = inst_lh;
-    assign dec_mem_info_bus[`DECINFO_MEM_LW] = inst_lw;
-    assign dec_mem_info_bus[`DECINFO_MEM_LBU] = inst_lbu;
-    assign dec_mem_info_bus[`DECINFO_MEM_LHU] = inst_lhu;
-    assign dec_mem_info_bus[`DECINFO_MEM_SB] = inst_sb;
-    assign dec_mem_info_bus[`DECINFO_MEM_SH] = inst_sh;
-    assign dec_mem_info_bus[`DECINFO_MEM_SW] = inst_sw;
+    wire[`XYH_DECINFO_MEM_BUS_WIDTH-1:0] dec_mem_info_bus;
+    assign dec_mem_info_bus[`XYH_DECINFO_GRP_BUS] = `XYH_DECINFO_GRP_MEM;
+    assign dec_mem_info_bus[`XYH_DECINFO_MEM_LB] = inst_lb;
+    assign dec_mem_info_bus[`XYH_DECINFO_MEM_LH] = inst_lh;
+    assign dec_mem_info_bus[`XYH_DECINFO_MEM_LW] = inst_lw;
+    assign dec_mem_info_bus[`XYH_DECINFO_MEM_LBU] = inst_lbu;
+    assign dec_mem_info_bus[`XYH_DECINFO_MEM_LHU] = inst_lhu;
+    assign dec_mem_info_bus[`XYH_DECINFO_MEM_SB] = inst_sb;
+    assign dec_mem_info_bus[`XYH_DECINFO_MEM_SH] = inst_sh;
+    assign dec_mem_info_bus[`XYH_DECINFO_MEM_SW] = inst_sw;
 
-    wire[`DECINFO_SYS_BUS_WIDTH-1:0] dec_sys_info_bus;
-    assign dec_sys_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_SYS;
-    assign dec_sys_info_bus[`DECINFO_SYS_ECALL] = inst_ecall;
-    assign dec_sys_info_bus[`DECINFO_SYS_EBREAK] = inst_ebreak;
-    assign dec_sys_info_bus[`DECINFO_SYS_NOP] = inst_nop;
-    assign dec_sys_info_bus[`DECINFO_SYS_MRET] = inst_mret;
-    assign dec_sys_info_bus[`DECINFO_SYS_FENCE] = inst_fence | inst_fence_i;
+    wire[`XYH_DECINFO_SYS_BUS_WIDTH-1:0] dec_sys_info_bus;
+    assign dec_sys_info_bus[`XYH_DECINFO_GRP_BUS] = `XYH_DECINFO_GRP_SYS;
+    assign dec_sys_info_bus[`XYH_DECINFO_SYS_ECALL] = inst_ecall;
+    assign dec_sys_info_bus[`XYH_DECINFO_SYS_EBREAK] = inst_ebreak;
+    assign dec_sys_info_bus[`XYH_DECINFO_SYS_NOP] = inst_nop;
+    assign dec_sys_info_bus[`XYH_DECINFO_SYS_MRET] = inst_mret;
+    assign dec_sys_info_bus[`XYH_DECINFO_SYS_FENCE] = inst_fence | inst_fence_i;
 
-    wire[`DECINFO_EXT_BUS_WIDTH-1:0] dec_ext_info_bus;
-    assign dec_ext_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_EXT;
-    assign dec_ext_info_bus[`DECINFO_EXT_READTEMP] = inst_readtemp;
-    assign dec_ext_info_bus[`DECINFO_EXT_SENDID] = inst_sendid;
-    assign dec_ext_info_bus[`DECINFO_EXT_INTFIRE] = inst_intfire;
+    wire[`XYH_DECINFO_EXT_BUS_WIDTH-1:0] dec_ext_info_bus;
+    assign dec_ext_info_bus[`XYH_DECINFO_GRP_BUS] = `XYH_DECINFO_GRP_EXT;
+    assign dec_ext_info_bus[`XYH_DECINFO_EXT_READTEMP] = inst_readtemp;
+    assign dec_ext_info_bus[`XYH_DECINFO_EXT_SENDID] = inst_sendid;
+    assign dec_ext_info_bus[`XYH_DECINFO_EXT_INTFIRE] = inst_intfire;
 
     // 指令中的立即�?
     wire[31:0] inst_u_type_imm = {inst_i[31:12], 12'b0};
@@ -244,12 +246,12 @@ module idu_xyh(
     wire op_mem = inst_type_load | inst_type_store;
     wire op_ext = inst_readtemp | inst_sendid | inst_intfire;
 
-    assign dec_info_bus_o = ({`DECINFO_WIDTH{op_alu}} & {{`DECINFO_WIDTH-`DECINFO_ALU_BUS_WIDTH{1'b0}}, dec_alu_info_bus}) |
-                            ({`DECINFO_WIDTH{op_bjp}} & {{`DECINFO_WIDTH-`DECINFO_BJP_BUS_WIDTH{1'b0}}, dec_bjp_info_bus}) |
-                            ({`DECINFO_WIDTH{op_csr}} & {{`DECINFO_WIDTH-`DECINFO_CSR_BUS_WIDTH{1'b0}}, dec_csr_info_bus}) |
-                            ({`DECINFO_WIDTH{op_mem}} & {{`DECINFO_WIDTH-`DECINFO_MEM_BUS_WIDTH{1'b0}}, dec_mem_info_bus}) |
-                            ({`DECINFO_WIDTH{op_sys}} & {{`DECINFO_WIDTH-`DECINFO_SYS_BUS_WIDTH{1'b0}}, dec_sys_info_bus}) |
-                            ({`DECINFO_WIDTH{op_ext}} & {{`DECINFO_WIDTH-`DECINFO_EXT_BUS_WIDTH{1'b0}}, dec_ext_info_bus});
+    assign dec_info_bus_o = ({`XYH_DECINFO_WIDTH{op_alu}} & {{`XYH_DECINFO_WIDTH-`XYH_DECINFO_ALU_BUS_WIDTH{1'b0}}, dec_alu_info_bus}) |
+                            ({`XYH_DECINFO_WIDTH{op_bjp}} & {{`XYH_DECINFO_WIDTH-`XYH_DECINFO_BJP_BUS_WIDTH{1'b0}}, dec_bjp_info_bus}) |
+                            ({`XYH_DECINFO_WIDTH{op_csr}} & {{`XYH_DECINFO_WIDTH-`XYH_DECINFO_CSR_BUS_WIDTH{1'b0}}, dec_csr_info_bus}) |
+                            ({`XYH_DECINFO_WIDTH{op_mem}} & {{`XYH_DECINFO_WIDTH-`XYH_DECINFO_MEM_BUS_WIDTH{1'b0}}, dec_mem_info_bus}) |
+                            ({`XYH_DECINFO_WIDTH{op_sys}} & {{`XYH_DECINFO_WIDTH-`XYH_DECINFO_SYS_BUS_WIDTH{1'b0}}, dec_sys_info_bus}) |
+                            ({`XYH_DECINFO_WIDTH{op_ext}} & {{`XYH_DECINFO_WIDTH-`XYH_DECINFO_EXT_BUS_WIDTH{1'b0}}, dec_ext_info_bus});
 
     assign dec_pc_o = inst_addr_i;
 

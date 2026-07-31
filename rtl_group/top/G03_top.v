@@ -1,6 +1,10 @@
-`include "../core00_wzc/marcos_wzc.v"
+`timescale 1ns / 1ps
 
-module g03_soc (
+`include "macros.v"
+
+module g03_soc #(
+    parameter [31:0] UART_DEBUG_BAUD_DIV = `UART_BAUD_115200
+)(
     input wire clk,
     input wire rst_n_i,
     input wire debug_en_i,
@@ -21,6 +25,7 @@ module g03_soc (
     wire [`DATA_WIDTH-1:0] core_gpr_wdata [0:3];
     wire [`DATA_WIDTH-1:0] core_gpr_rdata1 [0:3];
     wire [`DATA_WIDTH-1:0] core_gpr_rdata2 [0:3];
+    wire [`DATA_WIDTH-1:0] gpr_x27;
     wire [`GPR_ADDR_WIDTH-1:0] core_gpr_waddr [0:3];
     wire [`GPR_ADDR_WIDTH-1:0] core_gpr_raddr1 [0:3];
     wire [`GPR_ADDR_WIDTH-1:0] core_gpr_raddr2 [0:3];
@@ -132,7 +137,8 @@ module g03_soc (
         .hjx_rdata1_o(core_gpr_rdata1[2]), .hjx_rdata2_o(core_gpr_rdata2[2]),
         .xzr_we_i(core_gpr_we[3]), .xzr_waddr_i(core_gpr_waddr[3]), .xzr_wdata_i(core_gpr_wdata[3]),
         .xzr_raddr1_i(core_gpr_raddr1[3]), .xzr_raddr2_i(core_gpr_raddr2[3]),
-        .xzr_rdata1_o(core_gpr_rdata1[3]), .xzr_rdata2_o(core_gpr_rdata2[3])
+        .xzr_rdata1_o(core_gpr_rdata1[3]), .xzr_rdata2_o(core_gpr_rdata2[3]),
+        .x27_o(gpr_x27)
     );
 
     assign core_if_req_rdy[0] = chip_sel_i == 2'b00 ? bus_if_req_rdy : 1'b0;
@@ -161,7 +167,9 @@ module g03_soc (
     assign core_mem_rdata[2] = chip_sel_i == 2'b10 ? bus_mem_rdata : {`DATA_WIDTH{1'b0}};
     assign core_mem_rdata[3] = chip_sel_i == 2'b11 ? bus_mem_rdata : {`DATA_WIDTH{1'b0}};
 
-    perips_top u_perips_top (
+    perips_top #(
+        .UART_DEBUG_BAUD_DIV(UART_DEBUG_BAUD_DIV)
+    ) u_perips_top (
         .clk(clk), .rst_n(rst_n), .debug_en_i(debug_en_i), .chip_sel_i(chip_sel_i),
         .m0_addr_i(core_if_addr[chip_sel_i]), .m0_data_i(core_if_wdata[chip_sel_i]),
         .m0_sel_i(core_if_sel[chip_sel_i]), .m0_req_vld_i(core_if_req_vld[chip_sel_i]),
@@ -180,6 +188,6 @@ module g03_soc (
     );
 
     assign bridge_tx_data_o = bridge_wzc_tx | bridge_xyh_tx | bridge_hjx_tx | bridge_xzr_tx;
-    assign succ = 1'b0;
+    assign succ = ~gpr_x27[0];
 
 endmodule

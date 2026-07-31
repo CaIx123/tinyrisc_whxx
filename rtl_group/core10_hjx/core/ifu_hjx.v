@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
  /*                                                                      
  Copyright 2020 Blue Liang, liangkangnan@163.com
                                                                          
@@ -14,7 +16,7 @@
  limitations under the License.                                          
  */
 
-`include "defines.v"
+`include "defines_hjx.v"
 
 // 取指模块
 module ifu_hjx(
@@ -24,7 +26,7 @@ module ifu_hjx(
 
     input wire flush_i,
     input wire[31:0] flush_addr_i,             // 跳转地址
-    input wire[`STALL_WIDTH-1:0] stall_i,      // 流水线暂停标�??
+    input wire[`HJX_STALL_WIDTH-1:0] stall_i,      // 流水线暂停标�??
     input wire debug_halt_i,
 
     output wire[31:0] inst_o,
@@ -47,7 +49,7 @@ module ifu_hjx(
 
     assign req_valid_o = (~rst_n)? 1'b0:
                          (flush_i)? 1'b0:
-                         stall_i[`STALL_PC]? 1'b0:
+                         stall_i[`HJX_STALL_PC]? 1'b0:
                          debug_halt_i? 1'b0:
                          1'b1;
     assign rsp_ready_o = (~rst_n)? 1'b0: 1'b1;
@@ -66,7 +68,7 @@ module ifu_hjx(
     end
 
     // 在执行多周期指令或�?�请求不到�?�线时需要暂�??
-    wire stall = stall_i[`STALL_PC] | (~ifu_req_hsked);
+    wire stall = stall_i[`HJX_STALL_PC] | (~ifu_req_hsked);
 
     reg[31:0] pc;
     reg[31:0] pc_prev;
@@ -81,7 +83,7 @@ module ifu_hjx(
             pc <= flush_addr_i;
             pc_prev <= flush_addr_i;
         // 暂停，取上一条指�??
-        end else if (stall_i[`STALL_PC]) begin
+        end else if (stall_i[`HJX_STALL_PC]) begin
             pc <= pc_prev;
         // 取下�??条指�??
         end else if (~ifu_req_hsked) begin
@@ -95,7 +97,7 @@ module ifu_hjx(
     wire[31:0] pc_r;
     // 将PC打一�??
     wire pc_ena = (~stall);
-    hjx_gen_en_dff #(32) pc_dff(clk, rst_n, pc_ena, pc, pc_r);
+    hjx_gen_en_dff_hjx #(32) pc_dff(clk, rst_n, pc_ena, pc, pc_r);
 
     reg req_hasked_r;
 

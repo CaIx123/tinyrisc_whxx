@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
  /*                                                                      
  Copyright 2019 Blue Liang, liangkangnan@163.com
                                                                          
@@ -14,7 +16,7 @@
  limitations under the License.                                          
  */
 
-`include "defines.v"
+`include "defines_hjx.v"
 
 // tinyriscv处理器核顶层模块
 module core_hjx(
@@ -59,14 +61,14 @@ module core_hjx(
     wire[31:0] ifetch_pc_o;
     wire ifetch_inst_valid_o;
 
-    // ifu_idu模块输出信号
+    // ifu_idu_hjx模块输出信号
 	wire[31:0] if_inst_o;
     wire[31:0] if_inst_addr_o;
 
-    // idu模块输出信号
+    // idu_hjx模块输出信号
     wire[31:0] id_inst_o;
     wire[31:0] id_inst_addr_o;
-    wire[`DECINFO_WIDTH-1:0] id_dec_info_bus_o;
+    wire[`HJX_DECINFO_WIDTH-1:0] id_dec_info_bus_o;
     wire[31:0] id_dec_imm_o;
     wire[31:0] id_dec_pc_o;
     wire[4:0] id_rs1_raddr_o;
@@ -77,10 +79,10 @@ module core_hjx(
     wire[31:0] id_rs1_rdata_o;
     wire[31:0] id_rs2_rdata_o;
 
-    // idu_exu模块输出信号
+    // idu_exu_hjx模块输出信号
     wire[31:0] ie_inst_o;
     wire[31:0] ie_inst_addr_o;
-    wire[`DECINFO_WIDTH-1:0] ie_dec_info_bus_o;
+    wire[`HJX_DECINFO_WIDTH-1:0] ie_dec_info_bus_o;
     wire[31:0] ie_dec_imm_o;
     wire[31:0] ie_dec_pc_o;
     wire[31:0] ie_rs1_rdata_o;
@@ -88,7 +90,7 @@ module core_hjx(
     wire[4:0] ie_rd_waddr_o;
     wire ie_rd_we_o;
 
-    // exu模块输出信号
+    // exu_hjx模块输出信号
     wire[31:0] ex_mem_wdata_o;
     wire[31:0] ex_mem_addr_o;
     wire ex_mem_we_o;
@@ -104,10 +106,10 @@ module core_hjx(
     wire[31:0] ex_jump_addr_o;
 
     // gpr_reg模块输出信号
-    // pipe_ctrl模块输出信号
+    // pipe_ctrl_hjx模块输出信号
     wire[31:0] ctrl_flush_addr_o;
     wire ctrl_flush_o;
-    wire[`STALL_WIDTH-1:0] ctrl_stall_o;
+    wire[`HJX_STALL_WIDTH-1:0] ctrl_stall_o;
 
     // The shared RIB has one response route. Serialize the two core masters
     // here so a data request cannot replace an outstanding fetch response.
@@ -165,7 +167,7 @@ module core_hjx(
         .rsp_ready_o(ifu_rsp_ready_raw)
     );
 
-    pipe_ctrl u_pipe_ctrl(
+    pipe_ctrl_hjx u_pipe_ctrl(
         .clk(clk),
         .rst_n(rst_n),
         .stall_from_id_i(id_stall_o),
@@ -183,7 +185,7 @@ module core_hjx(
     assign gpr_raddr1_o = id_rs1_raddr_o;
     assign gpr_raddr2_o = id_rs2_raddr_o;
 
-    ifu_idu u_ifu_idu(
+    ifu_idu_hjx u_ifu_idu(
         .clk(clk),
         .rst_n(rst_n),
         .inst_i(ifetch_inst_o),
@@ -195,7 +197,7 @@ module core_hjx(
         .inst_addr_o(if_inst_addr_o)
     );
 
-    idu u_idu(
+    idu_hjx u_idu(
         .clk(clk),
         .rst_n(rst_n),
         .inst_i(if_inst_o),
@@ -215,7 +217,7 @@ module core_hjx(
         .rd_we_o(id_rd_we_o)
     );
 
-    idu_exu u_idu_exu(
+    idu_exu_hjx u_idu_exu(
         .clk(clk),
         .rst_n(rst_n),
         .inst_i(id_inst_o),
@@ -238,7 +240,7 @@ module core_hjx(
         .rd_we_o(ie_rd_we_o)
     );
 
-    exu u_exu(
+    exu_hjx u_exu(
         .clk(clk),
         .rst_n(rst_n),
         .reg1_rdata_i(ie_rs1_rdata_o),

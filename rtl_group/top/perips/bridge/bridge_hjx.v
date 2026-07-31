@@ -1,4 +1,6 @@
-`include "../../../core10_hjx/macros_hjx.v"
+`timescale 1ns / 1ps
+
+`include "../../macros.v"
 module bridge_hjx(
     input wire clk,
     input wire rst_n,

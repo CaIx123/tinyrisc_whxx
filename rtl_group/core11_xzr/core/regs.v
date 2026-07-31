@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 `include "../marcos_xzr.v"
 
 module regs_xzr(

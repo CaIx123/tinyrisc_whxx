@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 // 带默认值和控制信号的流水线触发器
 // hold_en有效时加载默认值，否则正常锁存输入
 module gen_pipe_dff_xyh #(

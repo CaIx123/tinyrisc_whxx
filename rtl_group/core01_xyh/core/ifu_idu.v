@@ -1,4 +1,6 @@
-`include "defines.v"
+`timescale 1ns / 1ps
+
+`include "defines_xyh.v"
 
 // IF/ID级流水寄存器
 // 将取指阶段的指令和PC锁存后传递给译码阶段
@@ -11,7 +13,7 @@ module ifu_idu_xyh(
 
     input wire[31:0] inst_i,                 // 指令内容(来自IFU)
     input wire[31:0] inst_addr_i,            // 指令地址(来自IFU)
-    input wire[`STALL_WIDTH-1:0] stall_i,    // 流水线暂停
+    input wire[`XYH_STALL_WIDTH-1:0] stall_i,    // 流水线暂停
     input wire flush_i,                      // 流水线冲刷
     input wire inst_valid_i,                 // 指令有效标志
 
@@ -20,7 +22,7 @@ module ifu_idu_xyh(
 
     );
 
-    wire en = (!stall_i[`STALL_IF] | flush_i);
+    wire en = (!stall_i[`XYH_STALL_IF] | flush_i);
 
     wire[31:0] i_inst = (flush_i)? `INST_NOP: inst_i;
     wire[31:0] inst;

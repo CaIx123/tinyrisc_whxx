@@ -1,4 +1,6 @@
-`include "../../core00_wzc/marcos_wzc.v"
+`timescale 1ns / 1ps
+
+`include "../macros.v"
 
 // 串口收发模块(默认: 115200, 8，N�?)
 module uart(
@@ -22,7 +24,7 @@ module uart(
     );
 
     // 波特�?15200bps
-    localparam BAUD_115200 = `CPU_CLOCK_HZ / 115200;
+    localparam BAUD_115200 = `UART_BAUD_115200;
 
     localparam S_IDLE       = 4'b0001;
     localparam S_START      = 4'b0010;

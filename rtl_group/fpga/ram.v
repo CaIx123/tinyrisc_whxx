@@ -1,4 +1,6 @@
-`include "../core00_wzc/marcos_wzc.v"
+`timescale 1ns / 1ps
+
+`include "../top/macros.v"
 
 module ram #(
     parameter RAM_DEPTH = 16,

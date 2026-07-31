@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 // 将输入打DP拍后输出
 module gen_ticks_sync #(
     parameter DP = 2,

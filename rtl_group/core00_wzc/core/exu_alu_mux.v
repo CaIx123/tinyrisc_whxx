@@ -1,4 +1,6 @@
-`include "../marcos_wzc.v"
+`timescale 1ns / 1ps
+
+`include "../../top/macros.v"
 
 module exu_alu_mux(
   input [1:0] forward_a_i,

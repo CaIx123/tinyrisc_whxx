@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
  /*
  Copyright 2019 Blue Liang, liangkangnan@163.com
 
@@ -14,11 +16,11 @@
  limitations under the License.
  */
 
-`include "defines.v"
+`include "defines_hjx.v"
 
 // 译码模块
 // 纯组合逻辑电路
-module idu(
+module idu_hjx(
 
 	input wire clk,
 	input wire rst_n,
@@ -35,7 +37,7 @@ module idu(
 
     // to id_ex
     output wire[31:0] inst_o,
-    output wire[`DECINFO_WIDTH-1:0] dec_info_bus_o,
+    output wire[`HJX_DECINFO_WIDTH-1:0] dec_info_bus_o,
     output wire[31:0] dec_imm_o,
     output wire[31:0] dec_pc_o,
     output wire[4:0] rs1_raddr_o,
@@ -150,55 +152,55 @@ module idu(
     wire inst_type_alu_reg = inst_add | inst_sub | inst_sll | inst_slt | inst_sltu |
                             inst_xor | inst_srl | inst_sra | inst_or | inst_and;
 
-    wire[`DECINFO_ALU_BUS_WIDTH-1:0] dec_alu_info_bus;
-    assign dec_alu_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_ALU;
-    assign dec_alu_info_bus[`DECINFO_ALU_LUI] = inst_lui;
-    assign dec_alu_info_bus[`DECINFO_ALU_AUIPC] = inst_auipc;
-    assign dec_alu_info_bus[`DECINFO_ALU_ADD] = inst_add | inst_addi;
-    assign dec_alu_info_bus[`DECINFO_ALU_SUB] = inst_sub;
-    assign dec_alu_info_bus[`DECINFO_ALU_SLL] = inst_sll | inst_slli;
-    assign dec_alu_info_bus[`DECINFO_ALU_SLT] = inst_slt | inst_slti;
-    assign dec_alu_info_bus[`DECINFO_ALU_SLTU] = inst_sltu | inst_sltiu;
-    assign dec_alu_info_bus[`DECINFO_ALU_XOR] = inst_xor | inst_xori;
-    assign dec_alu_info_bus[`DECINFO_ALU_SRL] = inst_srl | inst_srli;
-    assign dec_alu_info_bus[`DECINFO_ALU_SRA] = inst_sra | inst_srai;
-    assign dec_alu_info_bus[`DECINFO_ALU_OR] = inst_or | inst_ori;
-    assign dec_alu_info_bus[`DECINFO_ALU_AND] = inst_and | inst_andi;
-    assign dec_alu_info_bus[`DECINFO_ALU_OP2IMM] = inst_type_alu_imm | inst_lui | inst_auipc;
-    assign dec_alu_info_bus[`DECINFO_ALU_OP1PC] = inst_auipc;
+    wire[`HJX_DECINFO_ALU_BUS_WIDTH-1:0] dec_alu_info_bus;
+    assign dec_alu_info_bus[`HJX_DECINFO_GRP_BUS] = `HJX_DECINFO_GRP_ALU;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_LUI] = inst_lui;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_AUIPC] = inst_auipc;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_ADD] = inst_add | inst_addi;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_SUB] = inst_sub;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_SLL] = inst_sll | inst_slli;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_SLT] = inst_slt | inst_slti;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_SLTU] = inst_sltu | inst_sltiu;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_XOR] = inst_xor | inst_xori;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_SRL] = inst_srl | inst_srli;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_SRA] = inst_sra | inst_srai;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_OR] = inst_or | inst_ori;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_AND] = inst_and | inst_andi;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_OP2IMM] = inst_type_alu_imm | inst_lui | inst_auipc;
+    assign dec_alu_info_bus[`HJX_DECINFO_ALU_OP1PC] = inst_auipc;
 
-    wire[`DECINFO_BJP_BUS_WIDTH-1:0] dec_bjp_info_bus;
-    assign dec_bjp_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_BJP;
-    assign dec_bjp_info_bus[`DECINFO_BJP_JUMP] = inst_jal | inst_jalr;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BEQ] = inst_beq;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BNE] = inst_bne;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BLT] = inst_blt;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BGE] = inst_bge;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BLTU] = inst_bltu;
-    assign dec_bjp_info_bus[`DECINFO_BJP_BGEU] = inst_bgeu;
-    assign dec_bjp_info_bus[`DECINFO_BJP_OP1RS1] = inst_jalr;
+    wire[`HJX_DECINFO_BJP_BUS_WIDTH-1:0] dec_bjp_info_bus;
+    assign dec_bjp_info_bus[`HJX_DECINFO_GRP_BUS] = `HJX_DECINFO_GRP_BJP;
+    assign dec_bjp_info_bus[`HJX_DECINFO_BJP_JUMP] = inst_jal | inst_jalr;
+    assign dec_bjp_info_bus[`HJX_DECINFO_BJP_BEQ] = inst_beq;
+    assign dec_bjp_info_bus[`HJX_DECINFO_BJP_BNE] = inst_bne;
+    assign dec_bjp_info_bus[`HJX_DECINFO_BJP_BLT] = inst_blt;
+    assign dec_bjp_info_bus[`HJX_DECINFO_BJP_BGE] = inst_bge;
+    assign dec_bjp_info_bus[`HJX_DECINFO_BJP_BLTU] = inst_bltu;
+    assign dec_bjp_info_bus[`HJX_DECINFO_BJP_BGEU] = inst_bgeu;
+    assign dec_bjp_info_bus[`HJX_DECINFO_BJP_OP1RS1] = inst_jalr;
 
-    wire[`DECINFO_MEM_BUS_WIDTH-1:0] dec_mem_info_bus;
-    assign dec_mem_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_MEM;
-    assign dec_mem_info_bus[`DECINFO_MEM_LB] = inst_lb;
-    assign dec_mem_info_bus[`DECINFO_MEM_LH] = inst_lh;
-    assign dec_mem_info_bus[`DECINFO_MEM_LW] = inst_lw;
-    assign dec_mem_info_bus[`DECINFO_MEM_LBU] = inst_lbu;
-    assign dec_mem_info_bus[`DECINFO_MEM_LHU] = inst_lhu;
-    assign dec_mem_info_bus[`DECINFO_MEM_SB] = inst_sb;
-    assign dec_mem_info_bus[`DECINFO_MEM_SH] = inst_sh;
-    assign dec_mem_info_bus[`DECINFO_MEM_SW] = inst_sw;
+    wire[`HJX_DECINFO_MEM_BUS_WIDTH-1:0] dec_mem_info_bus;
+    assign dec_mem_info_bus[`HJX_DECINFO_GRP_BUS] = `HJX_DECINFO_GRP_MEM;
+    assign dec_mem_info_bus[`HJX_DECINFO_MEM_LB] = inst_lb;
+    assign dec_mem_info_bus[`HJX_DECINFO_MEM_LH] = inst_lh;
+    assign dec_mem_info_bus[`HJX_DECINFO_MEM_LW] = inst_lw;
+    assign dec_mem_info_bus[`HJX_DECINFO_MEM_LBU] = inst_lbu;
+    assign dec_mem_info_bus[`HJX_DECINFO_MEM_LHU] = inst_lhu;
+    assign dec_mem_info_bus[`HJX_DECINFO_MEM_SB] = inst_sb;
+    assign dec_mem_info_bus[`HJX_DECINFO_MEM_SH] = inst_sh;
+    assign dec_mem_info_bus[`HJX_DECINFO_MEM_SW] = inst_sw;
 
-    wire[`DECINFO_SYS_BUS_WIDTH-1:0] dec_sys_info_bus;
-    assign dec_sys_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_SYS;
-    assign dec_sys_info_bus[`DECINFO_SYS_NOP] = inst_nop;
-    assign dec_sys_info_bus[`DECINFO_SYS_FENCE] = inst_fence | inst_fence_i;
+    wire[`HJX_DECINFO_SYS_BUS_WIDTH-1:0] dec_sys_info_bus;
+    assign dec_sys_info_bus[`HJX_DECINFO_GRP_BUS] = `HJX_DECINFO_GRP_SYS;
+    assign dec_sys_info_bus[`HJX_DECINFO_SYS_NOP] = inst_nop;
+    assign dec_sys_info_bus[`HJX_DECINFO_SYS_FENCE] = inst_fence | inst_fence_i;
 
-    wire[`DECINFO_EXT_BUS_WIDTH-1:0] dec_ext_info_bus;
-    assign dec_ext_info_bus[`DECINFO_GRP_BUS] = `DECINFO_GRP_EXT;
-    assign dec_ext_info_bus[`DECINFO_EXT_SID] = inst_sid;
-    assign dec_ext_info_bus[`DECINFO_EXT_RT] = inst_rt;
-    assign dec_ext_info_bus[`DECINFO_EXT_IF] = inst_if;
+    wire[`HJX_DECINFO_EXT_BUS_WIDTH-1:0] dec_ext_info_bus;
+    assign dec_ext_info_bus[`HJX_DECINFO_GRP_BUS] = `HJX_DECINFO_GRP_EXT;
+    assign dec_ext_info_bus[`HJX_DECINFO_EXT_SID] = inst_sid;
+    assign dec_ext_info_bus[`HJX_DECINFO_EXT_RT] = inst_rt;
+    assign dec_ext_info_bus[`HJX_DECINFO_EXT_IF] = inst_if;
 
     // 指令中的立即数
     wire[31:0] inst_u_type_imm = {inst_i[31:12], 12'b0};
@@ -228,11 +230,11 @@ module idu(
     wire op_mem = inst_type_load | inst_type_store;
     wire op_ext = inst_sid | inst_rt | inst_if;
 
-    assign dec_info_bus_o = ({`DECINFO_WIDTH{op_alu}} & {{`DECINFO_WIDTH-`DECINFO_ALU_BUS_WIDTH{1'b0}}, dec_alu_info_bus}) |
-                            ({`DECINFO_WIDTH{op_bjp}} & {{`DECINFO_WIDTH-`DECINFO_BJP_BUS_WIDTH{1'b0}}, dec_bjp_info_bus}) |
-                            ({`DECINFO_WIDTH{op_mem}} & {{`DECINFO_WIDTH-`DECINFO_MEM_BUS_WIDTH{1'b0}}, dec_mem_info_bus}) |
-                            ({`DECINFO_WIDTH{op_sys}} & {{`DECINFO_WIDTH-`DECINFO_SYS_BUS_WIDTH{1'b0}}, dec_sys_info_bus}) |
-                            ({`DECINFO_WIDTH{op_ext}} & {{`DECINFO_WIDTH-`DECINFO_EXT_BUS_WIDTH{1'b0}}, dec_ext_info_bus});
+    assign dec_info_bus_o = ({`HJX_DECINFO_WIDTH{op_alu}} & {{`HJX_DECINFO_WIDTH-`HJX_DECINFO_ALU_BUS_WIDTH{1'b0}}, dec_alu_info_bus}) |
+                            ({`HJX_DECINFO_WIDTH{op_bjp}} & {{`HJX_DECINFO_WIDTH-`HJX_DECINFO_BJP_BUS_WIDTH{1'b0}}, dec_bjp_info_bus}) |
+                            ({`HJX_DECINFO_WIDTH{op_mem}} & {{`HJX_DECINFO_WIDTH-`HJX_DECINFO_MEM_BUS_WIDTH{1'b0}}, dec_mem_info_bus}) |
+                            ({`HJX_DECINFO_WIDTH{op_sys}} & {{`HJX_DECINFO_WIDTH-`HJX_DECINFO_SYS_BUS_WIDTH{1'b0}}, dec_sys_info_bus}) |
+                            ({`HJX_DECINFO_WIDTH{op_ext}} & {{`HJX_DECINFO_WIDTH-`HJX_DECINFO_EXT_BUS_WIDTH{1'b0}}, dec_ext_info_bus});
 
     assign dec_pc_o = inst_addr_i;
 

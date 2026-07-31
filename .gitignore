@@ -3,3 +3,9 @@
 doc/*.pdf
 test_personal
 *.ps1
+AGENTS.md
+*.vvp
+*.vcd
+*.fst
+*.wlf
+build/

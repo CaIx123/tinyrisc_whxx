@@ -1,5 +1,6 @@
-`include "defines.v"
-`include "../marcos_xyh.v"
+`timescale 1ns / 1ps
+
+`include "defines_xyh.v"
 
 // Custom read-temperature instruction using the shared I2C register protocol.
 // Sequence: address -> pointer -> write start -> poll -> read start -> poll -> data.

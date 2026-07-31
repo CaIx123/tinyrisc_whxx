@@ -1,4 +1,6 @@
-`include "defines.v"
+`timescale 1ns / 1ps
+
+`include "defines_xyh.v"
 
 // 执行级总装模块
 // 内部组合了5类执行资源：ALU、BJP(分支/跳转)、MEM(访存)、MULDIV(乘除)、EXT(扩展指令)
@@ -28,13 +30,13 @@ module exu_xyh(
     output wire[4:0] reg_waddr_o,            // 写回寄存器地址
 
     // to pipe_ctrl_xyh
-    input wire[`STALL_WIDTH-1:0] stall_i,    // 流水线暂停(来自pipe_ctrl)
+    input wire[`XYH_STALL_WIDTH-1:0] stall_i,    // 流水线暂停(来自pipe_ctrl)
     output wire[1:0] hold_flag_o,            // 暂停标志(给pipe_ctrl)
     output wire jump_flag_o,                 // 跳转标志
     output wire[31:0] jump_addr_o,           // 跳转目标地址
 
     // from idu_exu_xyh
-    input wire[`DECINFO_WIDTH-1:0] dec_info_bus_i,  // 译码信息总线
+    input wire[`XYH_DECINFO_WIDTH-1:0] dec_info_bus_i,  // 译码信息总线
     input wire[31:0] dec_imm_i,              // 立即数
     input wire[31:0] dec_pc_i,               // 指令PC
     input wire[31:0] next_pc_i,              // 下一条指令PC(PC+4)
@@ -109,7 +111,7 @@ module exu_xyh(
     exu_extension_xyh u_exu_extension(
         .clk(clk),
         .rst_n(rst_n),
-        .mem_stall_i(stall_i[`STALL_EX]),
+        .mem_stall_i(stall_i[`XYH_STALL_EX]),
         .dec_info_bus_i(dec_info_bus_i),
         .dec_imm_i(dec_imm_i),
         .reg1_rdata_i(reg1_rdata_i),
@@ -235,7 +237,7 @@ module exu_xyh(
         .clk(clk),
         .rst_n(rst_n),
         .req_mem_i(req_mem_o),
-        .mem_stall_i(stall_i[`STALL_EX]),
+        .mem_stall_i(stall_i[`XYH_STALL_EX]),
         .mem_addr_i(alu_res_o),
         .mem_rs2_data_i(mem_rs2_data_o),
         .mem_req_ready_i(mem_req_ready_i),

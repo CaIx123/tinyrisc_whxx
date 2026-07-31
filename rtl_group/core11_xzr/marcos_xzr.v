@@ -14,7 +14,12 @@
  limitations under the License.                                          
  */
 
-`define CpuResetAddr 32'h0
+`ifndef CORE11_XZR_MARCOS_V
+`define CORE11_XZR_MARCOS_V
+
+`include "../top/macros.v"
+
+`define CpuResetAddr `CPU_RESET_ADDR
 
 `define RstEnable 1'b0
 `define RstDisable 1'b1
@@ -24,8 +29,6 @@
 `define WriteDisable 1'b0
 `define ReadEnable 1'b1
 `define ReadDisable 1'b0
-`define True 1'b1
-`define False 1'b0
 `define ChipEnable 1'b1
 `define ChipDisable 1'b0
 `define JumpEnable 1'b1
@@ -109,12 +112,11 @@
 
 `define INST_LUI    7'b0110111
 `define INST_AUIPC  7'b0010111
-`define INST_NOP    32'h00000001
-`define INST_NOP_OP 7'b0000001
+`define XZR_INST_NOP_OP 7'b0000001
+`define XZR_INST_FENCE  7'b0001111
 `define INST_MRET   32'h30200073
 `define INST_RET    32'h00008067
 
-`define INST_FENCE  7'b0001111
 `define INST_ECALL  32'h73
 `define INST_EBREAK 32'h00100073
 
@@ -152,9 +154,9 @@
 `define CSR_MSTATUS 12'h300
 `define CSR_MSCRATCH 12'h340
 
-`define RomNum 256  // rom depth(how many words)
+`define RomNum `ROM_DEPTH  // rom depth(how many words)
 
-`define MemNum 16  // memory depth(how many words)
+`define MemNum `RAM_DEPTH  // memory depth(how many words)
 `define MemBus 31:0
 `define MemAddrBus 31:0
 
@@ -168,5 +170,7 @@
 `define RegWidth 32
 `define RegNum 32        // reg num
 `define RegNumLog2 5
+
+`endif
 
 

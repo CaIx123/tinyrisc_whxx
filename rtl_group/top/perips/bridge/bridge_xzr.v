@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 `include "../../../core11_xzr/marcos_xzr.v"
 
 module bridge_xzr(

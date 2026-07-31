@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 // valid-ready握手缓冲模块
 // 内部用1bit vld_r记录当前stage是否已满
 // CUT_READY=0时rdy_o可能组合依赖rdy_i

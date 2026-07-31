@@ -1,4 +1,6 @@
-`include "../../core00_wzc/marcos_wzc.v"
+`timescale 1ns / 1ps
+
+`include "../macros.v"
 
 // 通用寄存器模�?
 module gpr(

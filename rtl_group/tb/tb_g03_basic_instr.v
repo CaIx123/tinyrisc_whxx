@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-`include "../core00_wzc/marcos_wzc.v"
+`include "../top/macros.v"
 
 // Behavioral models used only when the ASIC standard-cell library is absent.
 `ifndef G03_USE_STD_CELL_LIBRARY
@@ -48,8 +48,7 @@ module tb_g03_basic_instr;
     integer i;
     integer failures;
     integer program_words;
-    integer shared_bridge_active_cycles;
-    integer hjx_bridge_active_cycles;
+    integer selected_bridge_active_cycles;
     integer inactive_bridge_active_cycles;
     reg route_check_en;
 
@@ -65,21 +64,43 @@ module tb_g03_basic_instr;
 
     always #10 clk = ~clk;
 
-    // The idle encodings are TR_CTRL=1 for bridge_fpga and STATE_CTRL=0 for
-    // bridge_fpga_hjx.  Count activity only while a download route is checked.
+    // Count activity only while a UART download route is checked.
     always @(posedge clk) begin
         if (route_check_en && rst_n) begin
-            if (u_fpga.bridge_shared_selected) begin
-                if (u_fpga.u_bridge_fpga.tr_state != 2'd1)
-                    shared_bridge_active_cycles = shared_bridge_active_cycles + 1;
-                if (u_fpga.u_bridge_fpga_hjx.state != 2'd0)
-                    inactive_bridge_active_cycles = inactive_bridge_active_cycles + 1;
-            end else begin
-                if (u_fpga.u_bridge_fpga_hjx.state != 2'd0)
-                    hjx_bridge_active_cycles = hjx_bridge_active_cycles + 1;
-                if (u_fpga.u_bridge_fpga.tr_state != 2'd1)
-                    inactive_bridge_active_cycles = inactive_bridge_active_cycles + 1;
-            end
+            case (chip_sel)
+                2'b00: begin
+                    if (u_fpga.u_bridge_fpga_wzc.tr_state != 2'd1)
+                        selected_bridge_active_cycles = selected_bridge_active_cycles + 1;
+                    if (u_fpga.u_bridge_fpga_xyh.tr_state != 2'd0 ||
+                        u_fpga.u_bridge_fpga_hjx.state != 2'd0 ||
+                        u_fpga.u_bridge_fpga_xzr.state != 3'd0)
+                        inactive_bridge_active_cycles = inactive_bridge_active_cycles + 1;
+                end
+                2'b01: begin
+                    if (u_fpga.u_bridge_fpga_xyh.tr_state != 2'd0)
+                        selected_bridge_active_cycles = selected_bridge_active_cycles + 1;
+                    if (u_fpga.u_bridge_fpga_wzc.tr_state != 2'd1 ||
+                        u_fpga.u_bridge_fpga_hjx.state != 2'd0 ||
+                        u_fpga.u_bridge_fpga_xzr.state != 3'd0)
+                        inactive_bridge_active_cycles = inactive_bridge_active_cycles + 1;
+                end
+                2'b10: begin
+                    if (u_fpga.u_bridge_fpga_hjx.state != 2'd0)
+                        selected_bridge_active_cycles = selected_bridge_active_cycles + 1;
+                    if (u_fpga.u_bridge_fpga_wzc.tr_state != 2'd1 ||
+                        u_fpga.u_bridge_fpga_xyh.tr_state != 2'd0 ||
+                        u_fpga.u_bridge_fpga_xzr.state != 3'd0)
+                        inactive_bridge_active_cycles = inactive_bridge_active_cycles + 1;
+                end
+                default: begin
+                    if (u_fpga.u_bridge_fpga_xzr.state != 3'd0)
+                        selected_bridge_active_cycles = selected_bridge_active_cycles + 1;
+                    if (u_fpga.u_bridge_fpga_wzc.tr_state != 2'd1 ||
+                        u_fpga.u_bridge_fpga_xyh.tr_state != 2'd0 ||
+                        u_fpga.u_bridge_fpga_hjx.state != 2'd0)
+                        inactive_bridge_active_cycles = inactive_bridge_active_cycles + 1;
+                end
+            endcase
         end
     end
 
@@ -313,37 +334,48 @@ module tb_g03_basic_instr;
             chip_sel = target_chip;
             repeat (16) @(posedge clk);
 
-            shared_bridge_active_cycles = 0;
-            hjx_bridge_active_cycles = 0;
+            selected_bridge_active_cycles = 0;
             inactive_bridge_active_cycles = 0;
             route_check_en = 1'b1;
             download_program;
             repeat (16) @(posedge clk);
             route_check_en = 1'b0;
 
-            if (target_chip == 2'b10) begin
-                if (hjx_bridge_active_cycles == 0 ||
-                    shared_bridge_active_cycles != 0 ||
-                    inactive_bridge_active_cycles != 0) begin
-                    $display("G03_FPGA_ROUTE_HJX_FAIL shared=%0d hjx=%0d inactive=%0d",
-                             shared_bridge_active_cycles, hjx_bridge_active_cycles,
-                             inactive_bridge_active_cycles);
-                    failures = failures + 1;
-                end else begin
-                    $display("G03_FPGA_ROUTE_HJX_PASS active=%0d", hjx_bridge_active_cycles);
-                end
+            if (selected_bridge_active_cycles == 0 ||
+                inactive_bridge_active_cycles != 0) begin
+                $display("G03_FPGA_ROUTE_FAIL chip=%b active=%0d inactive=%0d",
+                         target_chip, selected_bridge_active_cycles,
+                         inactive_bridge_active_cycles);
+                failures = failures + 1;
             end else begin
-                if (shared_bridge_active_cycles == 0 ||
-                    hjx_bridge_active_cycles != 0 ||
-                    inactive_bridge_active_cycles != 0) begin
-                    $display("G03_FPGA_ROUTE_SHARED_FAIL shared=%0d hjx=%0d inactive=%0d",
-                             shared_bridge_active_cycles, hjx_bridge_active_cycles,
-                             inactive_bridge_active_cycles);
-                    failures = failures + 1;
-                end else begin
-                    $display("G03_FPGA_ROUTE_SHARED_PASS active=%0d", shared_bridge_active_cycles);
-                end
+                $display("G03_FPGA_ROUTE_PASS chip=%b active=%0d",
+                         target_chip, selected_bridge_active_cycles);
             end
+        end
+    endtask
+
+    task prepare_uart_download;
+        begin
+            rst_n = 1'b0;
+            debug_en = 1'b0;
+            chip_sel = 2'b00;
+            uart_rx = 1'b1;
+            repeat (8) @(posedge clk);
+            rst_n = 1'b1;
+            debug_en = 1'b1;
+            repeat (512) @(posedge clk);
+        end
+    endtask
+
+    task start_core;
+        input [1:0] target_chip;
+        begin
+            debug_en = 1'b0;
+            rst_n = 1'b0;
+            chip_sel = target_chip;
+            repeat (8) @(posedge clk);
+            rst_n = 1'b1;
+            repeat (8) @(posedge clk);
         end
     endtask
 
@@ -479,11 +511,6 @@ module tb_g03_basic_instr;
         integer cycles;
         reg seen_clear;
         begin
-            rst_n = 1'b0;
-            chip_sel = core_sel;
-            repeat (8) @(posedge clk);
-            rst_n = 1'b1;
-
             seen_clear = 1'b0;
             cycles = 0;
             while (cycles < MAX_CYCLES && !(seen_clear && x26 === 32'd1)) begin
@@ -533,25 +560,24 @@ module tb_g03_basic_instr;
         route_check_en = 1'b0;
         build_basic_program;
 
-        // Download the same image to the WZC/XYH/XZR shared path and the
-        // separate HJX FPGA path.
-        repeat (8) @(posedge clk);
-        rst_n = 1'b1;
-        debug_en = 1'b1;
-        repeat (10000) @(posedge clk);
+        prepare_uart_download;
         download_program_to_path(2'b00);
-        download_program_to_path(2'b10);
-        repeat (1000) @(posedge clk);
-
-        // Start every core from the same UART-downloaded image.
-        debug_en = 1'b0;
-        rst_n = 1'b0;
-        repeat (8) @(posedge clk);
-        rst_n = 1'b1;
-
+        start_core(2'b00);
         run_core(2'b00, "WZC");
+
+        prepare_uart_download;
+        download_program_to_path(2'b01);
+        start_core(2'b01);
         run_core(2'b01, "XYH");
+
+        prepare_uart_download;
+        download_program_to_path(2'b10);
+        start_core(2'b10);
         run_core(2'b10, "HJX");
+
+        prepare_uart_download;
+        download_program_to_path(2'b11);
+        start_core(2'b11);
         run_core(2'b11, "XZR");
 
         if (failures == 0)
@@ -600,8 +626,10 @@ module tb_g03_basic_instr;
         $dumpfile("tb/g03_basic_instr.vcd");
         $dumpvars(1, tb_g03_basic_instr);
         $dumpvars(1, tb_g03_basic_instr.u_fpga);
-        $dumpvars(1, tb_g03_basic_instr.u_fpga.u_bridge_fpga);
+        $dumpvars(1, tb_g03_basic_instr.u_fpga.u_bridge_fpga_wzc);
+        $dumpvars(1, tb_g03_basic_instr.u_fpga.u_bridge_fpga_xyh);
         $dumpvars(1, tb_g03_basic_instr.u_fpga.u_bridge_fpga_hjx);
+        $dumpvars(1, tb_g03_basic_instr.u_fpga.u_bridge_fpga_xzr);
     end
 `endif
 

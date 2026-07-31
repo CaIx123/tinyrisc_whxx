@@ -14,7 +14,7 @@
  limitations under the License.                                          
  */
 
-`include "defines.v"
+`include "defines_hjx.v"
 
 // 复位控制模块
 module rst_ctrl(

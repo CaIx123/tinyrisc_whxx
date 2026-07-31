@@ -1,4 +1,6 @@
-`include "marcos_wzc.v"
+`timescale 1ns / 1ps
+
+`include "../top/macros.v"
 
 // WZC core wrapper with external shared-GPR and RIB master interfaces.
 module core_wzc (

@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 `include "../marcos_xzr.v"
 
 // 译码模块
@@ -223,13 +225,13 @@ module id_xzr(
                 op1_o = inst_addr_i;
                 op2_o = {inst_i[31:12], 12'b0};
             end
-            `INST_NOP_OP: begin
+            `XZR_INST_NOP_OP: begin
                 reg_we_o = `WriteDisable;
                 reg_waddr_o = `ZeroReg;
                 reg1_raddr_o = `ZeroReg;
                 reg2_raddr_o = `ZeroReg;
             end
-            `INST_FENCE: begin
+            `XZR_INST_FENCE: begin
                 reg_we_o = `WriteDisable;
                 reg_waddr_o = `ZeroReg;
                 reg1_raddr_o = `ZeroReg;

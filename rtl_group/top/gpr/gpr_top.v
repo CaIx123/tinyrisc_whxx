@@ -1,4 +1,6 @@
-`include "../../core00_wzc/marcos_wzc.v"
+`timescale 1ns / 1ps
+
+`include "../macros.v"
 
 module gpr_top (
     input wire clk,
@@ -35,7 +37,8 @@ module gpr_top (
     input wire [`GPR_ADDR_WIDTH-1:0] xzr_raddr1_i,
     input wire [`GPR_ADDR_WIDTH-1:0] xzr_raddr2_i,
     output wire [`DATA_WIDTH-1:0] xzr_rdata1_o,
-    output wire [`DATA_WIDTH-1:0] xzr_rdata2_o
+    output wire [`DATA_WIDTH-1:0] xzr_rdata2_o,
+    output wire [`DATA_WIDTH-1:0] x27_o
 );
 
     wire chip_wzc = chip_sel_i == 2'b00;
@@ -104,5 +107,7 @@ module gpr_top (
     assign hjx_rdata2_o = chip_hjx ? gpr_rdata2 : {`DATA_WIDTH{1'b0}};
     assign xzr_rdata1_o = chip_xzr ? gpr_rdata1 : {`DATA_WIDTH{1'b0}};
     assign xzr_rdata2_o = chip_xzr ? gpr_rdata2 : {`DATA_WIDTH{1'b0}};
+
+    assign x27_o = u_gpr.regs[27];
 
 endmodule

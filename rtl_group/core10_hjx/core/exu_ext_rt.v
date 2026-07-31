@@ -1,6 +1,8 @@
-`include "defines.v"
+`timescale 1ns / 1ps
 
-module exu_ext_rt(
+`include "defines_hjx.v"
+
+module exu_ext_rt_hjx(
 
     input wire clk,
     input wire rst_n,

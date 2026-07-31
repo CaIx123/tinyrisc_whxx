@@ -1,4 +1,6 @@
-`include "defines.v"
+`timescale 1ns / 1ps
+
+`include "defines_xyh.v"
 
 // 取指模块(Instruction Fetch Unit)
 // 负责PC管理和指令读取：当未复位、未停机、未flush时产生ibus请求
@@ -13,7 +15,7 @@ module ifu_xyh(
     input wire pc_rst_i,                     // PC复位到CPU_RESET_ADDR
     input wire flush_i,                      // 流水线冲刷(分支跳转时清空)
     input wire[31:0] flush_addr_i,           // 跳转目标地址
-    input wire[`STALL_WIDTH-1:0] stall_i,    // 流水线暂停标志
+    input wire[`XYH_STALL_WIDTH-1:0] stall_i,    // 流水线暂停标志
     input wire jtag_halt_i,                  // JTAG停机(暂停取指)
 
     output wire[31:0] inst_o,                // 取回的指令
@@ -36,7 +38,7 @@ module ifu_xyh(
     assign req_valid_o = (~rst_n)? 1'b0:
                          (pc_rst_i)? 1'b0:
                          (flush_i)? 1'b0:
-                         stall_i[`STALL_PC]? 1'b0:
+                         stall_i[`XYH_STALL_PC]? 1'b0:
                          jtag_halt_i? 1'b0:
                          1'b1;
     assign rsp_ready_o = (~rst_n)? 1'b0: 1'b1;

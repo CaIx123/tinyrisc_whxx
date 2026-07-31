@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module gen_pipe_dff_xzr #(
     parameter DW = 32)(
 

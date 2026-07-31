@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
  /*                                                                      
  Copyright 2020 Blue Liang, liangkangnan@163.com
                                                                          
@@ -14,10 +16,10 @@
  limitations under the License.                                          
  */
 
-`include "../core/defines.v"
+`include "../core/defines_hjx.v"
 
 
-module gen_ram #(
+module gen_ram_hjx #(
     parameter DP = 512,
     parameter DW = 32,
     parameter MW = 4,

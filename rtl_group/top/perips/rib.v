@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 // RIB bus: 3 masters and five mapped slaves (address regions 0, 1, 3, 6, 7).
 module rib(
     input wire clk,

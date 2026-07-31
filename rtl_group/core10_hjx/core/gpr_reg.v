@@ -14,7 +14,7 @@
  limitations under the License.                                          
  */
 
-`include "defines.v"
+`include "defines_hjx.v"
 
 // 通用寄存器模块
 module gpr_reg(

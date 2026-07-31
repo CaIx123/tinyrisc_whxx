@@ -1,4 +1,4 @@
-`include "defines.v"
+`include "defines_xyh.v"
 
 // 通用寄存器堆模块(32 x 32bit)
 // 双读单写端口，x0恒为0

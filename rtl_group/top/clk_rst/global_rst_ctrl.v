@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 // 复位控制模块
 module global_rst_ctrl(
     input wire clk,

@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
  /*                                                                      
  Copyright 2019 Blue Liang, liangkangnan@163.com
                                                                          
@@ -14,17 +16,17 @@
  limitations under the License.                                          
  */
 
-`include "defines.v"
+`include "defines_hjx.v"
 
 // 将指令向译码模块传递
-module ifu_idu(
+module ifu_idu_hjx(
 
     input wire clk,
     input wire rst_n,
 
     input wire[31:0] inst_i,                // 指令内容
     input wire[31:0] inst_addr_i,           // 指令地址
-    input wire[`STALL_WIDTH-1:0] stall_i,   // 流水线暂停
+    input wire[`HJX_STALL_WIDTH-1:0] stall_i,   // 流水线暂停
     input wire flush_i,                     // 流水线冲刷
     input wire inst_valid_i,
 
@@ -33,16 +35,16 @@ module ifu_idu(
 
     );
 
-    wire en = !stall_i[`STALL_ID] | flush_i;
+    wire en = !stall_i[`HJX_STALL_ID] | flush_i;
 
     wire[31:0] i_inst = (flush_i)? `INST_NOP: inst_i;
     wire[31:0] inst;
-    hjx_gen_en_dff #(32) inst_ff(clk, rst_n, en, i_inst, inst);
+    hjx_gen_en_dff_hjx #(32) inst_ff(clk, rst_n, en, i_inst, inst);
     assign inst_o = inst;
 
     wire[31:0] i_inst_addr = flush_i? 32'h0: inst_addr_i;
     wire[31:0] inst_addr;
-    hjx_gen_en_dff #(32) inst_addr_ff(clk, rst_n, en, i_inst_addr, inst_addr);
+    hjx_gen_en_dff_hjx #(32) inst_addr_ff(clk, rst_n, en, i_inst_addr, inst_addr);
     assign inst_addr_o = inst_addr;
 
 endmodule

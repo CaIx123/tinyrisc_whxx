@@ -1,4 +1,6 @@
-`include "../marcos_wzc.v"
+`timescale 1ns / 1ps
+
+`include "../../top/macros.v"
 
 // Immediate generator for RV32I/RV32M.
 // CSR/system instructions are intentionally not decoded here.

@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
  /*                                                                      
  Copyright 2020 Blue Liang, liangkangnan@163.com
                                                                          

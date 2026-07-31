@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
  /*                                                                      
  Copyright 2019 Blue Liang, liangkangnan@163.com
                                                                          
@@ -14,11 +16,11 @@
  limitations under the License.                                          
  */
 
-`include "defines.v"
+`include "defines_hjx.v"
 
 // 流水线控制模块
 // 发出暂停、冲刷流水线信号
-module pipe_ctrl(
+module pipe_ctrl_hjx(
 
     input wire clk,
     input wire rst_n,
@@ -29,7 +31,7 @@ module pipe_ctrl(
     input wire[31:0] jump_addr_i,
 
     output wire flush_o,
-    output wire[`STALL_WIDTH-1:0] stall_o,
+    output wire[`HJX_STALL_WIDTH-1:0] stall_o,
     output wire[31:0] flush_addr_o
 
     );
@@ -37,24 +39,24 @@ module pipe_ctrl(
     assign flush_addr_o = jump_addr_i;
     assign flush_o = jump_assert_i;
 
-    reg[`STALL_WIDTH-1:0] stall;
+    reg[`HJX_STALL_WIDTH-1:0] stall;
 
     always @ (*) begin
         if (stall_from_ex_i) begin
-            stall[`STALL_EX] = 1'b1;
-            stall[`STALL_ID] = 1'b1;
-            stall[`STALL_IF] = 1'b1;
-            stall[`STALL_PC] = 1'b1;
+            stall[`HJX_STALL_EX] = 1'b1;
+            stall[`HJX_STALL_ID] = 1'b1;
+            stall[`HJX_STALL_IF] = 1'b1;
+            stall[`HJX_STALL_PC] = 1'b1;
         end else if (stall_from_id_i) begin
-            stall[`STALL_EX] = 1'b0;
-            stall[`STALL_ID] = 1'b0;
-            stall[`STALL_IF] = 1'b1;
-            stall[`STALL_PC] = 1'b1;
+            stall[`HJX_STALL_EX] = 1'b0;
+            stall[`HJX_STALL_ID] = 1'b0;
+            stall[`HJX_STALL_IF] = 1'b1;
+            stall[`HJX_STALL_PC] = 1'b1;
         end else begin
-            stall[`STALL_EX] = 1'b0;
-            stall[`STALL_ID] = 1'b0;
-            stall[`STALL_IF] = 1'b0;
-            stall[`STALL_PC] = 1'b0;
+            stall[`HJX_STALL_EX] = 1'b0;
+            stall[`HJX_STALL_ID] = 1'b0;
+            stall[`HJX_STALL_IF] = 1'b0;
+            stall[`HJX_STALL_PC] = 1'b0;
         end
     end
 

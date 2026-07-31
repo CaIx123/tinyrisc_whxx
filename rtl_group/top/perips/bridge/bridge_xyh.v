@@ -1,4 +1,6 @@
-`include "../../../core01_xyh/marcos_xyh.v"
+`timescale 1ns / 1ps
+
+`include "../../macros.v"
 
 // 片外协议解释器(与rib_bridge成对工作)
 // 从8bit串行数据中恢复目标存储体、读写方向、字节掩码、地址和数据

@@ -1,4 +1,6 @@
-`include "defines.v"
+`timescale 1ns / 1ps
+
+`include "defines_xyh.v"
 
 // ID/EX级流水寄存器
 // 将译码阶段的译码信息、源寄存器值、立即数、PC等锁存后传递给执行阶段
@@ -9,11 +11,11 @@ module idu_exu_xyh(
     input wire clk,                          // 时钟
     input wire rst_n,                        // 复位(低有效)
 
-    input wire[`STALL_WIDTH-1:0] stall_i,    // 流水线暂停
+    input wire[`XYH_STALL_WIDTH-1:0] stall_i,    // 流水线暂停
     input wire flush_i,                      // 流水线冲刷
 
     input wire[31:0] inst_i,                 // 指令(来自IDU)
-    input wire[`DECINFO_WIDTH-1:0] dec_info_bus_i,  // 译码信息总线(来自IDU)
+    input wire[`XYH_DECINFO_WIDTH-1:0] dec_info_bus_i,  // 译码信息总线(来自IDU)
     input wire[31:0] dec_imm_i,              // 立即数(来自IDU)
     input wire[31:0] dec_pc_i,               // 指令PC(来自IDU)
     input wire[31:0] rs1_rdata_i,            // rs1读数据(来自IDU)
@@ -22,7 +24,7 @@ module idu_exu_xyh(
     input wire rd_we_i,                      // 寄存器写使能(来自IDU)
 
     output wire[31:0] inst_o,                // 指令(送至EXU)
-    output wire[`DECINFO_WIDTH-1:0] dec_info_bus_o,  // 译码信息总线(送至EXU)
+    output wire[`XYH_DECINFO_WIDTH-1:0] dec_info_bus_o,  // 译码信息总线(送至EXU)
     output wire[31:0] dec_imm_o,             // 立即数(送至EXU)
     output wire[31:0] dec_pc_o,              // 指令PC(送至EXU)
     output wire[31:0] rs1_rdata_o,           // rs1读数据(送至EXU)
@@ -32,11 +34,11 @@ module idu_exu_xyh(
 
     );
 
-    wire en = !stall_i[`STALL_ID] | flush_i;
+    wire en = !stall_i[`XYH_STALL_ID] | flush_i;
 
-    wire[`DECINFO_WIDTH-1:0] i_dec_info_bus = flush_i? {`DECINFO_WIDTH{1'b0}}: dec_info_bus_i;
-    wire[`DECINFO_WIDTH-1:0] dec_info_bus;
-    gen_en_dff_xyh #(`DECINFO_WIDTH) info_bus_ff(clk, rst_n, en, i_dec_info_bus, dec_info_bus);
+    wire[`XYH_DECINFO_WIDTH-1:0] i_dec_info_bus = flush_i? {`XYH_DECINFO_WIDTH{1'b0}}: dec_info_bus_i;
+    wire[`XYH_DECINFO_WIDTH-1:0] dec_info_bus;
+    gen_en_dff_xyh #(`XYH_DECINFO_WIDTH) info_bus_ff(clk, rst_n, en, i_dec_info_bus, dec_info_bus);
     assign dec_info_bus_o = dec_info_bus;
 
     wire[31:0] i_dec_imm = flush_i? 32'h0: dec_imm_i;

@@ -1,6 +1,10 @@
-`include "../../core00_wzc/marcos_wzc.v"
+`timescale 1ns / 1ps
 
-module uart_debug(
+`include "../macros.v"
+
+module uart_debug #(
+    parameter [31:0] UART_BAUD_DIV = `UART_BAUD_115200
+)(
 
     input  wire        clk,
     input  wire        rst_n,          // 同步低有效复位
@@ -259,7 +263,7 @@ module uart_debug(
                 S_INIT_UART_BAUD: begin
                     bus_we    <= 1'b1;
                     bus_addr  <= `UART_BAUD_REG;
-                    bus_wdata <= `UART_BAUD_115200;
+                    bus_wdata <= UART_BAUD_DIV;
                     bus_sel   <= 4'b1111;
                     bus_start <= 1'b1;
 

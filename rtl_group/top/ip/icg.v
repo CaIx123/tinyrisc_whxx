@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 module kalsit_icg (
 
     input wire clk_i,

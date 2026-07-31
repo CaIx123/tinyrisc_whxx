@@ -1,5 +1,5 @@
-`ifndef KALSIT_MARCOS_V
-`define KALSIT_MARCOS_V
+`ifndef G03_MACROS_V
+`define G03_MACROS_V
 
 `define CPU_RESET            1'b0            // CPU复位信号有效电平
 `define CPU_RESET_ADDR       32'h0           // CPU复位地址
@@ -25,6 +25,15 @@
 `define RAM_ADDR_WIDTH    4                       // 数据存储器地址宽度，单位为bit
 `define ROM_ADDR_WIDTH    8                       // 指令存储器地址宽度，单位为bit
 `define ICACHE_ADDR_WIDTH 2                       // 指令缓存地址宽度，单位为bit
+
+// Shared external-memory bridge protocol widths.
+`define EXCTRL_WIDTH      8
+`define EXDATA_WIDTH      8
+`define EX_AWIDTH         8
+`define PWIDTH_O          8
+`define PWIDTH_I          8
+`define ROM_AWIDTH        `ROM_ADDR_WIDTH
+`define RAM_AWIDTH        `RAM_ADDR_WIDTH
 
 // 存储单元深度
 `define ROM_DEPTH         256                     // 指令存储器深度，单位为word(4字节)
@@ -152,8 +161,7 @@
 `define CUSTOM_IF         2'b11
 
 // -----------------UART_DEBUG------------------//
-// clk = 50MHz时对应的波特率分频系数
-`define UART_BAUD_115200        32'h1B8
+`define UART_BAUD_115200        ((`CPU_CLOCK_HZ / 115200) - 1)
 
 // 串口寄存器地址
 `define UART_CTRL_REG           32'h30000000
@@ -173,6 +181,15 @@
 
 // 烧写起始地址
 `define ROM_START_ADDR          32'h0
+
+// Shared peripheral address map.  All integrated cores use these ports.
+`define PWM_BASE_ADDR           32'h60000000
+`define IIC_BASE_ADDR           32'h70000000
+`define IIC_CTRL_REG            (`IIC_BASE_ADDR + 32'h00000000)
+`define IIC_ADDR_REG            (`IIC_BASE_ADDR + 32'h00010000)
+`define IIC_TX_REG              (`IIC_BASE_ADDR + 32'h00020000)
+`define IIC_RX_REG              (`IIC_BASE_ADDR + 32'h00030000)
+`define IIC_STATUS_REG          (`IIC_BASE_ADDR + 32'h00040000)
 
 // --------------------I2C---------------------//
 // clk = 50MHz时对应的I2C分频系数

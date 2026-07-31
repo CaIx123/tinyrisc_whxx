@@ -1,4 +1,6 @@
-`include "../marcos_wzc.v"
+`timescale 1ns / 1ps
+
+`include "../../top/macros.v"
 
 module exu_forwarding_unit(
   input wire[`GPR_ADDR_WIDTH-1:0] rs1_addr_i,

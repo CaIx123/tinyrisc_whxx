@@ -1,3 +1,5 @@
+`timescale 1ns / 1ps
+
 /*
  * forwarding_unit_xzr.v
  * 实际没用上

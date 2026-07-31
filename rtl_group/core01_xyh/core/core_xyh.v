@@ -1,4 +1,6 @@
-`include "defines.v"
+`timescale 1ns / 1ps
+
+`include "defines_xyh.v"
 
 // tinyriscv处理器核顶层模块
 // 负责例化IFU、IDU、EXU、GPR、流水控制等所有核心子模块
@@ -53,7 +55,7 @@ module core_xyh(
 
     // idu模块输出信号
     wire[31:0] id_inst_o;
-    wire[`DECINFO_WIDTH-1:0] id_dec_info_bus_o;
+    wire[`XYH_DECINFO_WIDTH-1:0] id_dec_info_bus_o;
     wire[31:0] id_dec_imm_o;
     wire[31:0] id_dec_pc_o;
     wire[4:0] id_rs1_raddr_o;
@@ -66,7 +68,7 @@ module core_xyh(
 
     // idu_exu模块输出信号
     wire[31:0] ie_inst_o;
-    wire[`DECINFO_WIDTH-1:0] ie_dec_info_bus_o;
+    wire[`XYH_DECINFO_WIDTH-1:0] ie_dec_info_bus_o;
     wire[31:0] ie_dec_imm_o;
     wire[31:0] ie_dec_pc_o;
     wire[31:0] ie_rs1_rdata_o;
@@ -92,7 +94,7 @@ module core_xyh(
     // pipe_ctrl模块输出信号
     wire[31:0] ctrl_flush_addr_o;
     wire ctrl_flush_o;
-    wire[`STALL_WIDTH-1:0] ctrl_stall_o;
+    wire[`XYH_STALL_WIDTH-1:0] ctrl_stall_o;
 
     assign dbus_addr_o = ex_mem_addr_o;
     assign dbus_data_o = ex_mem_wdata_o;

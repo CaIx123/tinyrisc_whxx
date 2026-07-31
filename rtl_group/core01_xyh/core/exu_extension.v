@@ -1,4 +1,6 @@
-`include "defines.v"
+`timescale 1ns / 1ps
+
+`include "defines_xyh.v"
 
 // 扩展指令统一调度入口模块
 // 根据dec_info_bus判断当前是哪条扩展指令(sendid/readtemp/intfire)
@@ -9,7 +11,7 @@ module exu_extension_xyh(
     input wire clk,                          // 时钟
     input wire rst_n,                        // 复位(低有效)
     input wire mem_stall_i,                  // 外部暂停
-    input wire[`DECINFO_WIDTH-1:0] dec_info_bus_i,  // 译码信息总线
+    input wire[`XYH_DECINFO_WIDTH-1:0] dec_info_bus_i,  // 译码信息总线
     input wire[31:0] dec_imm_i,              // 立即数
     input wire[31:0] reg1_rdata_i,           // rs1寄存器数据(给intfire)
     input wire[31:0] reg2_rdata_i,           // rs2寄存器数据(给intfire作为x31值)
@@ -30,11 +32,11 @@ module exu_extension_xyh(
 
     );
 
-    wire[`DECINFO_GRP_WIDTH-1:0] disp_info_grp = dec_info_bus_i[`DECINFO_GRP_BUS];
-    wire op_ext = (disp_info_grp == `DECINFO_GRP_EXT);
-    wire ext_op_readtemp = op_ext & (dec_info_bus_i[`DECINFO_EXT_READTEMP] == 1'b1);
-    wire ext_op_sendid = op_ext & (dec_info_bus_i[`DECINFO_EXT_SENDID] == 1'b1);
-    wire ext_op_intfire = op_ext & (dec_info_bus_i[`DECINFO_EXT_INTFIRE] == 1'b1);
+    wire[`XYH_DECINFO_GRP_WIDTH-1:0] disp_info_grp = dec_info_bus_i[`XYH_DECINFO_GRP_BUS];
+    wire op_ext = (disp_info_grp == `XYH_DECINFO_GRP_EXT);
+    wire ext_op_readtemp = op_ext & (dec_info_bus_i[`XYH_DECINFO_EXT_READTEMP] == 1'b1);
+    wire ext_op_sendid = op_ext & (dec_info_bus_i[`XYH_DECINFO_EXT_SENDID] == 1'b1);
+    wire ext_op_intfire = op_ext & (dec_info_bus_i[`XYH_DECINFO_EXT_INTFIRE] == 1'b1);
 
     wire readtemp_ready;
     wire readtemp_bus_req;

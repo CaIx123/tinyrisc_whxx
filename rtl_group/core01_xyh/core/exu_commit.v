@@ -1,4 +1,6 @@
-`include "defines.v"
+`timescale 1ns / 1ps
+
+`include "defines_xyh.v"
 
 // Select the architectural register-file writeback source.
 module exu_commit_xyh(
