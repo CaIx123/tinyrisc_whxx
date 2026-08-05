@@ -1,6 +1,6 @@
 `timescale 1ns / 1ps
 
-`include "../core11_xzr/marcos_xzr.v"
+`include "../top/macros.v"
 
 module bridge_fpga_xzr(
     input wire clk,

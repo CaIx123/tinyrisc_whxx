@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // 访存模块
 // 处理普通load/store指令(lb/lh/lw/lbu/lhu/sb/sh/sw)

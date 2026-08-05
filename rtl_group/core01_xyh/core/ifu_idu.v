@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // IF/ID级流水寄存器
 // 将取指阶段的指令和PC锁存后传递给译码阶段
@@ -26,12 +24,12 @@ module ifu_idu_xyh(
 
     wire[31:0] i_inst = (flush_i)? `INST_NOP: inst_i;
     wire[31:0] inst;
-    gen_en_dff_xyh #(32) inst_ff(clk, rst_n, en, i_inst, inst);
+    gen_en_dff #(32) inst_ff(clk, rst_n, en, i_inst, inst);
     assign inst_o = inst;
 
     wire[31:0] i_inst_addr = flush_i? 32'h0: inst_addr_i;
     wire[31:0] inst_addr;
-    gen_en_dff_xyh #(32) inst_addr_ff(clk, rst_n, en, i_inst_addr, inst_addr);
+    gen_en_dff #(32) inst_addr_ff(clk, rst_n, en, i_inst_addr, inst_addr);
     assign inst_addr_o = inst_addr;
 
 endmodule

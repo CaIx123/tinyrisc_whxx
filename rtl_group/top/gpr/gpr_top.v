@@ -4,7 +4,6 @@
 
 module gpr_top (
     input wire clk,
-    input wire rst_n,
     input wire [1:0] chip_sel_i,
 
     input wire wzc_we_i,
@@ -84,7 +83,6 @@ module gpr_top (
 
     gpr u_gpr (
         .clk(clk),
-        .rst_n(rst_n),
         .we_i(gpr_we),
         .waddr_i(gpr_waddr),
         .wdata_i(gpr_wdata),

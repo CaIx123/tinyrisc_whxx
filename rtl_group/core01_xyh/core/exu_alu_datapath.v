@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 
 `define DATAPATH_MUX_WIDTH  (32+32+16)

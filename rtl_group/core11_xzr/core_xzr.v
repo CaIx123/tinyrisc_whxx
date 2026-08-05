@@ -1,4 +1,6 @@
-`include "../../top/macros.v"
+`timescale 1ns / 1ps
+
+`include "../top/macros.v"
 
 // tinyriscv处理器核顶层模块
 module core_xzr(

@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // 取指模块(Instruction Fetch Unit)
 // 负责PC管理和指令读取：当未复位、未停机、未flush时产生ibus请求

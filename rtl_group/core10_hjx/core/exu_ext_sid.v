@@ -1,8 +1,6 @@
-`timescale 1ns / 1ps
+`include "../../top/macros.v"
 
-`include "defines_hjx.v"
-
-module exu_ext_sid_hjx(
+module exu_ext_sid(
 
     input wire clk,
     input wire rst_n,

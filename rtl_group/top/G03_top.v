@@ -125,7 +125,7 @@ module g03_soc #(
     );
 
     gpr_top u_gpr_top (
-        .clk(clk), .rst_n(rst_n), .chip_sel_i(chip_sel_i),
+        .clk(clk), .chip_sel_i(chip_sel_i),
         .wzc_we_i(core_gpr_we[0]), .wzc_waddr_i(core_gpr_waddr[0]), .wzc_wdata_i(core_gpr_wdata[0]),
         .wzc_raddr1_i(core_gpr_raddr1[0]), .wzc_raddr2_i(core_gpr_raddr2[0]),
         .wzc_rdata1_o(core_gpr_rdata1[0]), .wzc_rdata2_o(core_gpr_rdata2[0]),

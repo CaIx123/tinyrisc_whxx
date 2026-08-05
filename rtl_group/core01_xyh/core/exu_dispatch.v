@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // Decode the shared execution-information bus into RV32I datapath controls.
 module exu_dispatch_xyh(

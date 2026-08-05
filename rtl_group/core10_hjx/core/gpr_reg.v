@@ -14,7 +14,7 @@
  limitations under the License.                                          
  */
 
-`include "defines_hjx.v"
+`include "../../top/macros.v"
 
 // 通用寄存器模块
 module gpr_reg(
@@ -47,7 +47,7 @@ module gpr_reg(
                 assign regs[i] = 32'h0;
             end else begin: not_x0
                 assign we[i] = we_i & (waddr_i == i);
-                hjx_gen_en_dffnr #(32) rf_dff(clk, we[i], wdata_i, regs[i]);
+                gen_en_dffnr #(32) rf_dff(clk, we[i], wdata_i, regs[i]);
             end
         end
     endgenerate

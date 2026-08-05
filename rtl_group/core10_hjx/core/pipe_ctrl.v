@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
  /*                                                                      
  Copyright 2019 Blue Liang, liangkangnan@163.com
                                                                          
@@ -16,11 +14,11 @@
  limitations under the License.                                          
  */
 
-`include "defines_hjx.v"
+`include "../../top/macros.v"
 
 // 流水线控制模块
 // 发出暂停、冲刷流水线信号
-module pipe_ctrl_hjx(
+module pipe_ctrl(
 
     input wire clk,
     input wire rst_n,

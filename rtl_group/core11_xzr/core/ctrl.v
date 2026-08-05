@@ -1,7 +1,5 @@
-`timescale 1ns / 1ps
 
-
-`include "../marcos_xzr.v"
+`include "../../top/macros.v"
 
 module ctrl_xzr(
     input wire rst,

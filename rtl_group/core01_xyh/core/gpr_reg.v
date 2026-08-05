@@ -1,4 +1,4 @@
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // 通用寄存器堆模块(32 x 32bit)
 // 双读单写端口，x0恒为0
@@ -37,7 +37,7 @@ module gpr_reg_xyh(
                 assign regs[i] = 32'h0;
             end else begin: not_x0
                 assign we[i] = we_i & (waddr_i == i);
-                gen_en_dffnr_xyh #(32) rf_dff(clk, we[i], wdata_i, regs[i]);
+                gen_en_dffnr #(32) rf_dff(clk, we[i], wdata_i, regs[i]);
             end
         end
     endgenerate

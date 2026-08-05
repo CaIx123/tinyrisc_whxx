@@ -1,10 +1,8 @@
-`timescale 1ns / 1ps
-
 /*
  * forwarding_unit_xzr.v
  * 实际没用上
  */
-`include "../marcos_xzr.v"
+`include "../../top/macros.v"
 
 module forwarding_unit_xzr(
     // EX写回信息

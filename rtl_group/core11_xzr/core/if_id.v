@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "../marcos_xzr.v"
+`include "../../top/macros.v"
 
 // 将指令向译码模块传递
 module if_id_xzr(
@@ -41,16 +39,16 @@ end
 
     wire[`InstBus] inst;
     // 使用复位使能信号：当reset_en有效时，强制输出INST_NOP
-    gen_pipe_dff_xzr #(32) inst_ff(clk, rst, hold_en, flush_i, `INST_NOP, inst_i, inst);
+    gen_pipe_flush_dff #(32) inst_ff(clk, rst, hold_en, flush_i, `INST_NOP, inst_i, inst);
     assign inst_o = inst;
 
     wire[`InstAddrBus] inst_addr;
-    gen_pipe_dff_xzr #(32) inst_addr_ff(clk, rst, hold_en, flush_i, `ZeroWord, inst_addr_i, inst_addr);
+    gen_pipe_flush_dff #(32) inst_addr_ff(clk, rst, hold_en, flush_i, `ZeroWord, inst_addr_i, inst_addr);
     assign inst_addr_o = inst_addr;
 
     // [已注释] 中断信号打拍传递逻辑
     // wire[`INT_BUS] int_flag;
-    // gen_pipe_dff #(8) int_ff(clk, rst, hold_en, flush_i, `INT_NONE, int_flag_i, int_flag);
+    // gen_pipe_flush_dff #(8) int_ff(clk, rst, hold_en, flush_i, `INT_NONE, int_flag_i, int_flag);
     // assign int_flag_o = int_flag;
 
 endmodule

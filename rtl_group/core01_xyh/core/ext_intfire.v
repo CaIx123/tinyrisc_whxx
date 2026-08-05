@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // 扩展指令IF(Integrated&Fire)
 // opcode=0101111, funct3=010

@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // tinyriscv处理器核顶层模块
 // 负责例化IFU、IDU、EXU、GPR、流水控制等所有核心子模块

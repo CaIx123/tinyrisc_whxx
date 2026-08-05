@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // 流水线控制模块
 // 统一产生stall(暂停)和flush(冲刷)信号
@@ -33,7 +31,7 @@ module pipe_ctrl_xyh(
         stall[`XYH_STALL_EX] = stall_from_if_i;
         stall[`XYH_STALL_ID] = stall_from_ex_i[0] | stall_from_if_i;
         stall[`XYH_STALL_IF] = stall_from_ex_i[0];
-        stall[`XYH_STALL_PC] = stall_from_ex_i[1] | stall_from_id_i; //stall_from_id_i;//
+        stall[`XYH_STALL_PC] = stall_from_ex_i[1] | stall_from_id_i; //stall_from_id_i;// 
         // if (stall_from_ex_i) begin
         //     // stall[`XYH_STALL_EX] = 1'b0;
         //     stall[`XYH_STALL_ID] = 1'b1;

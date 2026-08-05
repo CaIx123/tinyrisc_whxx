@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "../marcos_xzr.v"
+`include "../../top/macros.v"
 
 // 译码模块
 // 纯组合逻辑电路

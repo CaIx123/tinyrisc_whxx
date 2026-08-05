@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
  /*                                                                      
  Copyright 2020 Blue Liang, liangkangnan@163.com
                                                                          
@@ -16,10 +14,10 @@
  limitations under the License.                                          
  */
 
-`include "defines_hjx.v"
+`include "../../top/macros.v"
 
 
-module exu_commit_hjx(
+module exu_commit(
 
     input wire clk,
     input wire rst_n,

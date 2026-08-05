@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
  /*                                                                      
  Copyright 2019 Blue Liang, liangkangnan@163.com
                                                                          
@@ -16,10 +14,10 @@
  limitations under the License.                                          
  */
 
-`include "defines_hjx.v"
+`include "../../top/macros.v"
 
 // 将指令向译码模块传递
-module ifu_idu_hjx(
+module ifu_idu(
 
     input wire clk,
     input wire rst_n,
@@ -39,12 +37,12 @@ module ifu_idu_hjx(
 
     wire[31:0] i_inst = (flush_i)? `INST_NOP: inst_i;
     wire[31:0] inst;
-    hjx_gen_en_dff_hjx #(32) inst_ff(clk, rst_n, en, i_inst, inst);
+    gen_en_dff #(32) inst_ff(clk, rst_n, en, i_inst, inst);
     assign inst_o = inst;
 
     wire[31:0] i_inst_addr = flush_i? 32'h0: inst_addr_i;
     wire[31:0] inst_addr;
-    hjx_gen_en_dff_hjx #(32) inst_addr_ff(clk, rst_n, en, i_inst_addr, inst_addr);
+    gen_en_dff #(32) inst_addr_ff(clk, rst_n, en, i_inst_addr, inst_addr);
     assign inst_addr_o = inst_addr;
 
 endmodule

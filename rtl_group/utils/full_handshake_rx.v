@@ -1,41 +1,21 @@
- /*                                                                      
- Copyright 2020 Blue Liang, liangkangnan@163.com
-                                                                         
- Licensed under the Apache License, Version 2.0 (the "License");         
- you may not use this file except in compliance with the License.        
- You may obtain a copy of the License at                                 
-                                                                         
-     http://www.apache.org/licenses/LICENSE-2.0                          
-                                                                         
- Unless required by applicable law or agreed to in writing, software    
- distributed under the License is distributed on an "AS IS" BASIS,       
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and     
- limitations under the License.                                          
- */
+`timescale 1ns / 1ps
 
-// 数据接收端模块
-// 跨时钟域传输，全(四次)握手协议
-// req = 1
-// ack_o = 1
-// req = 0
-// ack_o = 0
-module full_handshake_rx_xzr #(
-    parameter DW = 32)(             // RX要接收数据的位宽
+module full_handshake_rx #(
+    parameter DW = 32)(             // RX要接收数�的位�
 
-    input wire clk,                 // RX端时钟信号
-    input wire rst_n,               // RX端复位信号
+    input wire clk,                 // RX�时钟信号
+    input wire rst_n,               // RX�复位信号
 
     // from tx
-    input wire req_i,               // TX端请求信号
-    input wire[DW-1:0] req_data_i,  // TX端输入数据
+    input wire req_i,               // TX�请求信号
+    input wire[DW-1:0] req_data_i,  // TX�输入数据
 
     // to tx
-    output wire ack_o,              // RX端应答TX端信号
+    output wire ack_o,              // RX�应答TX�信号
 
     // to rx
-    output wire[DW-1:0] recv_data_o,// RX端接收到的数据
-    output wire recv_rdy_o          // RX端是否接收到数据信号
+    output wire[DW-1:0] recv_data_o,// RX�接收到的数据
+    output wire recv_rdy_o          // RX��否接收到数据信号
 
     );
 
@@ -53,6 +33,9 @@ module full_handshake_rx_xzr #(
         end
     end
 
+    reg req_d;
+    reg req;
+    
     always @ (*) begin
         case (state)
             // 等待TX请求信号req=1
@@ -77,10 +60,7 @@ module full_handshake_rx_xzr #(
         endcase
     end
 
-    reg req_d;
-    reg req;
-
-    // 将请求信号打两拍进行同步
+    // 将�求信号打两拍进行同�
     always @ (posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             req_d <= 1'b0;
@@ -105,14 +85,14 @@ module full_handshake_rx_xzr #(
                 STATE_IDLE: begin
                     if (req == 1'b1) begin
                         ack <= 1'b1;
-                        recv_rdy <= 1'b1;           // 这个信号只会持续一个时钟
-                        recv_data <= req_data_i;    // 这个信号只会持续一个时钟
+                        recv_rdy <= 1'b1;           // 这个信号�会持���时钟
+                        recv_data <= req_data_i;    // 这个信号�会持���时钟
                     end
                 end
                 STATE_DEASSERT: begin
                     recv_rdy <= 1'b0;
                     recv_data <= {(DW){1'b0}};
-                    // req撤销后ack也撤销
+                    // req撤销后ack也撤�
                     if (req == 1'b0) begin
                         ack <= 1'b0;
                     end

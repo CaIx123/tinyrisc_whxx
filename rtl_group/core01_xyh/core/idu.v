@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // 译码模块(Instruction Decode Unit)
 // 纯组合逻辑电路，负责识别指令种类

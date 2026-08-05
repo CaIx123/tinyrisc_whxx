@@ -1,30 +1,24 @@
 `timescale 1ns / 1ps
 
-// 数据发送端模块
-// 跨时钟域传输，全(四次)握手协议
-// req_o = 1
-// ack = 1
-// req_o = 0
-// ack = 0
 module full_handshake_tx #(
-    parameter DW = 32)(             // TX要发送数据的位宽
+    parameter DW = 32)(             // TX要发送数�的位�
 
-    input wire clk,                 // TX端时钟信号
-    input wire rst_n,               // TX端复位信号
+    input wire clk,                 // TX�时钟信号
+    input wire rst_n,               // TX�复位信号
 
     // from rx
-    input wire ack_i,               // RX端应答信号
+    input wire ack_i,               // RX�应答信号
 
     // from tx
-    input wire req_i,               // TX端请求信号，只需持续一个时钟
-    input wire[DW-1:0] req_data_i,  // TX端要发送的数据，只需持续一个时钟
+    input wire req_i,               // TX�请求信号，只�持续��时钟
+    input wire[DW-1:0] req_data_i,  // TX�要发送的数据，只�持续��时钟
 
     // to tx
-    output wire idle_o,             // TX端是否空闲信号，空闲才能发数据
+    output wire idle_o,             // TX��否空闲信号，空闲才能发数�
 
     // to rx
-    output wire req_o,              // TX端请求信号
-    output wire[DW-1:0] req_data_o  // TX端要发送的数据
+    output wire req_o,              // TX�请求信号
+    output wire[DW-1:0] req_data_o  // TX�要发送的数据
 
     );
 
@@ -77,7 +71,7 @@ module full_handshake_tx #(
         endcase
     end
 
-    // 将应答信号打两拍进行同步
+    // 将应答信号打两拍进�同�
     always @ (posedge clk or negedge rst_n) begin
         if (!rst_n) begin
             ack_d <= 1'b0;
@@ -99,7 +93,7 @@ module full_handshake_tx #(
             req_data <= {(DW){1'b0}};
         end else begin
             case (state)
-                // 锁存TX请求数据，在收到ack之前一直保持有效
+                // 锁存TX请求数据，在收到ack之前�直保持有�
                 STATE_IDLE: begin
                     if (req_i == 1'b1) begin
                         idle <= 1'b0;

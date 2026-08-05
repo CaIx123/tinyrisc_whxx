@@ -6,8 +6,6 @@
 module gpr(
 
     input wire clk,
-    input wire rst_n,
-
     input wire we_i,                                    // 写寄存器使能
     input wire [`GPR_ADDR_WIDTH-1:0] waddr_i,           // 写寄存器地址
     input wire [`DATA_WIDTH-1:0] wdata_i,               // 写寄存器数据
@@ -76,4 +74,3 @@ module gpr(
     wire[31:0] t6 = regs[31];
 
 endmodule
-

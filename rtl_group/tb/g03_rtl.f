@@ -7,16 +7,16 @@
  +incdir+top/perips/bridge
  +incdir+core00_wzc
  +incdir+core00_wzc/core
- +incdir+core00_wzc/utils
+ +incdir+utils
  +incdir+core01_xyh
  +incdir+core01_xyh/core
- +incdir+core01_xyh/utils
+ +incdir+utils
  +incdir+core10_hjx
  +incdir+core10_hjx/core
- +incdir+core10_hjx/utils
+ +incdir+utils
  +incdir+core11_xzr
  +incdir+core11_xzr/core
- +incdir+core11_xzr/utils
+ +incdir+utils
  +incdir+fpga
 top/G03_top.v
 top/clk_rst/global_clk_sel.v
@@ -60,14 +60,13 @@ core00_wzc/core/preg_id_ex.v
 core00_wzc/core/preg_if_id.v
 core00_wzc/core/preg_mem_wb.v
 core00_wzc/core/wbu_top.v
-core00_wzc/utils/full_handshake_rx.v
-core00_wzc/utils/full_handshake_tx.v
-core00_wzc/utils/gen_buf.v
-core00_wzc/utils/gen_dff.v
-core00_wzc/utils/gen_ram.v
-core00_wzc/utils/vld_rdy.v
+utils/full_handshake_rx.v
+utils/full_handshake_tx.v
+utils/gen_buf.v
+utils/gen_dff.v
+utils/gen_ram.v
+utils/vld_rdy.v
 core01_xyh/core/core_xyh.v
-core01_xyh/core/defines_xyh.v
 core01_xyh/core/exu_alu_datapath.v
 core01_xyh/core/exu_commit.v
 core01_xyh/core/exu_dispatch.v
@@ -82,11 +81,10 @@ core01_xyh/core/idu_exu.v
 core01_xyh/core/ifu.v
 core01_xyh/core/ifu_idu.v
 core01_xyh/core/pipe_ctrl.v
-core01_xyh/utils/gen_buf.v
-core01_xyh/utils/gen_dff.v
-core01_xyh/utils/vld_rdy.v
+utils/gen_buf.v
+utils/gen_dff.v
+utils/vld_rdy.v
 core10_hjx/core/core_hjx.v
-core10_hjx/core/defines_hjx.v
 core10_hjx/core/exu.v
 core10_hjx/core/exu_alu_datapath.v
 core10_hjx/core/exu_commit.v
@@ -100,10 +98,10 @@ core10_hjx/core/idu_exu.v
 core10_hjx/core/ifu_hjx.v
 core10_hjx/core/ifu_idu.v
 core10_hjx/core/pipe_ctrl.v
-core10_hjx/utils/gen_buf.v
-core10_hjx/utils/gen_dff.v
-core10_hjx/utils/gen_ram.v
-core10_hjx/utils/vld_rdy.v
+utils/gen_buf.v
+utils/gen_dff.v
+utils/gen_ram.v
+utils/vld_rdy.v
 core11_xzr/core/core_xzr.v
 core11_xzr/core/ctrl.v
 core11_xzr/core/ex.v
@@ -112,9 +110,8 @@ core11_xzr/core/id.v
 core11_xzr/core/id_ex.v
 core11_xzr/core/if_id.v
 core11_xzr/core/pc_reg.v
-core11_xzr/core/regs.v
-core11_xzr/utils/gen_buf.v
-core11_xzr/utils/gen_dff.v
+utils/gen_buf.v
+utils/gen_dff.v
 fpga/bridge_fpga_wzc.v
 fpga/bridge_fpga_xyh.v
 fpga/bridge_fpga_hjx.v

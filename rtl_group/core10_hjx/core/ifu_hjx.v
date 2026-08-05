@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
  /*                                                                      
  Copyright 2020 Blue Liang, liangkangnan@163.com
                                                                          
@@ -16,7 +14,7 @@
  limitations under the License.                                          
  */
 
-`include "defines_hjx.v"
+`include "../../top/macros.v"
 
 // 取指模块
 module ifu_hjx(
@@ -97,7 +95,7 @@ module ifu_hjx(
     wire[31:0] pc_r;
     // 将PC打一�??
     wire pc_ena = (~stall);
-    hjx_gen_en_dff_hjx #(32) pc_dff(clk, rst_n, pc_ena, pc, pc_r);
+    gen_en_dff #(32) pc_dff(clk, rst_n, pc_ena, pc, pc_r);
 
     reg req_hasked_r;
 

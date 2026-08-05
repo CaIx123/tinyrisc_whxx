@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
  /*                                                                      
  Copyright 2020 Blue Liang, liangkangnan@163.com
                                                                          
@@ -16,13 +14,13 @@
  limitations under the License.                                          
  */
 
-`include "defines_hjx.v"
+`include "../../top/macros.v"
 
 
 `define DATAPATH_MUX_WIDTH  (32+32+16)
 
 
-module exu_alu_datapath_hjx(
+module exu_alu_datapath(
 
     input wire clk,
     input wire rst_n,

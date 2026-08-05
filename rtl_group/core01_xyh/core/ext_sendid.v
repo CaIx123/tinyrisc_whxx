@@ -1,6 +1,4 @@
-`timescale 1ns / 1ps
-
-`include "defines_xyh.v"
+`include "../../top/macros.v"
 
 // 扩展指令sID：通过UART发出学号的ASCII串
 // opcode=0101111, funct3=000

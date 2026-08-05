@@ -1,23 +1,6 @@
 `timescale 1ns / 1ps
 
- /*                                                                      
- Copyright 2020 Blue Liang, liangkangnan@163.com
-                                                                         
- Licensed under the Apache License, Version 2.0 (the "License");         
- you may not use this file except in compliance with the License.        
- You may obtain a copy of the License at                                 
-                                                                         
-     http://www.apache.org/licenses/LICENSE-2.0                          
-                                                                         
- Unless required by applicable law or agreed to in writing, software    
- distributed under the License is distributed on an "AS IS" BASIS,       
- WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- See the License for the specific language governing permissions and     
- limitations under the License.                                          
- */
-
-// 带默认值和控制信号的流水线触发器
-module hjx_gen_pipe_dff_hjx #(
+module gen_pipe_dff #(
     parameter DW = 32)(
 
     input wire clk,
@@ -44,8 +27,7 @@ module hjx_gen_pipe_dff_hjx #(
 
 endmodule
 
-// 复位后输出为0的触发器
-module hjx_gen_rst_0_dff_hjx #(
+module gen_rst_0_dff #(
     parameter DW = 32)(
 
     input wire clk,
@@ -70,8 +52,7 @@ module hjx_gen_rst_0_dff_hjx #(
 
 endmodule
 
-// 复位后输出为1的触发器
-module hjx_gen_rst_1_dff_hjx #(
+module gen_rst_1_dff #(
     parameter DW = 32)(
 
     input wire clk,
@@ -96,8 +77,7 @@ module hjx_gen_rst_1_dff_hjx #(
 
 endmodule
 
-// 复位后输出为默认值的触发器
-module hjx_gen_rst_def_dff_hjx #(
+module gen_rst_def_dff #(
     parameter DW = 32)(
 
     input wire clk,
@@ -123,8 +103,7 @@ module hjx_gen_rst_def_dff_hjx #(
 
 endmodule
 
-// 带使能端、复位后输出为0的触发器
-module hjx_gen_en_dff_hjx #(
+module gen_en_dff #(
     parameter DW = 32)(
 
     input wire clk,
@@ -143,15 +122,14 @@ module hjx_gen_en_dff_hjx #(
             qout_r <= {DW{1'b0}};
         end else if (en == 1'b1) begin
             qout_r <= din;
-        end
+        end 
     end
 
     assign qout = qout_r;
 
 endmodule
 
-// 带使能端、没有复位的触发器
-module hjx_gen_en_dffnr_hjx #(
+module gen_en_dffnr #(
     parameter DW = 32)(
 
     input wire clk,
@@ -166,6 +144,36 @@ module hjx_gen_en_dffnr_hjx #(
 
     always @ (posedge clk) begin
         if (en == 1'b1) begin
+            qout_r <= din;
+        end
+    end
+
+    assign qout = qout_r;
+
+endmodule
+
+
+module gen_pipe_flush_dff #(
+    parameter DW = 32)(
+
+    input wire clk,
+    input wire rst,
+    input wire hold_en,
+    input wire flush_en,          // [新增] 冲刷使能
+
+    input wire[DW-1:0] def_val,
+    input wire[DW-1:0] din,
+    output wire[DW-1:0] qout
+    );
+
+    reg[DW-1:0] qout_r;
+
+    always @ (posedge clk) begin
+        if (!rst | flush_en) begin
+            qout_r <= def_val;    // 冲刷或复位时，输出 NOP
+        end else if (hold_en) begin
+            qout_r <= qout_r;     // [关键修复] 暂停时，真正地锁住当前值！
+        end else begin
             qout_r <= din;
         end
     end

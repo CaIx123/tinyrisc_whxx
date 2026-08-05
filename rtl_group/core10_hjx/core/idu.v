@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
  /*
  Copyright 2019 Blue Liang, liangkangnan@163.com
 
@@ -16,11 +14,11 @@
  limitations under the License.
  */
 
-`include "defines_hjx.v"
+`include "../../top/macros.v"
 
 // 译码模块
 // 纯组合逻辑电路
-module idu_hjx(
+module idu(
 
 	input wire clk,
 	input wire rst_n,
