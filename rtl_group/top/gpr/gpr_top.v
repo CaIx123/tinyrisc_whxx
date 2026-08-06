@@ -80,6 +80,7 @@ module gpr_top (
 
     wire [`DATA_WIDTH-1:0] gpr_rdata1;
     wire [`DATA_WIDTH-1:0] gpr_rdata2;
+    wire [`DATA_WIDTH-1:0] gpr_x27;
 
     gpr u_gpr (
         .clk(clk),
@@ -89,7 +90,8 @@ module gpr_top (
         .raddr1_i(gpr_raddr1),
         .rdata1_o(gpr_rdata1),
         .raddr2_i(gpr_raddr2),
-        .rdata2_o(gpr_rdata2)
+        .rdata2_o(gpr_rdata2),
+        .x27_o(gpr_x27)
     );
 
     /*
@@ -106,6 +108,6 @@ module gpr_top (
     assign xzr_rdata1_o = chip_xzr ? gpr_rdata1 : {`DATA_WIDTH{1'b0}};
     assign xzr_rdata2_o = chip_xzr ? gpr_rdata2 : {`DATA_WIDTH{1'b0}};
 
-    assign x27_o = u_gpr.regs[27];
+    assign x27_o = gpr_x27;
 
 endmodule

@@ -1,14 +1,13 @@
-`timescale 1ns / 1ps
-
 `include "../top/macros.v"
 
 // tinyriscv处理器核顶层模块
 // 负责例化IFU、IDU、EXU、GPR、流水控制等所有核心子模块
-// 对外提供指令总线(ibus)和数据总线(dbus)两套独立的访存接�?// 同时提供x26/x27寄存器引出用于测试完成信�?succ)
+// 对外提供指令总线(ibus)和数据总线(dbus)两套独立的访存接口
+// 同时提供x26/x27寄存器引出用于测试完成信号(succ)
 module core_xyh(
 
     input wire clk,                          // 时钟
-    input wire rst_n,                        // 复位(低有�?
+    input wire rst_n,                        // 复位(低有效)
     input wire pc_rst_i,                     // PC复位信号(烧录完成后重启IFU)
     output wire gpr_we_o,
     output wire[4:0] gpr_waddr_o,
@@ -19,16 +18,20 @@ module core_xyh(
     input wire[31:0] gpr_rdata2_i,
 
     output wire[31:0] dbus_addr_o,           // 数据总线地址
-    input wire[31:0] dbus_data_i,            // 数据总线读数�?    output wire[31:0] dbus_data_o,           // 数据总线写数�?    output wire[3:0] dbus_sel_o,             // 数据总线字节选择掩码
-    output wire dbus_we_o,                   // 数据总线写使�?    output wire dbus_req_valid_o,            // 数据总线请求有效
+    input wire[31:0] dbus_data_i,            // 数据总线读数据
+    output wire[31:0] dbus_data_o,           // 数据总线写数据
+    output wire[3:0] dbus_sel_o,             // 数据总线字节选择掩码
+    output wire dbus_we_o,                   // 数据总线写使能
+    output wire dbus_req_valid_o,            // 数据总线请求有效
     input wire dbus_req_ready_i,             // 数据总线请求就绪
     input wire dbus_rsp_valid_i,             // 数据总线响应有效
     output wire dbus_rsp_ready_o,            // 数据总线响应就绪
 
     output wire[31:0] ibus_addr_o,           // 指令总线地址
-    input wire[31:0] ibus_data_i,            // 指令总线读数�?    output wire[31:0] ibus_data_o,           // 指令总线写数�?恒为0)
+    input wire[31:0] ibus_data_i,            // 指令总线读数据
+    output wire[31:0] ibus_data_o,           // 指令总线写数据(恒为0)
     output wire[3:0] ibus_sel_o,             // 指令总线字节选择(恒为1111)
-    output wire ibus_we_o,                   // 指令总线写使�?恒为0)
+    output wire ibus_we_o,                   // 指令总线写使能(恒为0)
     output wire ibus_req_valid_o,            // 指令总线请求有效
     input wire ibus_req_ready_i,             // 指令总线请求就绪
     input wire ibus_rsp_valid_i,             // 指令总线响应有效

@@ -1,0 +1,187 @@
+ 
+****************************************
+check_design summary:
+Version:     Q-2019.12-SP5-2
+Date:        Thu Aug  6 10:42:47 2026
+****************************************
+
+                   Name                                            Total
+--------------------------------------------------------------------------------
+Inputs/Outputs                                                     78
+    Multiply driven inputs (LINT-6)                                14
+    Unconnected ports (LINT-28)                                    64
+
+Cells                                                              45
+    Connected to power or ground (LINT-32)                         44
+    Nets connected to multiple pins on same cell (LINT-33)          1
+--------------------------------------------------------------------------------
+
+Warning: In design 'g03_top_IO', input port 'clk' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'rst_n_i' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'debug_en_i' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'chip_sel_i[1]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'chip_sel_i[0]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'bridge_rx_data_i[7]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'bridge_rx_data_i[6]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'bridge_rx_data_i[5]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'bridge_rx_data_i[4]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'bridge_rx_data_i[3]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'bridge_rx_data_i[2]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'bridge_rx_data_i[1]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'bridge_rx_data_i[0]' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'g03_top_IO', input port 'uart_rx_i' drives wired logic; the port direction may have been specified incorrectly. (LINT-6)
+Warning: In design 'ex_xzr', port 'inst_i[19]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_i[18]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_i[17]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_i[16]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_i[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_i[11]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_i[10]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_i[9]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[31]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[30]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[29]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[28]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[27]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[26]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[25]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[24]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[23]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[22]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[21]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[20]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[19]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[18]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[17]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[16]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[14]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[13]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[12]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[11]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[10]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[9]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[8]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[7]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[6]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[5]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[4]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[3]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[2]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'inst_addr_i[0]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[27]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[26]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[25]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[24]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[14]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[13]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[12]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[11]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_raddr_o[10]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[27]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[26]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[25]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[24]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[15]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[14]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[13]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[12]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[11]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'mem_waddr_o[10]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'forward_a_i[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'forward_a_i[0]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'forward_b_i[1]' is not connected to any nets. (LINT-28)
+Warning: In design 'ex_xzr', port 'forward_b_i[0]' is not connected to any nets. (LINT-28)
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_i[19]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_i[18]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_i[17]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_i[16]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_i[15]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_i[11]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_i[10]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_i[9]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[31]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[30]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[29]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[28]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[27]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[26]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[25]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[24]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[23]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[22]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[21]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[20]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[19]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[18]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[17]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[16]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[15]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[14]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[13]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[12]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[11]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[10]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[9]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[8]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[7]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[6]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[5]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[4]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[3]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[2]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[1]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'inst_addr_i[0]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'forward_a_i[1]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'forward_a_i[0]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'forward_b_i[1]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', a pin on submodule 'u_g03_soc/u_core_xzr/u_ex' is connected to logic 1 or logic 0. (LINT-32)
+   Pin 'forward_b_i[0]' is connected to logic 0. 
+Warning: In design 'g03_top_IO', the same net is connected to more than one pin on submodule 'u_g03_soc/u_core_xzr/u_ex'. (LINT-33)
+   Net 'n30745' is connected to pins 'inst_i[19]', 'inst_i[18]'', 'inst_i[17]', 'inst_i[16]', 'inst_i[15]', 'inst_i[11]', 'inst_i[10]', 'inst_i[9]', 'inst_addr_i[31]', 'inst_addr_i[30]', 'inst_addr_i[29]', 'inst_addr_i[28]', 'inst_addr_i[27]', 'inst_addr_i[26]', 'inst_addr_i[25]', 'inst_addr_i[24]', 'inst_addr_i[23]', 'inst_addr_i[22]', 'inst_addr_i[21]', 'inst_addr_i[20]', 'inst_addr_i[19]', 'inst_addr_i[18]', 'inst_addr_i[17]', 'inst_addr_i[16]', 'inst_addr_i[15]', 'inst_addr_i[14]', 'inst_addr_i[13]', 'inst_addr_i[12]', 'inst_addr_i[11]', 'inst_addr_i[10]', 'inst_addr_i[9]', 'inst_addr_i[8]', 'inst_addr_i[7]', 'inst_addr_i[6]', 'inst_addr_i[5]', 'inst_addr_i[4]', 'inst_addr_i[3]', 'inst_addr_i[2]', 'inst_addr_i[1]', 'inst_addr_i[0]', 'forward_a_i[1]', 'forward_a_i[0]', 'forward_b_i[1]', 'forward_b_i[0]'.
+1

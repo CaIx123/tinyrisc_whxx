@@ -1,0 +1,122 @@
+ 
+****************************************
+Report : qor
+Design : g03_top_IO
+Version: Q-2019.12-SP5-2
+Date   : Thu Aug  6 10:42:49 2026
+****************************************
+
+
+  Timing Path Group 'reg2reg'
+  -----------------------------------
+  Levels of Logic:              54.00
+  Critical Path Length:          7.48
+  Critical Path Slack:           0.00
+  Critical Path Clk Period:      8.00
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+  Timing Path Group 'in2reg'
+  -----------------------------------
+  Levels of Logic:              51.00
+  Critical Path Length:          5.88
+  Critical Path Slack:           0.00
+  Critical Path Clk Period:      8.00
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+  Timing Path Group 'reg2out'
+  -----------------------------------
+  Levels of Logic:              40.00
+  Critical Path Length:          6.10
+  Critical Path Slack:           0.00
+  Critical Path Clk Period:      8.00
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+  Timing Path Group 'core_clock'
+  -----------------------------------
+  Levels of Logic:              24.00
+  Critical Path Length:          4.49
+  Critical Path Slack:           0.01
+  Critical Path Clk Period:      8.00
+  Total Negative Slack:          0.00
+  No. of Violating Paths:        0.00
+  Worst Hold Violation:          0.00
+  Total Hold Violation:          0.00
+  No. of Hold Violations:        0.00
+  -----------------------------------
+
+
+  Cell Count
+  -----------------------------------
+  Hierarchical Cell Count:          1
+  Hierarchical Port Count:        471
+  Leaf Cell Count:              26402
+  Buf/Inv Cell Count:            2972
+  Buf Cell Count:                  56
+  Inv Cell Count:                2916
+  CT Buf/Inv Cell Count:            0
+  Combinational Cell Count:     21761
+  Sequential Cell Count:         4641
+  Macro Count:                      0
+  -----------------------------------
+
+
+  Area
+  -----------------------------------
+  Combinational Area:   315123.180851
+  Noncombinational Area: 316041.266331
+  Buf/Inv Area:          21202.473932
+  Total Buffer Area:           755.09
+  Total Inverter Area:       20447.38
+  Macro/Black Box Area: 207000.000000
+  Net Area:                  0.000000
+  -----------------------------------
+  Cell Area:            838164.447182
+  Design Area:          838164.447182
+
+
+  Design Rules
+  -----------------------------------
+  Total Number of Nets:         27812
+  Nets With Violations:             0
+  Max Trans Violations:             0
+  Max Cap Violations:               0
+  -----------------------------------
+
+
+  Hostname: edaserver
+
+  Compile CPU Statistics
+  -----------------------------------------
+  Resource Sharing:                    0.01
+  Logic Optimization:                  0.79
+  Mapping Optimization:                6.91
+  -----------------------------------------
+  Overall Compile Time:               24.53
+  Overall Compile Wall Clock Time:    25.05
+
+  --------------------------------------------------------------------
+
+  Design  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+
+  Design (Hold)  WNS: 0.00  TNS: 0.00  Number of Violating Paths: 0
+
+  --------------------------------------------------------------------
+
+
+1

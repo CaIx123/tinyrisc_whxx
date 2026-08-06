@@ -18,7 +18,7 @@
 
 // 流水线控制模块
 // 发出暂停、冲刷流水线信号
-module pipe_ctrl(
+module pipe_ctrl_hjx(
 
     input wire clk,
     input wire rst_n,

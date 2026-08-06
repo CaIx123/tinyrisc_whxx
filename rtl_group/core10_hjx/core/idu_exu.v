@@ -17,7 +17,7 @@
 `include "../../top/macros.v"
 
 // 将译码结果向执行模块传递
-module idu_exu(
+module idu_exu_hjx(
 
     input wire clk,
     input wire rst_n,

@@ -1,0 +1,593 @@
+
+                                 Formality (R)
+
+               Version Q-2019.12-SP5 for linux64 - Jul 15, 2020 
+
+                    Copyright (c) 1988 - 2020 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+
+Build: 6482159
+Hostname: edaserver
+Current time: Thu Aug  6 10:51:29 2026
+
+Loading db file '/soft1/synopsys/formality/libraries/syn/gtech.db'
+#-----------------------------------------------------------------------
+# fml variable setting
+#-----------------------------------------------------------------------
+source $::env(SCRIPTS_DIR)/fml/fml_setup.tcl
+Error: Variable 'formality_log_name' is read-only. (FM-414)
+false
+#-----------------------------------------------------------------------
+# Read db
+#-----------------------------------------------------------------------
+read_db -technology_library $::env(DB_FILES)
+Loading db file '/data2/class/chenh/chenh51/Process/TSMC18_Lib_new/lib/SC_ARM/db/sage-x_tsmc_cl018g_rvt_tt_1p8v_25c.db'
+Loading db file '/data2/class/chenh/chenh51/Process/TSMC18_Lib_new/lib/IO/Front_End/timing_power_noise/NLDM/tpd018nv_280a/tpd018nvtc.db'
+1
+#-----------------------------------------------------------------------
+# svf In
+#-----------------------------------------------------------------------
+set_svf $::env(RESULT_DIR)/syn/data/$::env(DESIGN_NAME).svf
+SVF set to '/data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.svf'.
+1
+#-----------------------------------------------------------------------
+# Reference design
+#-----------------------------------------------------------------------
+foreach file $::env(VERILOG_FILES) {
+  read_verilog -r $file
+}
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+Current container set to 'r'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/G03_top.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/G03_top_IO.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/clk_rst/global_clk_sel.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/clk_rst/global_rst_ctrl.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/ip/icg.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/gpr/gpr.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/gpr/gpr_top.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/perips_top.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/rib.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/i2c.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/pwm.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/uart.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/uart_debug.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/bridge/bridge_wzc.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/bridge/bridge_xyh.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/bridge/bridge_hjx.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/perips/bridge/bridge_xzr.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core_wzc.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/exu_alu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/exu_alu_mux.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/exu_forwarding_unit.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/exu_top.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/global_pipeline_ctrl.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/idu_branch_predictor.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/idu_decoder.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/idu_gpr_mux.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/idu_hazard_detector.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/idu_imm_gen.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/idu_top.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/ifu_ifetch.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/ifu_pc.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/ifu_top.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/kalsit_core.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/mem_ifu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/mem_lsu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/mem_rtu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/mem_sidu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/mem_top.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/preg_ex_mem.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/preg_id_ex.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/preg_if_id.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/preg_mem_wb.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core00_wzc/core/wbu_top.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core_xyh.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/ext_intfire.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/ext_readtemp.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/ext_sendid.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/exu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/exu_alu_datapath.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/exu_commit.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/exu_dispatch.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/exu_extension.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/exu_mem.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/gpr_reg.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/idu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/idu_exu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/ifu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/ifu_idu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core01_xyh/core/pipe_ctrl.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core_hjx.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/exu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/exu_alu_datapath.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/exu_commit.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/exu_dispatch.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/exu_ext_if.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/exu_ext_rt.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/exu_ext_sid.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/exu_mem.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/gpr_reg.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/idu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/idu_exu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/ifu_hjx.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/ifu_idu.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core10_hjx/core/pipe_ctrl.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core11_xzr/core_xzr.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core11_xzr/core/ctrl.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core11_xzr/core/ex.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core11_xzr/core/forwarding_unit.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core11_xzr/core/id.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core11_xzr/core/id_ex.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core11_xzr/core/if_id.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/core11_xzr/core/pc_reg.v'
+Loading include file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/top/macros.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/utils/gen_dff.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/utils/gen_buf.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/utils/gen_ram.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/utils/vld_rdy.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/utils/full_handshake_tx.v'
+No target library specified, default is WORK
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/designs/src/tinyriscv/utils/full_handshake_rx.v'
+set_top r:WORK/$::env(DESIGN_NAME)
+Setting top design to 'r:/WORK/g03_top_IO'
+Status:   Elaborating design g03_top_IO   ...  
+Status:   Elaborating design g03_soc   ...  
+Status:   Elaborating design global_rst_ctrl   ...  
+Status:   Elaborating design gen_ticks_sync  DP=2, DW=1 ...  
+Information: Created design named 'gen_ticks_sync_DP2_DW1'. (FE-LINK-13)
+Status:   Elaborating design gen_rst_0_dff  1 ...  
+Information: Created design named 'gen_rst_0_dff_DW1'. (FE-LINK-13)
+Status:   Elaborating design global_clk_sel   ...  
+Status:   Elaborating design kalsit_icg   ...  
+Status:   Elaborating design core_wzc   ...  
+Status:   Elaborating design kalsit_core   ...  
+Status:   Elaborating design pipeline_ctrl   ...  
+Status:   Elaborating design ifu   ...  
+Status:   Elaborating design ifu_pc   ...  
+Status:   Elaborating design ifu_ifetch   ...  
+Status:   Elaborating design if_id   ...  
+Status:   Elaborating design idu_top   ...  
+Status:   Elaborating design idu_decoder   ...  
+Status:   Elaborating design idu_imm_gen   ...  
+Status:   Elaborating design idu_gpr_mux   ...  
+Status:   Elaborating design idu_branch_predictor   ...  
+Status:   Elaborating design idu_hazard_detector   ...  
+Status:   Elaborating design id_ex   ...  
+Status:   Elaborating design exu_top   ...  
+Status:   Elaborating design exu_forwarding_unit   ...  
+Status:   Elaborating design exu_alu_mux   ...  
+Status:   Elaborating design exu_alu   ...  
+Status:   Elaborating design ex_mem   ...  
+Status:   Elaborating design mem_top   ...  
+Status:   Elaborating design mem_lsu   ...  
+Status:   Elaborating design mem_sidu   ...  
+Status:   Elaborating design mem_rtu   ...  
+Status:   Elaborating design mem_ifu   ...  
+Status:   Elaborating design mem_wb   ...  
+Status:   Elaborating design wbu_top   ...  
+Status:   Elaborating design core_xyh   ...  
+Status:   Elaborating design ifu_xyh   ...  
+Status:   Elaborating design pipe_ctrl_xyh   ...  
+Status:   Elaborating design ifu_idu_xyh   ...  
+Status:   Elaborating design gen_en_dff  32 ...  
+Information: Created design named 'gen_en_dff_DW32'. (FE-LINK-13)
+Status:   Elaborating design idu_xyh   ...  
+Status:   Elaborating design idu_exu_xyh   ...  
+Status:   Elaborating design gen_en_dff  17 ...  
+Information: Created design named 'gen_en_dff_DW17'. (FE-LINK-13)
+Status:   Elaborating design gen_en_dff  5 ...  
+Information: Created design named 'gen_en_dff_DW5'. (FE-LINK-13)
+Status:   Elaborating design gen_en_dff  1 ...  
+Information: Created design named 'gen_en_dff_DW1'. (FE-LINK-13)
+Status:   Elaborating design exu_xyh   ...  
+Status:   Elaborating design exu_extension_xyh   ...  
+Status:   Elaborating design ext_readtemp_xyh   ...  
+Status:   Elaborating design ext_sendid_xyh   ...  
+Status:   Elaborating design ext_intfire_xyh   ...  
+Status:   Elaborating design exu_dispatch_xyh   ...  
+Status:   Elaborating design exu_alu_datapath_xyh   ...  
+Status:   Elaborating design exu_mem_xyh   ...  
+Status:   Elaborating design exu_commit_xyh   ...  
+Status:   Elaborating design core_hjx   ...  
+Status:   Elaborating design ifu_hjx   ...  
+Status:   Elaborating design pipe_ctrl_hjx   ...  
+Status:   Elaborating design ifu_idu_hjx   ...  
+Status:   Elaborating design idu_hjx   ...  
+Status:   Elaborating design idu_exu_hjx   ...  
+Status:   Elaborating design exu_hjx   ...  
+Status:   Elaborating design exu_dispatch_hjx   ...  
+Status:   Elaborating design exu_alu_datapath_hjx   ...  
+Status:   Elaborating design exu_mem_hjx   ...  
+Status:   Elaborating design exu_ext_sid_hjx   ...  
+Status:   Elaborating design exu_ext_if_hjx   ...  
+Status:   Elaborating design exu_ext_rt_hjx   ...  
+Status:   Elaborating design exu_commit_hjx   ...  
+Status:   Elaborating design core_xzr   ...  
+Status:   Elaborating design forwarding_unit_xzr   ...  
+Status:   Elaborating design pc_reg_xzr   ...  
+Status:   Elaborating design ctrl_xzr   ...  
+Status:   Elaborating design if_id_xzr   ...  
+Status:   Elaborating design gen_pipe_flush_dff  32 ...  
+Information: Created design named 'gen_pipe_flush_dff_DW32'. (FE-LINK-13)
+Status:   Elaborating design id_xzr   ...  
+Status:   Elaborating design id_ex_xzr   ...  
+Status:   Elaborating design gen_pipe_flush_dff  1 ...  
+Information: Created design named 'gen_pipe_flush_dff_DW1'. (FE-LINK-13)
+Status:   Elaborating design gen_pipe_flush_dff  5 ...  
+Information: Created design named 'gen_pipe_flush_dff_DW5'. (FE-LINK-13)
+Status:   Elaborating design ex_xzr   ...  
+Status:   Elaborating design gpr_top   ...  
+Status:   Elaborating design gpr   ...  
+Status:   Elaborating design gen_en_dffnr  32 ...  
+Information: Created design named 'gen_en_dffnr_DW32'. (FE-LINK-13)
+Status:   Elaborating design perips_top  UART_DEBUG_BAUD_DIV=32'd433 ...  
+Information: Created design named 'perips_top_000001b1'. (FE-LINK-13)
+Status:   Elaborating design uart_debug  UART_BAUD_DIV=32'd433 ...  
+Information: Created design named 'uart_debug_000001b1'. (FE-LINK-13)
+Status:   Elaborating design rib   ...  
+Status:   Elaborating design bridge_wzc   ...  
+Status:   Elaborating design bridge_xyh   ...  
+Status:   Elaborating design bridge_hjx   ...  
+Status:   Elaborating design bridge_xzr   ...  
+Status:   Elaborating design uart   ...  
+Status:   Elaborating design vld_rdy  CUT_READY=0 ...  
+Information: Created design named 'vld_rdy_CUT_READY0'. (FE-LINK-13)
+Status:   Elaborating design pwm   ...  
+Status:   Elaborating design i2c   ...  
+Status:  Implementing inferred operators...
+Warning: New black-box 'r:/TPD018NVTC/PDDW0204CDG/DS\*unread\*' is created for an unread tech cell pin 'r:/TPD018NVTC/PDDW0204CDG/DS' (FM-300)
+Warning: New black-box 'r:/TPD018NVTC/PDDW0204CDG/PE\*unread\*' is created for an unread tech cell pin 'r:/TPD018NVTC/PDDW0204CDG/PE' (FM-300)
+
+************ Library Checking Summary ************
+Warning:  265 unlinked power cell(s) with no power down functions on outputs.
+Warning:  186 unlinked power cell(s) with no power down function on an ff or latch.
+        Use 'report_libraries -defects all' for more details.
+**************************************************
+
+Top design successfully set to 'r:/WORK/g03_top_IO'
+Reference design set to 'r:/WORK/g03_top_IO'
+1
+#-----------------------------------------------------------------------
+# Implement design
+#-----------------------------------------------------------------------
+read_verilog -i $::env(RESULT_DIR)/syn/data/$::env(DESIGN_NAME).syn.v
+No target library specified, default is WORK
+Information: tri converted to a wire with no special attributes
+	at line 8348 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8349 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8350 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8351 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8352 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8353 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8354 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8355 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8356 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8357 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8358 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Information: tri converted to a wire with no special attributes
+	at line 8359 in /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v (SVR-21)
+Loading verilog file '/data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.syn.v'
+Current container set to 'i'
+1
+set_top i:WORK/$::env(DESIGN_NAME)
+Setting top design to 'i:/WORK/g03_top_IO'
+Status:  Implementing inferred operators...
+Warning: New black-box 'i:/TPD018NVTC/PDDW0204CDG/DS\*unread\*' is created for an unread tech cell pin 'i:/TPD018NVTC/PDDW0204CDG/DS' (FM-300)
+Warning: New black-box 'i:/TPD018NVTC/PDDW0204CDG/PE\*unread\*' is created for an unread tech cell pin 'i:/TPD018NVTC/PDDW0204CDG/PE' (FM-300)
+
+************ Library Checking Summary ************
+Warning:  265 unlinked power cell(s) with no power down functions on outputs.
+Warning:  186 unlinked power cell(s) with no power down function on an ff or latch.
+        Use 'report_libraries -defects all' for more details.
+**************************************************
+
+Top design successfully set to 'i:/WORK/g03_top_IO'
+Implementation design set to 'i:/WORK/g03_top_IO'
+1
+#-----------------------------------------------------------------------
+# Disable the scan port
+#-----------------------------------------------------------------------
+# set enble $::env(SCAN_ENABLE_PORT)
+# setup
+# current_design g03_top_IO
+# set_constant -type pin [get_pins -hierarchical "*/$enble"] 0
+#-----------------------------------------------------------------------
+# Run match
+#-----------------------------------------------------------------------
+match
+Reference design is 'r:/WORK/g03_top_IO'
+Implementation design is 'i:/WORK/g03_top_IO'
+Status:  Checking designs...
+    Warning: 0 (20) undriven nets found in reference (implementation) design; see formality2.log for list (FM-399)
+    Info:  19 (17) multiply-driven nets found in reference (implementation) design; see formality2.log for list.
+    Warning: 2 (2) black-box references found in reference (implementation) design; see formality2.log for list (FM-182)
+Status:  Building verification models...
+Status:  Processing Guide Commands...
+    Info:  Transferred set_boundary_check setup to implementation.
+    Warning: New black-box 'r:/TPD018NVTC/PDDW0204CDG/DS\*unread\*' is created for an unread tech cell pin 'r:/TPD018NVTC/PDDW0204CDG/DS' (FM-300)
+    Warning: New black-box 'r:/TPD018NVTC/PDDW0204CDG/PE\*unread\*' is created for an unread tech cell pin 'r:/TPD018NVTC/PDDW0204CDG/PE' (FM-300)
+
+***************************** Guidance Summary *****************************
+                                         Status
+Command                 Accepted   Rejected  Unsupported  Unprocessed  Total
+----------------------------------------------------------------------------
+architecture_netlist:          4          0          0          0          4
+boundary            :         12          0          0          0         12
+boundary_netlist    :          4          0          0          0          4
+change_names        :        121          0          0          0        121
+constant            :       2057          0          0          0       2057
+constraints         :          4          0          0          0          4
+datapath            :         12          0          0          0         12
+environment         :          3          0          0          0          3
+instance_map        :         95          0          0          0         95
+inv_push            :       2603          0          0          0       2603
+mark                :        104          0          0          0        104
+merge               :         15          0          0          0         15
+reg_constant        :        204          0          0          0        204
+replace             :         24          0          0          0         24
+ungroup             :        160          0          0          0        160
+uniquify            :          3          0          0          0          3
+ununiquify          :          1          0          0          0          1
+----------------------------------------------------------------------------
+Total               :       5426          0          0          0       5426
+
+Note: SVF files are missing guide_hier_map commands. The guide_hier_map
+      can significantly improve svf acceptance and verification results.
+      They can be generated by Design Compiler using the variable
+      hdlin_enable_hier_map and the command set_verification_top.
+
+SVF files read:
+      /data2/class/chenh/chenh42/kalsit_backend/result/syn/data/g03_top_IO.svf
+
+SVF files produced:
+  /data2/class/chenh/chenh42/kalsit_backend/./result/fml_syn/work/formality2_svf/
+    svf.txt
+****************************************************************************
+
+Status:  Matching...
+    
+*********************************** Matching Results ***********************************    
+ 4719 Compare points matched by name    
+ 0 Compare points matched by signature analysis    
+ 0 Compare points matched by topology    
+ 14 Matched primary inputs, black-box outputs    
+ 57(0) Unmatched reference(implementation) compare points    
+ 0(0) Unmatched reference(implementation) primary inputs, black-box outputs    
+ 325(0) Unmatched reference(implementation) unread points    
+----------------------------------------------------------------------------------------    
+Unmatched Objects                                                        REF        IMPL    
+----------------------------------------------------------------------------------------    
+ Registers                                                                57           0    
+   DFF                                                                    57           0    
+****************************************************************************************
+
+1
+report_matched_points > $::env(RESULT_DIR)/fml_syn/report/matched_points.rpt
+report_unmatched_points > $::env(RESULT_DIR)/fml_syn/report/unmatched_points.rpt
+report_unmatched_points -status unread > $::env(RESULT_DIR)/fml_syn/report/unread.rpt
+#-----------------------------------------------------------------------
+# Run verify
+#-----------------------------------------------------------------------
+verify
+Reference design is 'r:/WORK/g03_top_IO'
+Implementation design is 'i:/WORK/g03_top_IO'
+    
+*********************************** Matching Results ***********************************    
+ 4719 Compare points matched by name    
+ 0 Compare points matched by signature analysis    
+ 0 Compare points matched by topology    
+ 14 Matched primary inputs, black-box outputs    
+ 57(0) Unmatched reference(implementation) compare points    
+ 0(0) Unmatched reference(implementation) primary inputs, black-box outputs    
+ 325(0) Unmatched reference(implementation) unread points    
+----------------------------------------------------------------------------------------    
+Unmatched Objects                                                        REF        IMPL    
+----------------------------------------------------------------------------------------    
+ Registers                                                                57           0    
+   DFF                                                                    57           0    
+****************************************************************************************
+
+Status:  Verifying...
+.
+
+
+********************************* Verification Results *********************************
+Verification SUCCEEDED
+----------------------
+ Reference design: r:/WORK/g03_top_IO
+ Implementation design: i:/WORK/g03_top_IO
+ 4719 Passing compare points
+----------------------------------------------------------------------------------------
+Matched Compare Points     BBPin    Loop   BBNet     Cut    Port     DFF     LAT   TOTAL
+----------------------------------------------------------------------------------------
+Passing (equivalent)          60       0       2       0      16    4479     162    4719
+Failing (not equivalent)       0       0       0       0       0       0       0       0
+****************************************************************************************
+1
+report_failing_points > $::env(RESULT_DIR)/fml_syn/report/fail_points.rpt
+report_aborted_points > $::env(RESULT_DIR)/fml_syn/report/aborted.rpt
+save_session -replace $::env(RESULT_DIR)/fml_syn/data/rtl2syn.fss
+Info:  Session containers saved as read-only.
+Info:  Wrote file './result/fml_syn/data/rtl2syn.fss'.
+1
+1
+fm_shell (verify)> 

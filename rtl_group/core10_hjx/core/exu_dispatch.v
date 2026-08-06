@@ -17,7 +17,7 @@
 `include "../../top/macros.v"
 
 
-module exu_dispatch(
+module exu_dispatch_hjx(
 
     input wire clk,
     input wire rst_n,

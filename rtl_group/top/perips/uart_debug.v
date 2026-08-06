@@ -395,8 +395,12 @@ module uart_debug #(
 
                 S_CRC_CALC: begin
                     if (crc_bit_index == 4'd0) begin
-                        crc_result <= crc_result ^ {8'h00, rx_data[crc_byte_index]};
-                        crc_bit_index <= 4'd1;
+                        if (crc_byte_index <= PAYLOAD_END_INDEX) begin
+                            crc_result <= crc_result ^ {8'h00, rx_data[crc_byte_index]};
+                            crc_bit_index <= 4'd1;
+                        end else begin
+                            state <= S_CRC_END;
+                        end
                     end else begin
                         if (crc_result[0] == 1'b1) begin
                             crc_result <= {1'b0, crc_result[15:1]} ^ 16'ha001;
@@ -456,9 +460,10 @@ module uart_debug #(
                 // ------------------------------------------------
 
                 S_WRITE_MEM_PREP: begin
-                    if (write_mem_byte_index3 > PAYLOAD_END_INDEX) begin
-                        state <= S_SEND_ACK;
-                    end else begin
+                    if ((write_mem_byte_index0 <= PAYLOAD_END_INDEX) &&
+                        (write_mem_byte_index1 <= PAYLOAD_END_INDEX) &&
+                        (write_mem_byte_index2 <= PAYLOAD_END_INDEX) &&
+                        (write_mem_byte_index3 <= PAYLOAD_END_INDEX)) begin
                         write_mem_data <= {
                             rx_data[write_mem_byte_index3],
                             rx_data[write_mem_byte_index2],
@@ -467,6 +472,8 @@ module uart_debug #(
                         };
 
                         state <= S_WRITE_MEM_REQ;
+                    end else begin
+                        state <= S_SEND_ACK;
                     end
                 end
 

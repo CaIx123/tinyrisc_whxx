@@ -17,7 +17,7 @@
 `include "../../top/macros.v"
 
 
-module exu_commit(
+module exu_commit_hjx(
 
     input wire clk,
     input wire rst_n,

@@ -17,7 +17,7 @@
 `include "../../top/macros.v"
 
 // 将指令向译码模块传递
-module ifu_idu(
+module ifu_idu_hjx(
 
     input wire clk,
     input wire rst_n,

@@ -14,7 +14,8 @@ module gpr(
     output wire [`DATA_WIDTH-1:0] rdata1_o,             // 读寄存器1数据
 
     input wire [`GPR_ADDR_WIDTH-1:0] raddr2_i,          // 读寄存器2地址
-    output wire [`DATA_WIDTH-1:0] rdata2_o              // 读寄存器2数据
+    output wire [`DATA_WIDTH-1:0] rdata2_o,             // 读寄存器2数据
+    output wire [`DATA_WIDTH-1:0] x27_o
 
     );
 
@@ -38,6 +39,7 @@ module gpr(
 
     assign rdata1_o = (|raddr1_i)? ((we_i & (waddr_i == raddr1_i))? wdata_i: regs[raddr1_i]): 32'h0;
     assign rdata2_o = (|raddr2_i)? ((we_i & (waddr_i == raddr2_i))? wdata_i: regs[raddr2_i]): 32'h0;
+    assign x27_o = regs[27];
 
     // for debug
     wire[31:0] ra = regs[1];

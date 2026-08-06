@@ -17,7 +17,7 @@
 `include "../../top/macros.v"
 
 // 通用寄存器模块
-module gpr_reg(
+module gpr_reg_hjx(
 
     input wire clk,
     input wire rst_n,

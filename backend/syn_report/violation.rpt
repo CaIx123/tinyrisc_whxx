@@ -1,0 +1,20 @@
+ 
+****************************************
+Report : constraint
+        -all_violators
+Design : g03_top_IO
+Version: Q-2019.12-SP5-2
+Date   : Thu Aug  6 10:42:49 2026
+****************************************
+
+
+   max_leakage_power
+
+                             Required        Actual
+   Design                   Leakage Power  Leakage Power     Slack
+   -----------------------------------------------------------------
+   g03_top_IO                   0.00       1724238.25     -1724238.25
+                                                                    (VIOLATED)
+
+
+1

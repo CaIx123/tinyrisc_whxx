@@ -1,5 +1,3 @@
-`timescale 1ns / 1ps
-
  /*                                                                      
  Copyright 2019 Blue Liang, liangkangnan@163.com
                                                                          
@@ -16,7 +14,7 @@
  limitations under the License.                                          
  */
 
-`include "../../top/macros.v"
+`include "../top/macros.v"
 
 // tinyriscv处理器核顶层模块
 module core_hjx(
@@ -43,7 +41,8 @@ module core_hjx(
     output wire dbus_rsp_ready_o,
 
     output wire[31:0] ibus_addr_o,          // 取指地址
-    input wire[31:0] ibus_data_i,           // 取到的指令内�?    output wire[31:0] ibus_data_o,
+    input wire[31:0] ibus_data_i,           // 取到的指令内容
+    output wire[31:0] ibus_data_o,
     output wire[3:0] ibus_sel_o,
     output wire ibus_we_o,
     output wire ibus_req_valid_o,
@@ -60,11 +59,11 @@ module core_hjx(
     wire[31:0] ifetch_pc_o;
     wire ifetch_inst_valid_o;
 
-    // ifu_idu_hjx模块输出信号
+    // ifu_idu模块输出信号
 	wire[31:0] if_inst_o;
     wire[31:0] if_inst_addr_o;
 
-    // idu_hjx模块输出信号
+    // idu模块输出信号
     wire[31:0] id_inst_o;
     wire[31:0] id_inst_addr_o;
     wire[`HJX_DECINFO_WIDTH-1:0] id_dec_info_bus_o;
@@ -78,7 +77,7 @@ module core_hjx(
     wire[31:0] id_rs1_rdata_o;
     wire[31:0] id_rs2_rdata_o;
 
-    // idu_exu_hjx模块输出信号
+    // idu_exu模块输出信号
     wire[31:0] ie_inst_o;
     wire[31:0] ie_inst_addr_o;
     wire[`HJX_DECINFO_WIDTH-1:0] ie_dec_info_bus_o;
@@ -89,7 +88,7 @@ module core_hjx(
     wire[4:0] ie_rd_waddr_o;
     wire ie_rd_we_o;
 
-    // exu_hjx模块输出信号
+    // exu模块输出信号
     wire[31:0] ex_mem_wdata_o;
     wire[31:0] ex_mem_addr_o;
     wire ex_mem_we_o;
@@ -105,7 +104,7 @@ module core_hjx(
     wire[31:0] ex_jump_addr_o;
 
     // gpr_reg模块输出信号
-    // pipe_ctrl_hjx模块输出信号
+    // pipe_ctrl模块输出信号
     wire[31:0] ctrl_flush_addr_o;
     wire ctrl_flush_o;
     wire[`HJX_STALL_WIDTH-1:0] ctrl_stall_o;

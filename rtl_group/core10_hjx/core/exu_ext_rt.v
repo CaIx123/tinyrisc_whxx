@@ -1,6 +1,6 @@
 `include "../../top/macros.v"
 
-module exu_ext_rt(
+module exu_ext_rt_hjx(
 
     input wire clk,
     input wire rst_n,
