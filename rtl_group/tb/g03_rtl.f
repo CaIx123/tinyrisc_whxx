@@ -81,10 +81,7 @@ core01_xyh/core/idu_exu.v
 core01_xyh/core/ifu.v
 core01_xyh/core/ifu_idu.v
 core01_xyh/core/pipe_ctrl.v
-utils/gen_buf.v
-utils/gen_dff.v
-utils/vld_rdy.v
-core10_hjx/core/core_hjx.v
+core10_hjx/core_hjx.v
 core10_hjx/core/exu.v
 core10_hjx/core/exu_alu_datapath.v
 core10_hjx/core/exu_commit.v
@@ -98,10 +95,6 @@ core10_hjx/core/idu_exu.v
 core10_hjx/core/ifu_hjx.v
 core10_hjx/core/ifu_idu.v
 core10_hjx/core/pipe_ctrl.v
-utils/gen_buf.v
-utils/gen_dff.v
-utils/gen_ram.v
-utils/vld_rdy.v
 core11_xzr/core/core_xzr.v
 core11_xzr/core/ctrl.v
 core11_xzr/core/ex.v
@@ -110,8 +103,6 @@ core11_xzr/core/id.v
 core11_xzr/core/id_ex.v
 core11_xzr/core/if_id.v
 core11_xzr/core/pc_reg.v
-utils/gen_buf.v
-utils/gen_dff.v
 fpga/bridge_fpga_wzc.v
 fpga/bridge_fpga_xyh.v
 fpga/bridge_fpga_hjx.v

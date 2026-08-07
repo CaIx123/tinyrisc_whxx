@@ -1,6 +1,6 @@
 .DEFAULT_GOAL := regression
 
-.PHONY: all regression test vcs compile run sim verdi clean help
+.PHONY: all regression test vcs compile run sim verdi postsyn postsyn-functional clean help
 
 # Server-side VCS/Verdi RTL simulation.
 # Run this Makefile from the rtl_group directory.
@@ -24,6 +24,18 @@ PASS_MARKER_sid         := G03_SID_ALL_CORES_PASS
 PASS_MARKER_if          := G03_IF_ALL_CORES_PASS
 PASS_MARKER_rt          := G03_RT_ALL_CORES_PASS
 PASS_MARKER_pwm         := G03_PWM_ALL_CORES_PASS
+
+# Post-synthesis simulation follows the course VCS flow: the file list
+# supplies the gate netlist and timing library, and the testbench calls
+# $sdf_annotate on the DUT. Paths in the file list are relative to this
+# Makefile, matching the tutorial convention.
+POSTSYN_TOP       ?= tb_g03_postsyn_smoke
+POSTSYN_FILELIST  ?= tb/g03_postsyn_smoke.f
+POSTSYN_BUILD     ?= build/g03_postsyn_smoke
+POSTSYN_SIMV      := $(POSTSYN_BUILD)/simv
+POSTSYN_LOG       := $(POSTSYN_BUILD)/vcs.log
+POSTSYN_DEFINES   ?= +define+G03_POSTSYN_SDF
+POSTSYN_VCS_FLAGS ?= +v2k -full64 -R -debug_access+all +mindelays -negdelay +neg_tchk
 
 TOP          ?= $(TOP_$(TEST))
 FILELIST     ?= $(FILELIST_$(TEST))
@@ -125,6 +137,20 @@ run: compile
 
 sim: run
 
+# Post-synthesis timing simulation. Keep this deliberately close to the VCS
+# tutorial command: compile and run with -R, use one file list, and select
+# minimum delay values. No pulse-control options are applied here.
+postsyn:
+	mkdir -p $(POSTSYN_BUILD)/csrc
+	$(VCS) $(POSTSYN_VCS_FLAGS) -timescale=1ns/1ps $(POSTSYN_DEFINES) \
+		-top $(POSTSYN_TOP) -f $(POSTSYN_FILELIST) \
+		-Mdir=$(POSTSYN_BUILD)/csrc -o $(POSTSYN_SIMV) -l $(POSTSYN_LOG)
+	@grep -q "G03_POSTSYN_ALL_CORES_PASS" $(POSTSYN_LOG) || { echo "Post-synthesis regression did not pass"; exit 1; }
+
+postsyn-functional:
+	$(MAKE) --no-print-directory postsyn POSTSYN_BUILD=build/g03_postsyn_functional \
+		POSTSYN_DEFINES= POSTSYN_VCS_FLAGS="$(POSTSYN_VCS_FLAGS) +notimingcheck"
+
 verdi:
 	@test -f $(FSDB) || { echo "Missing $(FSDB). Run 'make sim TEST=$(TEST) DUMP_FSDB=1' first."; exit 1; }
 	$(VERDI) -sv $(INC_DIRS) -f $(FILELIST) -ssf $(FSDB) -nologo -l $(VERDI_LOG) &
@@ -136,5 +162,6 @@ help:
 	@echo "make regression             Run basic_instr, sid, if, rt, and pwm"
 	@echo "make sim TEST=pwm           Compile and run one selected test"
 	@echo "make sim TEST=pwm DUMP_FSDB=1  Run one test with FSDB dumping"
+	@echo "make postsyn                Run SDF-annotated post-synthesis smoke test"
 	@echo "make verdi TEST=pwm         Open that test's generated FSDB"
 	@echo "make clean                  Remove generated simulation output"
