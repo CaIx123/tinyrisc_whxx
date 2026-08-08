@@ -1,7 +1,8 @@
 *.xdc
 .codex
-doc/*.pdf
+doc/
 test_personal
+test_all
 *.ps1
 AGENTS.md
 *.vvp
@@ -9,3 +10,7 @@ AGENTS.md
 *.fst
 *.wlf
 build/
+
+fpga/prj 
+fpga/test
+fpga/tmp
